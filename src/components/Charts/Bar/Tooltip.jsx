@@ -4,46 +4,43 @@
 
 // const formatTime = timeFormat("%B");
 
-const Tooltip = ({ hoveredPoint, colorScale, midPointX, title }) => {
-  const translateTooltip = () => {
-    if (hoveredPoint[3] < midPointX) return 20;
-    if (hoveredPoint[3] >= midPointX) return -20 - 120;
-  };
-  console.log(hoveredPoint);
+const Tooltip = ({
+  d,
+  xScale,
+  yScale,
+  totalPullsBySize,
+  hoveredPoint,
+  width,
+  xValue,
+  yValue,
+}) => {
   return (
-    <g
-      transform={`translate(${translateTooltip() ?? 0}, 0)`}
-      style={{ pointerEvents: "none" }}
-    >
-      <rect className="drop-shadow " fill="white" width="120" height="100" />
-      <g transform={`translate(10, 0)`}>
-        <text dy="2em" fill="black" fontSize="10">
-          {title}
-        </text>
-        <line
-          style={{
-            stroke: "#EEEEF2",
-            strokeWidth: "1",
-          }}
-          y2={30}
-          y1={30}
-          x1={-10}
-          x2={110}
-        ></line>
-        {hoveredPoint[2]?.map((el, i) => {
-          // if (hoveredValue?.includes(el[0])) return;
-          return (
-            <g key={el[0]} transform={`translate(0,${i * 20 + 47})`}>
-              <circle cy={-3} cx={3} fill={colorScale(el[0])} r={3} />
-              <text fontSize={10} dx="1.52em" fill="#282934">{`${el[0]}`}</text>
-              <text
-                fontSize={10}
-                dx="7em"
-                fill="#282934"
-              >{`${el[1].value}`}</text>
-            </g>
-          );
-        })}
+    <g opacity={hoveredPoint === d.size ? 1 : 0}>
+      <rect
+        x={xScale(xValue(d)) + width / 6}
+        y={yScale(yValue(d)) - 60}
+        width={width / 1.5}
+        height={50}
+        fill="white"
+        className="drop-shadow"
+      />
+      <g transform={`translate(${width / 2}, 0)`}>
+        <text
+          fontSize={10}
+          x={xScale(xValue(d))}
+          y={yScale(yValue(d)) - 40}
+          // dx="1.52em"
+          textAnchor="middle"
+          fill="black"
+        >{`Average Time ${d.value}h`}</text>
+        <text
+          fontSize={10}
+          x={xScale(xValue(d))}
+          y={yScale(yValue(d)) - 20}
+          // dx="1.52em"
+          textAnchor="middle"
+          fill="black"
+        >{`Pulls Requests ${totalPullsBySize[d.size]}`}</text>
       </g>
     </g>
   );

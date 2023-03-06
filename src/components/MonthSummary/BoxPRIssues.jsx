@@ -16,7 +16,7 @@ const BoxPRIssues = ({ renderPR, renderIssues, pr }) => {
             "truncate text-sm font-medium border-t-[3px] p-4 "
           )}
         >
-          Pull requests
+          Pull Requests
         </div>
         <div
           className={classNames(

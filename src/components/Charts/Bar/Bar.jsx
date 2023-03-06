@@ -9,7 +9,7 @@ import {
   map,
 } from "d3";
 import locale from "../../../utils/locale";
-import { AxisLeft, AxisBottom } from "./index";
+import { AxisLeft, AxisBottom, Tooltip } from "./index";
 timeFormatDefaultLocale(locale);
 const xValue = (d) => d.size;
 const yValue = (d) => d.value;
@@ -21,7 +21,6 @@ const innerWidth = svgWidth - margin.left - margin.right;
 const innerHeight = svgHeight - margin.top - margin.bottom;
 
 const Bar = ({ data, totalPullsBySize }) => {
-  console.log(data);
   const [hoveredPoint, setHoveredPoint] = useState("");
   const xScale = scaleBand()
     .domain(["small", "medium", "large"])
@@ -42,9 +41,8 @@ const Bar = ({ data, totalPullsBySize }) => {
         <AxisBottom xScale={xScale} innerHeight={innerHeight} width={width} />
         {data.map((d) => {
           return (
-            <>
+            <g key={xValue(d)}>
               <rect
-                key={xValue(d)}
                 x={xScale(xValue(d))}
                 y={yScale(yValue(d))}
                 width={xScale.bandwidth()}
@@ -53,36 +51,17 @@ const Bar = ({ data, totalPullsBySize }) => {
                 onMouseOver={() => showTooltip(d)}
                 onMouseLeave={() => showTooltip("")}
               />
-              <g opacity={hoveredPoint === d.size ? 1 : 0}>
-                <rect
-                  key={xValue(d) + "1"}
-                  x={xScale(xValue(d)) + width / 6}
-                  y={yScale(yValue(d)) - 60}
-                  width={width / 1.5}
-                  height={50}
-                  fill="white"
-                  className="drop-shadow"
-                />
-                <g key={d.size} transform={`translate(${width / 2}, 0)`}>
-                  <text
-                    fontSize={10}
-                    x={xScale(xValue(d))}
-                    y={yScale(yValue(d)) - 40}
-                    // dx="1.52em"
-                    textAnchor="middle"
-                    fill="black"
-                  >{`Average Time ${d.value}h`}</text>
-                  <text
-                    fontSize={10}
-                    x={xScale(xValue(d))}
-                    y={yScale(yValue(d)) - 20}
-                    // dx="1.52em"
-                    textAnchor="middle"
-                    fill="black"
-                  >{`Pulls Requests ${totalPullsBySize[d.size]}`}</text>
-                </g>
-              </g>
-            </>
+              <Tooltip
+                width={width}
+                xScale={xScale}
+                yScale={yScale}
+                xValue={xValue}
+                yValue={yValue}
+                d={d}
+                hoveredPoint={hoveredPoint}
+                totalPullsBySize={totalPullsBySize}
+              />
+            </g>
           );
         })}
       </g>
