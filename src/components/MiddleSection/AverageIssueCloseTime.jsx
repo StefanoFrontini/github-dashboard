@@ -54,7 +54,17 @@ const AverageIssueCloseTime = () => {
     closedTime.closed_time / closedTime.number.toFixed(2)
   );
 
-  return <div>{secondsToDhms(averageClosedTime)}</div>;
+  return (
+    <div className="flex-1  my-6 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
+      <div className="px-4 py-5 sm:px-6">
+        Average Issue Close Time
+        {/* We use less vertical padding on card headers on desktop than on body sections */}
+      </div>
+      <div className="px-4 py-14 text-6xl text-center ">
+        {secondsToDhms(averageClosedTime)}
+      </div>
+    </div>
+  );
 };
 
 export default AverageIssueCloseTime;

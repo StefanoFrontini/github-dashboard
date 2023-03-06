@@ -12,7 +12,7 @@ const AxisLeft = ({ yScale, innerWidth }) => {
               x1={0}
               x2={innerWidth}
               stroke="#ededed"
-              strokeDasharray="4 1"
+              strokeDasharray="1"
             ></line>
             <text
               // style={{ fontSize: 0.67 + "rem" }}
@@ -21,7 +21,7 @@ const AxisLeft = ({ yScale, innerWidth }) => {
               alignmentBaseline="middle"
               dx="-0.5em"
             >
-              {formatNumber(tickValue)}
+              {formatNumber(tickValue) + "h"}
             </text>
           </g>
         );

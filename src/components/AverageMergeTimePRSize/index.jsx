@@ -34,6 +34,7 @@ const getPullSize = (pull) => {
 const AverageMergeTimePRSize = () => {
   let { pulls, pullsDetail } = useGithubContext();
   pullsDetail = pullsDetail.map((el) => getPullSize(el));
+  const pullsLength = pulls.length;
   pulls = pulls.map((el, index) => {
     const created_at = parseDate(el.created_at);
     const closed_at = parseDate(el.closed_at);
@@ -46,22 +47,38 @@ const AverageMergeTimePRSize = () => {
       size: pullsDetail[index],
     };
   });
+  console.log(pulls);
+  const totalPullsBySize = pulls.reduce((acc, item) => {
+    const { size } = item;
+    if (!acc[size]) {
+      acc[size] = 1;
+    } else {
+      acc[size] = acc[size] + 1;
+    }
+    return acc;
+  }, {});
+  console.log(totalPullsBySize);
   const averagePullsBySize = rollups(
     pulls,
     (v) => +mean(v, (d) => d.merged_time).toFixed(2),
     (d) => d.size
   );
-  // console.log("averagePullsBySize", averagePullsBySize);
   const averagePullBySizeObj = averagePullsBySize.map((el) => {
     return {
       size: el[0],
       value: el[1],
     };
   });
-  // console.log(averagePullBySizeObj);
+
   return (
-    <section className="w-full">
-      <Bar data={averagePullBySizeObj} />
+    <section className="w-full bg-white">
+      <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
+        <div className="px-4 py-5 sm:px-6 ">
+          Average Merge Time by Pull Request Size
+          {/* We use less vertical padding on card headers on desktop than on body sections */}
+        </div>
+        <Bar data={averagePullBySizeObj} totalPullsBySize={totalPullsBySize} />
+      </div>
     </section>
   );
 };

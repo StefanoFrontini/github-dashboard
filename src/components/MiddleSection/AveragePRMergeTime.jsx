@@ -62,8 +62,17 @@ const AveragePRMergeTime = () => {
   const averageMergeTime = +(mergeTime.merged_time / mergeTime.number).toFixed(
     2
   );
-  // console.log("averageMergeTime", averageMergeTime);
-  return <div>{secondsToDhms(averageMergeTime)}</div>;
+  return (
+    <div className="flex-1 my-6 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
+      <div className="px-4 py-5 sm:px-6">
+        Average Pull Request Merge Time
+        {/* We use less vertical padding on card headers on desktop than on body sections */}
+      </div>
+      <div className="px-4 py-14  text-6xl text-center">
+        {secondsToDhms(averageMergeTime)}
+      </div>
+    </div>
+  );
 };
 
 export default AveragePRMergeTime;
