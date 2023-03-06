@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  scaleBand,
-  scaleLinear,
-  max,
-  timeFormatDefaultLocale,
-  pointer,
-  bisectCenter,
-  map,
-} from "d3";
+import { scaleBand, scaleLinear, max, timeFormatDefaultLocale } from "d3";
 import locale from "../../../utils/locale";
 import { AxisLeft, AxisBottom, Tooltip } from "./index";
 timeFormatDefaultLocale(locale);
@@ -31,7 +23,6 @@ const Bar = ({ data, totalPullsBySize }) => {
     .range([innerHeight, 0]);
   const width = xScale.bandwidth();
   const showTooltip = (d) => {
-    console.log(d);
     setHoveredPoint(d.size);
   };
   return (
@@ -45,7 +36,7 @@ const Bar = ({ data, totalPullsBySize }) => {
               <rect
                 x={xScale(xValue(d))}
                 y={yScale(yValue(d))}
-                width={xScale.bandwidth()}
+                width={width}
                 height={innerHeight - yScale(yValue(d))}
                 fill="#4C9AFF"
                 onMouseOver={() => showTooltip(d)}
