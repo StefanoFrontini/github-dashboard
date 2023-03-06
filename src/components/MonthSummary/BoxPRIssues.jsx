@@ -11,16 +11,16 @@ const BoxPRIssues = ({ renderPR, renderIssues, pr }) => {
         <div
           className={classNames(
             pr
-              ? "border-[#0C60FF]  text-black-500"
-              : "border-transparent text-gray-500",
-            "truncate text-sm font-medium border-t-[3px] p-4 "
+              ? "border-[#0C60FF]  text-black "
+              : "border-transparent text-[#6B6C7D]",
+            "truncate  border-t-[3px] p-4  pb-3 font-normal text-base "
           )}
         >
           Pull Requests
         </div>
         <div
           className={classNames(
-            pr ? "text-black" : "text-gray-400",
+            pr ? "text-black" : "text-[#6B6C7D]",
             "pl-4 text-5xl font-normal tracking-tight  "
           )}
         >
@@ -32,15 +32,15 @@ const BoxPRIssues = ({ renderPR, renderIssues, pr }) => {
           className={classNames(
             !pr
               ? "border-[#0C60FF]  text-black"
-              : "border-transparent text-gray-400",
-            "truncate text-sm font-medium  border-t-[3px] p-4 "
+              : "border-transparent text-[#6B6C7D]",
+            "truncate   border-t-[3px] p-4 pb-3 font-normal text-base"
           )}
         >
           Issues
         </div>
         <div
           className={classNames(
-            !pr ? "text-black" : "text-gray-400",
+            !pr ? "text-black" : "text-[#6B6C7D]",
             "pl-4 text-5xl font-normal tracking-tight "
           )}
         >

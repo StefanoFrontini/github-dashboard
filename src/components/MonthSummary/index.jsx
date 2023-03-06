@@ -15,7 +15,9 @@ const MonthSummary = () => {
   return (
     <section className="w-full bg-white">
       <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
-        <div className="px-4 py-5 sm:px-6">Month Summary</div>
+        <div className="text-sm font-light px-4 py-5 sm:px-6">
+          Month Summary
+        </div>
         <div className="">
           <BoxPRIssues
             pr={pr}

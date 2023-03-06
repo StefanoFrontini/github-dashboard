@@ -12,8 +12,10 @@ import mockFiles26285 from "./mockData/mockFiles26285";
 import mockFiles26288 from "./mockData/mockFiles26288";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { timeParse } from "d3";
 const repo = "react";
 const organization = "facebook";
+const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
 
 const rootUrl = "https://api.github.com";
 const mockPullsDetail = [
@@ -38,6 +40,9 @@ const GithubProvider = ({ children }) => {
   const [error, setError] = useState({ show: false, msg: "" });
   const toggleError = (show = false, msg = "") => {
     setError({ show, msg });
+  };
+  const subtractMonth = (date) => {
+    return date.setMonth(date.getMonth() - 1);
   };
   // https://api.github.com/repos/facebook/react/issues?state=closed
   // https://api.github.com/repos/facebook/react/pulls/26283/files
@@ -68,23 +73,38 @@ const GithubProvider = ({ children }) => {
       toggleError();
       setIsLoading(true);
       try {
-        const { data } = await axios.get(
+        let { data } = await axios.get(
           `${rootUrl}/repos/${organization}/${repo}/pulls?per_page=10&state=closed`
         );
-        console.log(data);
-        const pullsDetail = () => data.map((el) => getPullDetail(el.number));
-        try {
-          const result = await Promise.all([getIssues(), ...pullsDetail()]);
-          setPulls(data);
-          setIssues(result[0]);
-          setPullsDetail(result.slice[1]);
-          console.log(result);
-          console.log("pullsDetail", result.slice(1));
-        } catch (error) {
-          console.log("Error from promise.all!");
-          toggleError(true, "Error from promise.all!");
-          setIsLoading(false);
-          return;
+        if (data) {
+          const now = Date.now();
+          const newDate = subtractMonth(now);
+          console.log("data before reduce", data);
+
+          data = data.reduce((acc, item) => {
+            if (parseDate(item.created_at) < newDate) {
+              return acc;
+            } else {
+              return [...acc, item];
+            }
+          }, []);
+          console.log("data after reduce", data);
+          const pullsDetail = () => data.map((el) => getPullDetail(el.number));
+          try {
+            const result = await Promise.all([getIssues(), ...pullsDetail()]);
+            if (result.every((el) => el != undefined)) {
+              setPulls(data);
+              setIssues(result[0]);
+              setPullsDetail(result.slice[1]);
+              console.log(result);
+              console.log("pullsDetail", result.slice(1));
+            }
+          } catch (error) {
+            console.log("Error from promise.all!");
+            toggleError(true, "Sorry, you have exceed your hourly rate limit!");
+            setIsLoading(false);
+            return;
+          }
         }
       } catch (error) {
         console.log(error);

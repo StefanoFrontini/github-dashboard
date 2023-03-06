@@ -1,17 +1,8 @@
 import { useGithubContext } from "../../context/context";
-import {
-  timeParse,
-  // extent,
-  // timeFormat,
-  // groups,
-  rollups,
-  mean,
-} from "d3";
+import { timeParse, rollups, mean } from "d3";
 import { Bar } from "../Charts/Bar";
 
-// const parseTime = timeParse("%m");
 const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
-// const formatTime = timeFormat("%B %Y");
 const dateDiffInHours = (a, b) => {
   const ms_per_hour = 1000 * 60 * 60;
   // Discard the time and time-zone information.
@@ -33,8 +24,7 @@ const getPullSize = (pull) => {
 
 const AverageMergeTimePRSize = () => {
   let { pulls, pullsDetail } = useGithubContext();
-  pullsDetail = pullsDetail.map((el) => getPullSize(el));
-  const pullsLength = pulls.length;
+  pullsDetail = pullsDetail?.map((el) => getPullSize(el));
   pulls = pulls.map((el, index) => {
     const created_at = parseDate(el.created_at);
     const closed_at = parseDate(el.closed_at);
@@ -57,7 +47,6 @@ const AverageMergeTimePRSize = () => {
     }
     return acc;
   }, {});
-  console.log(totalPullsBySize);
   const averagePullsBySize = rollups(
     pulls,
     (v) => +mean(v, (d) => d.merged_time).toFixed(2),
@@ -73,9 +62,8 @@ const AverageMergeTimePRSize = () => {
   return (
     <section className="w-full bg-white">
       <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
-        <div className="px-4 py-5 sm:px-6 ">
+        <div className="px-4 py-5 sm:px-6 font-light text-sm">
           Average Merge Time by Pull Request Size
-          {/* We use less vertical padding on card headers on desktop than on body sections */}
         </div>
         <Bar data={averagePullBySizeObj} totalPullsBySize={totalPullsBySize} />
       </div>
