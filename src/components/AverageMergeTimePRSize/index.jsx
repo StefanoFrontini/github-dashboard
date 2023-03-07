@@ -38,7 +38,6 @@ const AverageMergeTimePRSize = () => {
       size: pullsDetail?.[index],
     };
   });
-  console.log(pulls);
   const totalPullsBySize = pulls.reduce((acc, item) => {
     const { size } = item;
     if (!acc[size]) {
@@ -53,6 +52,7 @@ const AverageMergeTimePRSize = () => {
     (v) => +mean(v, (d) => d.merged_time).toFixed(2),
     (d) => d.size
   );
+  console.log("averagePullsBuSize", averagePullsBySize);
   const averagePullBySizeObj = averagePullsBySize.map((el) => {
     return {
       size: el[0],

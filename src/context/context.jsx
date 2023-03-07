@@ -13,6 +13,13 @@ import mockFiles26288 from "./mockData/mockFiles26288";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { timeParse } from "d3";
+const token = "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";
+const axiosInstance = axios.create({
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+// let response = await axiosInstance.get('/');
 const repo = "react";
 const organization = "facebook";
 const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
@@ -53,7 +60,7 @@ const GithubProvider = ({ children }) => {
   useEffect(() => {
     const getPullDetail = async (number) => {
       try {
-        const { data } = await axios.get(
+        const { data } = await axiosInstance.get(
           `${rootUrl}/repos/${organization}/${repo}/pulls/${number}/files`
         );
         return data;
@@ -63,7 +70,7 @@ const GithubProvider = ({ children }) => {
     };
     const getIssues = async () => {
       try {
-        let { data } = await axios.get(
+        let { data } = await axiosInstance.get(
           `${rootUrl}/repos/${organization}/${repo}/issues?per_page=100&state=closed`
         );
         const now = new Date();
@@ -85,7 +92,7 @@ const GithubProvider = ({ children }) => {
       toggleError();
       setIsLoading(true);
       try {
-        let { data } = await axios.get(
+        let { data } = await axiosInstance.get(
           `${rootUrl}/repos/${organization}/${repo}/pulls?per_page=${rateLimit}&state=closed`
         );
         if (data) {
@@ -125,7 +132,7 @@ const GithubProvider = ({ children }) => {
       try {
         const {
           data: { rate },
-        } = await axios.get(`${rootUrl}/rate_limit`);
+        } = await axiosInstance.get(`${rootUrl}/rate_limit`);
         if (rate.remaining < 5) {
           toggleError(
             true,

@@ -14,7 +14,7 @@ const Dashboard = () => {
     );
 
   return (
-    <main className="flex flex-col items-center p-6">
+    <main className="max-w-screen-xl flex flex-col items-center p-6 mx-auto">
       {error.show && <Error />}
       <AverageMergeTimePRSize />
       <MiddleSection />
