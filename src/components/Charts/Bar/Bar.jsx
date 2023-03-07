@@ -5,7 +5,7 @@ import { AxisLeft, AxisBottom, Tooltip } from "./index";
 timeFormatDefaultLocale(locale);
 const xValue = (d) => d.size;
 const yValue = (d) => d.value;
-const margin = { top: 60, right: 60, bottom: 50, left: 60 };
+const margin = { top: 50, right: 60, bottom: 50, left: 60 };
 const svgWidth = 870;
 const svgHeight = 420;
 
@@ -20,7 +20,8 @@ const Bar = ({ data, totalPullsBySize }) => {
     .padding(0.15);
   const yScale = scaleLinear()
     .domain([0, max(data, yValue)])
-    .range([innerHeight, 0]);
+    .range([innerHeight, 0])
+    .nice();
   const width = xScale.bandwidth();
   const showTooltip = (d) => {
     setHoveredPoint(d.size);
@@ -30,6 +31,14 @@ const Bar = ({ data, totalPullsBySize }) => {
       <g transform={`translate(${margin.left},${margin.top})`}>
         <AxisLeft yScale={yScale} innerWidth={innerWidth} />
         <AxisBottom xScale={xScale} innerHeight={innerHeight} width={width} />
+        <line y1={0} y2={innerHeight} stroke="#ededed"></line>
+        <line
+          x1={innerWidth}
+          x2={innerWidth}
+          y1={0}
+          y2={innerHeight}
+          stroke="#ededed"
+        ></line>
         {data.map((d) => {
           return (
             <g key={xValue(d)}>

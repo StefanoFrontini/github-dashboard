@@ -3,6 +3,10 @@ const formatNumber = format(",d");
 
 const AxisLeft = ({ yScale, innerWidth }) => {
   const ticks = yScale.ticks();
+  const borders = (ind) => {
+    if (ind === 0 || ind === ticks.length - 1) return "0";
+    else return "1";
+  };
   return (
     <>
       {ticks.map((tickValue, index) => {
@@ -12,7 +16,7 @@ const AxisLeft = ({ yScale, innerWidth }) => {
               x1={0}
               x2={innerWidth}
               stroke="#ededed"
-              strokeDasharray="1"
+              strokeDasharray={borders(index)}
             ></line>
             <text
               // style={{ fontSize: 0.67 + "rem" }}

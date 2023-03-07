@@ -137,7 +137,7 @@ const GithubProvider = ({ children }) => {
           return;
         }
         console.log(rate);
-        getPullsData(15);
+        getPullsData(50);
       } catch (error) {
         console.log(error);
       }

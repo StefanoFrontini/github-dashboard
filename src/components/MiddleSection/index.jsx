@@ -4,7 +4,7 @@ import AveragePRMergeTime from "./AveragePRMergeTime.jsx";
 const MiddleSection = () => {
   return (
     <section className="w-full ">
-      <div className="flex gap-x-6 flex-wrap">
+      <div className="flex-col sm:flex-row flex gap-x-6 ">
         <AveragePRMergeTime />
         <AverageIssueCloseTime />
       </div>

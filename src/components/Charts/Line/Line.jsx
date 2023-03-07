@@ -19,7 +19,7 @@ const formatTime = timeFormat("%B %d, %Y");
 
 const xValue = (d) => d.date;
 const yValue = (d) => d.value;
-const margin = { top: 40, right: 100, bottom: 80, left: 80 };
+const margin = { top: 10, right: 15, bottom: 80, left: 25 };
 const svgWidth = 870;
 const svgHeight = 320;
 
@@ -34,13 +34,15 @@ const Line = ({ data, title }) => {
     data[2] ? max(data[2].values, yValue) : null
   );
   const ticks = data[0].values.length;
-  console.log(ticks);
+  const ticksHeight = innerHeight / 50;
+  const ticksWidth = innerWidth / 50;
+  // console.log(ticks);
 
   const xScale = scaleTime()
     .domain(extent(data[0].values, xValue))
     .range([0, innerWidth]);
 
-  const yScale = scaleLinear().domain([0, yMax]).range([innerHeight, 0]);
+  const yScale = scaleLinear().domain([0, yMax]).range([innerHeight, 0]).nice();
 
   const lineGenerator = line()
     .x((d) => xScale(xValue(d)))
@@ -94,8 +96,20 @@ const Line = ({ data, title }) => {
           x2={xScale(hoveredPoint[0] ?? 0)}
         ></line>
         <g>
-          <AxisLeft yScale={yScale} innerWidth={innerWidth} />
+          <AxisLeft
+            yScale={yScale}
+            innerWidth={innerWidth}
+            ticks={ticksHeight}
+          />
           <AxisBottom xScale={xScale} innerHeight={innerHeight} ticks={ticks} />
+          <line y1={0} y2={innerHeight} stroke="#ededed"></line>
+          <line
+            x1={innerWidth}
+            x2={innerWidth}
+            y1={0}
+            y2={innerHeight}
+            stroke="#ededed"
+          ></line>
           <g>
             {data.map((group) => {
               return (

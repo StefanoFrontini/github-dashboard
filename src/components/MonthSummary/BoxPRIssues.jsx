@@ -13,7 +13,7 @@ const BoxPRIssues = ({ renderPR, renderIssues, pr }) => {
           pr
             ? ""
             : "hover:bg-[#F3F3F3] hover:border-[#0C60FF] hover: border-t-[3px] border-transparent",
-          "cursor-pointer pb-8"
+          "cursor-pointer pb-2 sm:pb-8"
         )}
       >
         <div
@@ -21,7 +21,7 @@ const BoxPRIssues = ({ renderPR, renderIssues, pr }) => {
             pr
               ? "border-[#0C60FF]  border-t-[3px] text-black "
               : "border-transparent text-[#6B6C7D]",
-            "truncate  p-4  pb-3 font-normal text-base "
+            "truncate  p-4  pb-3 font-normal text-xs sm:text-base "
           )}
         >
           Pull Requests
@@ -29,7 +29,7 @@ const BoxPRIssues = ({ renderPR, renderIssues, pr }) => {
         <div
           className={classNames(
             pr ? "text-black" : "text-[#6B6C7D]",
-            "pl-4 text-5xl font-normal tracking-tight  "
+            "pl-4 sm:text-5xl font-normal tracking-tight text-3xl "
           )}
         >
           {pulls.length}
@@ -41,7 +41,7 @@ const BoxPRIssues = ({ renderPR, renderIssues, pr }) => {
           !pr
             ? ""
             : "border-transparent hover:bg-[#F3F3F3] hover:border-[#0C60FF] hover: border-t-[3px]",
-          "cursor-pointer pb-8 w-32"
+          "cursor-pointer pb-2 sm:pb-8 w-24 sm:w-32"
         )}
       >
         <div
@@ -49,7 +49,7 @@ const BoxPRIssues = ({ renderPR, renderIssues, pr }) => {
             !pr
               ? "border-[#0C60FF] border-t-[3px]   text-black"
               : "border-transparent text-[#6B6C7D]",
-            "truncate   p-4 pb-3 font-normal text-base"
+            "truncate   p-4 pb-3 font-normal text-xs sm:text-base"
           )}
         >
           Issues
@@ -57,7 +57,7 @@ const BoxPRIssues = ({ renderPR, renderIssues, pr }) => {
         <div
           className={classNames(
             !pr ? "text-black" : "text-[#6B6C7D]",
-            "pl-4 text-5xl font-normal tracking-tight "
+            "pl-4 text-3xl sm:text-5xl font-normal tracking-tight "
           )}
         >
           {issues.length}
