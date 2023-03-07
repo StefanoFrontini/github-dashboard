@@ -4,6 +4,13 @@ const formatTime = timeFormat("%d %b");
 const AxisBottom = ({ xScale, innerHeight, ticks }) => {
   const ticksBottom = xScale.ticks(ticks);
   const offset = 10;
+  const labels = (ind) => {
+    if (ind === 0) return "start";
+    else if (ind === ticksBottom.length - 1) return "end";
+    else {
+      return "middle";
+    }
+  };
   return (
     <>
       {ticksBottom.map((tickValue, index) => {
@@ -24,8 +31,9 @@ const AxisBottom = ({ xScale, innerHeight, ticks }) => {
               // x={xScale(tickValue)}
               // y={innerHeight + 24}
               alignmentBaseline="hanging"
-              textAnchor="middle"
-              fontSize="0.62rem"
+              textAnchor={labels(index)}
+              fontSize="0.5rem"
+              fill="#6B6C7D"
             >
               {formatTime(tickValue)}
             </text>

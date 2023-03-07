@@ -50,7 +50,7 @@ const Line = ({ data, title }) => {
 
   const colorScale = scaleOrdinal()
     .domain(data.map((el) => el.name))
-    .range(["#B209FF", "#0EC600", "#FF3A00"]);
+    .range([data[2] ? "#B209FF" : "#FF3A00", "#0EC600", "#FF3A00"]);
   const handleOnMouseMove = (e) => {
     const m = pointer(e);
     const im = [m[0] - margin.left, m[1] - margin.top];

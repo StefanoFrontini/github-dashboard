@@ -16,11 +16,11 @@ const Dot = ({
       <circle
         cx={xScale(xValue(d))}
         cy={yScale(yValue(d))}
-        r={4}
+        r={3}
         fill={colorScale(color)}
         // fillOpacity={0.4}
         strokeWidth={1}
-        stroke="white"
+        // stroke="white"
         opacity={index === hoveredPoint?.[3] ? 1 : 0}
         // onMouseEnter={(e) => handleOnMouseEnter(e)}
         // onMouseOut={handleOnMouseOut}
