@@ -15,6 +15,7 @@ const AxisBottom = ({ xScale, innerHeight, width }) => {
               textAnchor="middle"
               fontSize="0.62rem"
               className="capitalize"
+              fill="#6B6C7D"
             >
               {domainValue}
             </text>

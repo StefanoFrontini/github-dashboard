@@ -32,6 +32,7 @@ const Tooltip = ({
           // dx="1.52em"
           textAnchor="middle"
           fill="black"
+          className="font-light text-[10px]"
         >{`Average Time ${d.value}h`}</text>
         <text
           fontSize={10}
@@ -40,6 +41,7 @@ const Tooltip = ({
           // dx="1.52em"
           textAnchor="middle"
           fill="black"
+          className="font-light text-[10px]"
         >{`Pulls Requests ${totalPullsBySize[d.size]}`}</text>
       </g>
     </g>

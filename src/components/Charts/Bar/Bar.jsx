@@ -17,7 +17,7 @@ const Bar = ({ data, totalPullsBySize }) => {
   const xScale = scaleBand()
     .domain(["small", "medium", "large"])
     .range([0, innerWidth])
-    .padding(0.1);
+    .padding(0.15);
   const yScale = scaleLinear()
     .domain([0, max(data, yValue)])
     .range([innerHeight, 0]);

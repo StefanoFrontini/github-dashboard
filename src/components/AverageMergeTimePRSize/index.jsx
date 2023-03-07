@@ -24,6 +24,7 @@ const getPullSize = (pull) => {
 
 const AverageMergeTimePRSize = () => {
   let { pulls, pullsDetail } = useGithubContext();
+  console.log("AVTPRSize: ", pulls, pullsDetail);
   pullsDetail = pullsDetail?.map((el) => getPullSize(el));
   pulls = pulls.map((el, index) => {
     const created_at = parseDate(el.created_at);
@@ -34,7 +35,7 @@ const AverageMergeTimePRSize = () => {
       closed_at,
       merged_at,
       merged_time: el.merged_at ? dateDiffInHours(created_at, merged_at) : null,
-      size: pullsDetail[index],
+      size: pullsDetail?.[index],
     };
   });
   console.log(pulls);
@@ -65,7 +66,12 @@ const AverageMergeTimePRSize = () => {
         <div className="px-4 py-5 sm:px-6 font-light text-sm">
           Average Merge Time by Pull Request Size
         </div>
-        <Bar data={averagePullBySizeObj} totalPullsBySize={totalPullsBySize} />
+        {pulls && pullsDetail && (
+          <Bar
+            data={averagePullBySizeObj}
+            totalPullsBySize={totalPullsBySize}
+          />
+        )}{" "}
       </div>
     </section>
   );

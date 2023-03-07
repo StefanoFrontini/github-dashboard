@@ -20,6 +20,7 @@ const AxisLeft = ({ yScale, innerWidth }) => {
               textAnchor="end"
               alignmentBaseline="middle"
               dx="-0.5em"
+              fill="#6B6C7D"
             >
               {formatNumber(tickValue) + "h"}
             </text>

@@ -42,7 +42,10 @@ const GithubProvider = ({ children }) => {
     setError({ show, msg });
   };
   const subtractMonth = (date) => {
-    return date.setMonth(date.getMonth() - 1);
+    const newDate = date.setMonth(date.getMonth() - 1);
+    console.log("newDate", new Date(newDate));
+
+    return new Date(newDate);
   };
   // https://api.github.com/repos/facebook/react/issues?state=closed
   // https://api.github.com/repos/facebook/react/pulls/26283/files
@@ -77,9 +80,9 @@ const GithubProvider = ({ children }) => {
           `${rootUrl}/repos/${organization}/${repo}/pulls?per_page=10&state=closed`
         );
         if (data) {
-          const now = Date.now();
+          const now = new Date();
           const newDate = subtractMonth(now);
-          console.log("data before reduce", data);
+          // console.log("data before reduce", data);
 
           data = data.reduce((acc, item) => {
             if (parseDate(item.created_at) < newDate) {
@@ -88,14 +91,14 @@ const GithubProvider = ({ children }) => {
               return [...acc, item];
             }
           }, []);
-          console.log("data after reduce", data);
+          // console.log("data after reduce", data);
           const pullsDetail = () => data.map((el) => getPullDetail(el.number));
           try {
             const result = await Promise.all([getIssues(), ...pullsDetail()]);
             if (result.every((el) => el != undefined)) {
               setPulls(data);
               setIssues(result[0]);
-              setPullsDetail(result.slice[1]);
+              setPullsDetail(result.slice(1));
               console.log(result);
               console.log("pullsDetail", result.slice(1));
             }
