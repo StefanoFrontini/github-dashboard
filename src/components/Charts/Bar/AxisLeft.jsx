@@ -2,7 +2,7 @@ import { format } from "d3";
 const formatNumber = format(",d");
 
 const AxisLeft = ({ yScale, innerWidth }) => {
-  const ticks = yScale.ticks(6);
+  const ticks = yScale.ticks();
   return (
     <>
       {ticks.map((tickValue, index) => {

@@ -9,7 +9,6 @@ const Tooltip = ({ hoveredPoint, colorScale, midPointX, title }) => {
     if (hoveredPoint[3] < midPointX) return 20;
     if (hoveredPoint[3] >= midPointX) return -20 - 120;
   };
-  console.log(hoveredPoint);
   return (
     <g
       transform={`translate(${translateTooltip() ?? 0}, 0)`}

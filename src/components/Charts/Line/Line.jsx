@@ -33,6 +33,8 @@ const Line = ({ data, title }) => {
     max(data[1].values, yValue),
     data[2] ? max(data[2].values, yValue) : null
   );
+  const ticks = data[0].values.length;
+  console.log(ticks);
 
   const xScale = scaleTime()
     .domain(extent(data[0].values, xValue))
@@ -93,7 +95,7 @@ const Line = ({ data, title }) => {
         ></line>
         <g>
           <AxisLeft yScale={yScale} innerWidth={innerWidth} />
-          <AxisBottom xScale={xScale} innerHeight={innerHeight} />
+          <AxisBottom xScale={xScale} innerHeight={innerHeight} ticks={ticks} />
           <g>
             {data.map((group) => {
               return (

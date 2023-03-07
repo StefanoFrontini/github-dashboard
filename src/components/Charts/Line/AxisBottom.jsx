@@ -1,12 +1,12 @@
 import { timeFormat } from "d3";
 const formatTime = timeFormat("%d %b");
 
-const AxisBottom = ({ xScale, innerHeight }) => {
-  const ticks = xScale.ticks(4);
+const AxisBottom = ({ xScale, innerHeight, ticks }) => {
+  const ticksBottom = xScale.ticks(ticks);
   const offset = 10;
   return (
     <>
-      {ticks.map((tickValue, index) => {
+      {ticksBottom.map((tickValue, index) => {
         return (
           <g
             transform={`translate(${xScale(tickValue)}, ${

@@ -43,7 +43,6 @@ const GithubProvider = ({ children }) => {
   };
   const subtractMonth = (date) => {
     const newDate = date.setMonth(date.getMonth() - 1);
-    console.log("newDate", new Date(newDate));
 
     return new Date(newDate);
   };
@@ -64,25 +63,34 @@ const GithubProvider = ({ children }) => {
     };
     const getIssues = async () => {
       try {
-        const { data } = await axios.get(
-          `${rootUrl}/repos/${organization}/${repo}/issues?state=closed`
+        let { data } = await axios.get(
+          `${rootUrl}/repos/${organization}/${repo}/issues?per_page=100&state=closed`
         );
+        const now = new Date();
+        const newDate = subtractMonth(now);
+
+        data = data.reduce((acc, item) => {
+          if (parseDate(item.created_at) < newDate) {
+            return acc;
+          } else {
+            return [...acc, item];
+          }
+        }, []);
         return data;
       } catch (error) {
         throw new Error(error);
       }
     };
-    const getPullsData = async () => {
+    const getPullsData = async (rateLimit) => {
       toggleError();
       setIsLoading(true);
       try {
         let { data } = await axios.get(
-          `${rootUrl}/repos/${organization}/${repo}/pulls?per_page=10&state=closed`
+          `${rootUrl}/repos/${organization}/${repo}/pulls?per_page=${rateLimit}&state=closed`
         );
         if (data) {
           const now = new Date();
           const newDate = subtractMonth(now);
-          // console.log("data before reduce", data);
 
           data = data.reduce((acc, item) => {
             if (parseDate(item.created_at) < newDate) {
@@ -91,7 +99,6 @@ const GithubProvider = ({ children }) => {
               return [...acc, item];
             }
           }, []);
-          // console.log("data after reduce", data);
           const pullsDetail = () => data.map((el) => getPullDetail(el.number));
           try {
             const result = await Promise.all([getIssues(), ...pullsDetail()]);
@@ -130,7 +137,7 @@ const GithubProvider = ({ children }) => {
           return;
         }
         console.log(rate);
-        getPullsData();
+        getPullsData(15);
       } catch (error) {
         console.log(error);
       }
