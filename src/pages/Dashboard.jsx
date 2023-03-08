@@ -16,11 +16,11 @@ const Dashboard = () => {
 
   return (
     <>
+      {error.show && <Error />}
       <header className="max-w-[1300px] mx-auto">
         <Header />
       </header>
       <main className="max-w-screen-xl flex flex-col items-center p-6 mx-auto">
-        {error.show && <Error />}
         <AverageMergeTimePRSize />
         <MiddleSection />
         <MonthSummary />

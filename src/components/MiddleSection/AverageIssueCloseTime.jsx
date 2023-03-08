@@ -57,7 +57,9 @@ const AverageIssueCloseTime = () => {
         Average Issue Close Time
       </div>
       <div className="px-4 py-14 text-6xl text-center ">
-        {secondsToDhms(averageClosedTime)}
+        {averageClosedTime
+          ? secondsToDhms(averageClosedTime)
+          : "No issues closed"}
       </div>
     </div>
   );

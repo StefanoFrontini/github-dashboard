@@ -188,6 +188,10 @@ const GithubProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
+      toggleError(
+        true,
+        "Repository not found. Please try for instance: 'facebook' as owner and 'react' as repo"
+      );
     }
     setIsLoading(false);
   };
