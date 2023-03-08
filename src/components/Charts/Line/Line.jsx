@@ -19,7 +19,7 @@ const formatTime = timeFormat("%B %d, %Y");
 
 const xValue = (d) => d.date;
 const yValue = (d) => d.value;
-const margin = { top: 10, right: 15, bottom: 80, left: 25 };
+const margin = { top: 10, right: 20, bottom: 80, left: 45 };
 const svgWidth = 870;
 const svgHeight = 320;
 
@@ -35,7 +35,7 @@ const Line = ({ data, title }) => {
   );
   const ticks = data[0].values.length;
   const ticksHeight = innerHeight / 50;
-  const ticksWidth = innerWidth / 50;
+  // const ticksWidth = innerWidth / 50;
   // console.log(ticks);
 
   const xScale = scaleTime()
@@ -131,7 +131,7 @@ const Line = ({ data, title }) => {
           </g>
 
           <g
-            transform={`translate(${innerWidth / 2 - 60}, ${innerHeight + 40})`}
+            transform={`translate(${innerWidth / 2 - 80}, ${innerHeight + 40})`}
           >
             <ColorLegend
               colorScale={colorScale}

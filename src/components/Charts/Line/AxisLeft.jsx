@@ -20,7 +20,7 @@ const AxisLeft = ({ yScale, innerWidth, ticks }) => {
             ></line>
             <text
               // style={{ fontSize: 0.67 + "rem" }}
-              fontSize="0.50rem"
+              fontSize="0.6rem"
               textAnchor="end"
               alignmentBaseline="middle"
               dx="-0.5em"

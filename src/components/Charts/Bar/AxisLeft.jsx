@@ -20,7 +20,7 @@ const AxisLeft = ({ yScale, innerWidth }) => {
             ></line>
             <text
               // style={{ fontSize: 0.67 + "rem" }}
-              fontSize="0.5rem"
+              fontSize="0.6rem"
               textAnchor="end"
               alignmentBaseline="middle"
               dx="-0.5em"

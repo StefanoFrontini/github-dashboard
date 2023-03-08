@@ -16,12 +16,10 @@ const secondsToDhms = (seconds) => {
   const d = Math.floor(seconds / (3600 * 24));
   const h = Math.floor((seconds % (3600 * 24)) / 3600);
   const m = Math.floor((seconds % 3600) / 60);
-  // const s = Math.floor(seconds % 60);
 
   const dDisplay = d > 0 ? d + (d == 1 ? "day " : "days ") : "";
   const hDisplay = h > 0 ? h + (h == 1 ? "h" : "h") : "";
   const mDisplay = m > 0 ? m + (m == 1 ? "m" : "m") : "";
-  // const sDisplay = s > 0 ? s + (s == 1 ? "s" : "s") : "";
   return dDisplay + hDisplay + mDisplay;
 };
 
@@ -49,14 +47,13 @@ const AverageIssueCloseTime = () => {
     }
     return acc;
   }, {});
-  // number null?
   const averageClosedTime = +(
     closedTime.closed_time / closedTime.number.toFixed(2)
   );
 
   return (
     <div className="flex-1  my-6 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
-      <div className="px-4 py-5 sm:px-6 text-sm font-light">
+      <div className="px-4 py-4 sm:px-6 text-sm font-light">
         Average Issue Close Time
       </div>
       <div className="px-4 py-14 text-6xl text-center ">

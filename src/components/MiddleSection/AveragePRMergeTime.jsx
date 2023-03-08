@@ -48,7 +48,7 @@ const AveragePRMergeTime = () => {
   );
   return (
     <div className="mb-0 sm:mb-6 flex-1 my-6 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
-      <div className="px-4 py-5 sm:px-6 text-sm font-light">
+      <div className="px-4 py-4 sm:px-6 text-sm font-light">
         Average Pull Request Merge Time
       </div>
       <div className="px-4 py-14  text-6xl text-center">

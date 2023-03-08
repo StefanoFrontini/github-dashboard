@@ -49,7 +49,10 @@ const AverageMergeTimePRSize = () => {
   }, {});
   const averagePullsBySize = rollups(
     pulls,
-    (v) => +mean(v, (d) => d.merged_time).toFixed(2),
+    (v) =>
+      mean(v, (d) => d.merged_time)
+        ? +mean(v, (d) => d.merged_time).toFixed(2)
+        : null,
     (d) => d.size
   );
   console.log("averagePullsBuSize", averagePullsBySize);
@@ -59,14 +62,15 @@ const AverageMergeTimePRSize = () => {
       value: el[1],
     };
   });
+  const noMergeData = averagePullsBySize.every((el) => el[1] === null);
 
   return (
     <section className="w-full bg-white">
       <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
-        <div className="px-4 py-5 sm:px-6 font-light text-sm">
+        <div className="px-4 py-4 sm:px-6 font-light text-sm">
           Average Merge Time by Pull Request Size
         </div>
-        {pulls && pullsDetail && (
+        {!noMergeData && pulls && pullsDetail && (
           <Bar
             data={averagePullBySizeObj}
             totalPullsBySize={totalPullsBySize}

@@ -32,7 +32,7 @@ const AxisBottom = ({ xScale, innerHeight, ticks }) => {
               // y={innerHeight + 24}
               alignmentBaseline="hanging"
               textAnchor={labels(index)}
-              fontSize="0.5rem"
+              fontSize="0.6rem"
               fill="#6B6C7D"
             >
               {formatTime(tickValue)}

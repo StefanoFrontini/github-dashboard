@@ -13,7 +13,7 @@ const AxisBottom = ({ xScale, innerHeight, width }) => {
             <text
               alignmentBaseline="hanging"
               textAnchor="middle"
-              fontSize="0.5rem"
+              fontSize="0.6rem"
               className="capitalize"
               fill="#6B6C7D"
             >

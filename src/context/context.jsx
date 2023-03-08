@@ -19,8 +19,6 @@ const axiosInstance = axios.create({
     Authorization: `Bearer ${token}`,
   },
 });
-const repo = "react";
-const organization = "facebook";
 const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
 
 const rootUrl = "https://api.github.com";
@@ -44,194 +42,176 @@ const GithubProvider = ({ children }) => {
   const [pullsDetail, setPullsDetail] = useState(mockPullsDetail);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({ show: false, msg: "" });
+  const [repo, setRepo] = useState("react");
+  const [owner, setOwner] = useState("facebook");
   const toggleError = (show = false, msg = "") => {
     setError({ show, msg });
+  };
+  const changeRepo = (repo) => {
+    setRepo(repo);
+  };
+  const changeOwner = (owner) => {
+    setOwner(owner);
   };
   const subtractMonth = (date) => {
     const newDate = date.setMonth(date.getMonth() - 1);
 
     return new Date(newDate);
   };
-  // https://api.github.com/repos/facebook/react/issues?state=closed
-  // https://api.github.com/repos/facebook/react/pulls/26283/files
-  // https://api.github.com/repos/facebook/react/pulls?per_page=10&state=closed
-  const issuesUrl = `${rootUrl}/repos/${organization}/${repo}/issues?per_page=100&state=closed`;
-  const pullsUrl = `${rootUrl}/repos/${organization}/${repo}/pulls?per_page=100&state=closed`;
-
-  useEffect(() => {
-    const getPaginatedData = async (url) => {
-      const nextPattern = /(?<=<)([\S]*)(?=>; rel="Next")/i;
-      let pagesRemaining = true;
-      let data = [];
-      const now = new Date();
-      const monthBefore = subtractMonth(now);
-
-      while (pagesRemaining) {
-        const response = await axiosInstance.get(url);
-
-        let parsedData = parseData(response.data);
-        const checkDate = parsedData.some(
-          (el) => parseDate(el.created_at) < monthBefore
+  const checkRequests = async () => {
+    try {
+      const {
+        data: { rate },
+      } = await axiosInstance.get(`${rootUrl}/rate_limit`);
+      if (rate.remaining < 100) {
+        toggleError(
+          true,
+          `Sorry, you have exceeded your hourly rate limit! Please try again after ${new Date(
+            rate.reset * 1000
+          )}. Showing dummy data.`
         );
-        if (checkDate) {
-          parsedData = parsedData.reduce((acc, item) => {
-            if (parseDate(item.created_at) < monthBefore) {
-              return acc;
-            } else {
-              return [...acc, item];
-            }
-          }, []);
-        }
-        data = [...data, ...parsedData];
-
-        const linkHeader = response.headers.link;
-
-        pagesRemaining =
-          linkHeader && linkHeader.includes(`rel=\"next\"`) && !checkDate;
-
-        if (pagesRemaining) {
-          url = linkHeader.match(nextPattern)[0];
-        }
+        console.log(rate);
+        return;
       }
+      console.log(rate);
+      getPullsData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getPaginatedData = async (url) => {
+    const nextPattern = /(?<=<)([\S]*)(?=>; rel="Next")/i;
+    let pagesRemaining = true;
+    let data = [];
+    const now = new Date();
+    const monthBefore = subtractMonth(now);
 
-      return data;
-    };
+    while (pagesRemaining) {
+      const response = await axiosInstance.get(url);
 
-    const parseData = (data) => {
-      // If the data is an array, return that
-      if (Array.isArray(data)) {
-        return data;
-      }
-
-      // Some endpoints respond with 204 No Content instead of empty array
-      //   when there is no data. In that case, return an empty array.
-      if (!data) {
-        return [];
-      }
-
-      // Otherwise, the array of items that we want is in an object
-      // Delete keys that don't include the array of items
-      delete data.incomplete_results;
-      delete data.repository_selection;
-      delete data.total_count;
-      // Pull out the array of items
-      const namespaceKey = Object.keys(data)[0];
-      data = data[namespaceKey];
-
-      return data;
-    };
-
-    // const data = await getPaginatedData("/repos/octocat/Spoon-Knife/issues");
-    // console.log(data);
-    const getPullDetail = async (number) => {
-      const pullsDetailUrl = `${rootUrl}/repos/${organization}/${repo}/pulls/${number}/files`;
-      try {
-        const { data } = await axiosInstance.get(pullsDetailUrl);
-        return data;
-      } catch (error) {
-        console.log(error);
-        throw new Error(error);
-      }
-    };
-    const getIssues = async () => {
-      try {
-        const data = await getPaginatedData(issuesUrl);
-        return data;
-      } catch (error) {
-        console.log(error);
-        throw new Error(error);
-      }
-    };
-    // const getIssues = async () => {
-    //   try {
-    //     let response = await axiosInstance.get(
-    //       `${rootUrl}/repos/${organization}/${repo}/issues?per_page=100&state=closed`
-    //     );
-    //     console.log("response header", response.headers["link"]);
-    //     const now = new Date();
-    //     const newDate = subtractMonth(now);
-    //
-    //     const data = response.data.reduce((acc, item) => {
-    //       if (parseDate(item.created_at) < newDate) {
-    //         return acc;
-    //       } else {
-    //         return [...acc, item];
-    //       }
-    //     }, []);
-    //     return data;
-    //   } catch (error) {
-    //     console.log(error);
-    //     throw new Error(error);
-    //   }
-    // };
-    const getPullsData = async () => {
-      toggleError();
-      setIsLoading(true);
-      try {
-        const data = await getPaginatedData(pullsUrl);
-        if (data) {
-          console.log("pulls:", data);
-          // const now = new Date();
-          // const newDate = subtractMonth(now);
-          //
-          // data = data.reduce((acc, item) => {
-          //   if (parseDate(item.created_at) < newDate) {
-          //     return acc;
-          //   } else {
-          //     return [...acc, item];
-          //   }
-          // }, []);
-          const pullsDetail = () => data.map((el) => getPullDetail(el.number));
-          try {
-            const result = await Promise.all([getIssues(), ...pullsDetail()]);
-            if (result.every((el) => el != undefined)) {
-              setPulls(data);
-              setIssues(result[0]);
-              setPullsDetail(result.slice(1));
-              console.log(result);
-              console.log("pullsDetail", result.slice(1));
-            } else {
-              console.log("result", result);
-              console.log("Some values are undefined!");
-            }
-          } catch (error) {
-            console.log("Error from promise.all!");
-            toggleError(true, "Sorry, you have exceed your hourly rate limit!");
-            setIsLoading(false);
-            return;
+      let parsedData = parseData(response.data);
+      const checkDate = parsedData.some(
+        (el) => parseDate(el.created_at) < monthBefore
+      );
+      if (checkDate) {
+        parsedData = parsedData.reduce((acc, item) => {
+          if (parseDate(item.created_at) < monthBefore) {
+            return acc;
+          } else {
+            return [...acc, item];
           }
-        }
-      } catch (error) {
-        console.log(error);
+        }, []);
       }
-      setIsLoading(false);
-    };
-    const checkRequests = async () => {
-      try {
-        const {
-          data: { rate },
-        } = await axiosInstance.get(`${rootUrl}/rate_limit`);
-        if (rate.remaining < 100) {
-          toggleError(
-            true,
-            `Sorry, you have exceeded your hourly rate limit! Please try again after ${new Date(
-              rate.reset * 1000
-            )}. Showing dummy data.`
-          );
-          console.log(rate);
+      data = [...data, ...parsedData];
+
+      const linkHeader = response.headers.link;
+
+      pagesRemaining =
+        linkHeader && linkHeader.includes(`rel=\"next\"`) && !checkDate;
+
+      if (pagesRemaining) {
+        url = linkHeader.match(nextPattern)[0];
+      }
+    }
+
+    return data;
+  };
+
+  const parseData = (data) => {
+    // If the data is an array, return that
+    if (Array.isArray(data)) {
+      return data;
+    }
+
+    // Some endpoints respond with 204 No Content instead of empty array
+    //   when there is no data. In that case, return an empty array.
+    if (!data) {
+      return [];
+    }
+
+    // Otherwise, the array of items that we want is in an object
+    // Delete keys that don't include the array of items
+    delete data.incomplete_results;
+    delete data.repository_selection;
+    delete data.total_count;
+    // Pull out the array of items
+    const namespaceKey = Object.keys(data)[0];
+    data = data[namespaceKey];
+
+    return data;
+  };
+
+  const getPullDetail = async (number) => {
+    const pullsDetailUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/pulls/${number}/files`;
+    try {
+      const { data } = await axiosInstance.get(pullsDetailUrl);
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  };
+  const getIssues = async () => {
+    try {
+      const data = await getPaginatedData(issuesUrl);
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  };
+  const getPullsData = async () => {
+    toggleError();
+    setIsLoading(true);
+    try {
+      const data = await getPaginatedData(pullsUrl);
+      if (data) {
+        const pullsDetail = () => data.map((el) => getPullDetail(el.number));
+        try {
+          const result = await Promise.all([getIssues(), ...pullsDetail()]);
+          if (result.every((el) => el != undefined)) {
+            setPulls(data);
+            setIssues(result[0]);
+            setPullsDetail(result.slice(1));
+            console.log(result);
+            console.log("pullsDetail", result.slice(1));
+          } else {
+            console.log("result", result);
+            console.log("Some values are undefined!");
+          }
+        } catch (error) {
+          console.log("Error from promise.all!");
+          toggleError(true, "Sorry, you have exceed your hourly rate limit!");
+          setIsLoading(false);
           return;
         }
-        console.log(rate);
-        getPullsData(10);
-      } catch (error) {
-        console.log(error);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  };
+
+  const issuesUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/issues?per_page=100&state=closed`;
+  const pullsUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/pulls?per_page=100&state=closed`;
+
+  useEffect(() => {
     checkRequests();
   }, []);
   return (
     <GithubContext.Provider
-      value={{ issues, pulls, pullsDetail, error, isLoading }}
+      value={{
+        issues,
+        pulls,
+        pullsDetail,
+        error,
+        isLoading,
+        repo,
+        owner,
+        changeRepo,
+        changeOwner,
+        checkRequests,
+      }}
     >
       {children}
     </GithubContext.Provider>
