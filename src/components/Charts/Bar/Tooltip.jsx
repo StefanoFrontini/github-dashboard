@@ -1,9 +1,3 @@
-// import { timeFormat } from "d3";
-// import { format } from "d3";
-// const formatNumber = format(",d");
-
-// const formatTime = timeFormat("%B");
-
 const Tooltip = ({
   d,
   xScale,
@@ -24,25 +18,52 @@ const Tooltip = ({
         fill="white"
         className="drop-shadow"
       />
+      <rect
+        x={xScale(xValue(d)) + 100}
+        y={yScale(yValue(d)) - 12}
+        width={4}
+        height={4}
+        fill="white"
+        transform="rotate(45)"
+        style={{ transformBox: "fill-box", transformOrigin: "center" }}
+      />
       <g transform={`translate(${width / 2}, 0)`}>
         <text
           fontSize={10}
-          x={xScale(xValue(d))}
+          x={xScale(xValue(d)) + 10}
           y={yScale(yValue(d)) - 40}
           // dx="1.52em"
-          textAnchor="middle"
+          textAnchor="end"
           fill="black"
           className="font-light text-[10px]"
-        >{`Average Time ${d.value}h`}</text>
+        >{`Average Time `}</text>
         <text
           fontSize={10}
-          x={xScale(xValue(d))}
-          y={yScale(yValue(d)) - 20}
+          x={xScale(xValue(d)) + 50}
+          y={yScale(yValue(d)) - 40}
           // dx="1.52em"
-          textAnchor="middle"
+          textAnchor="end"
           fill="black"
           className="font-light text-[10px]"
-        >{`Pulls Requests ${totalPullsBySize[d.size]}`}</text>
+        >{`${d.value}h`}</text>
+        <text
+          fontSize={10}
+          x={xScale(xValue(d)) + 15}
+          y={yScale(yValue(d)) - 20}
+          // dx="1.52em"
+          textAnchor="end"
+          fill="black"
+          className="font-light text-[10px]"
+        >{`Pulls Requests `}</text>
+        <text
+          fontSize={10}
+          x={xScale(xValue(d)) + 50}
+          y={yScale(yValue(d)) - 20}
+          // dx="1.52em"
+          textAnchor="end"
+          fill="black"
+          className="font-light text-[10px]"
+        >{`${totalPullsBySize[d.size]}`}</text>
       </g>
     </g>
   );

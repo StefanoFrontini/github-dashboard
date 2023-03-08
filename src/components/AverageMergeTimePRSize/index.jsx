@@ -54,7 +54,7 @@ const AverageMergeTimePRSize = () => {
     pulls,
     (v) =>
       mean(v, (d) => d.merged_time)
-        ? +mean(v, (d) => d.merged_time).toFixed(2)
+        ? +mean(v, (d) => d.merged_time).toFixed(0)
         : 0,
     (d) => d.size
   );
