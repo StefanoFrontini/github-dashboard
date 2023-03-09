@@ -61,9 +61,11 @@ const PRChart = () => {
 
     return acc;
   }, {});
+  console.log("pullsDistribution - before", pullsDistribution);
   pullsDistribution = Object.values(pullsDistribution).sort(
     (a, b) => a.date - b.date
   );
+  console.log("pullsDistribution - after", pullsDistribution);
   const pullsDistributionMerged = {
     name: "Merged",
     values: pullsDistribution.map((el) => {
@@ -96,7 +98,13 @@ const PRChart = () => {
     pullsDistributionCreated,
     pullsDistributionClosed,
   ];
-  return <Line title="Pulls Requests" data={pullsDistribution} />;
+  return (
+    <>
+      {pulls.length ? (
+        <Line title="Pull Requests" data={pullsDistribution} />
+      ) : null}
+    </>
+  );
 };
 
 export default PRChart;

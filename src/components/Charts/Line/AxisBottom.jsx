@@ -1,7 +1,7 @@
 import { timeFormat } from "d3";
 const formatTime = timeFormat("%d %b");
 
-const AxisBottom = ({ xScale, innerHeight, ticks }) => {
+const AxisBottom = ({ xScale, innerHeight }) => {
   const ticksBottom = xScale.ticks();
   const offset = 10;
   const labels = (ind) => {

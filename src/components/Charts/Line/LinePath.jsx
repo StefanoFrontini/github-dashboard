@@ -1,4 +1,5 @@
 import Dot from "./Dot";
+
 const LinePath = ({
   lineGenerator,
   colorScale,

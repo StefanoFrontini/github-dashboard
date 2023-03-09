@@ -1,9 +1,3 @@
-// import { timeFormat } from "d3";
-// import { format } from "d3";
-// const formatNumber = format(",d");
-
-// const formatTime = timeFormat("%B");
-
 const Tooltip = ({ hoveredPoint, colorScale, midPointX, title }) => {
   const translateTooltip = () => {
     if (hoveredPoint[3] < midPointX) return 20;
@@ -30,7 +24,6 @@ const Tooltip = ({ hoveredPoint, colorScale, midPointX, title }) => {
           x2={110}
         ></line>
         {hoveredPoint[2]?.map((el, i) => {
-          // if (hoveredValue?.includes(el[0])) return;
           return (
             <g key={el[0]} transform={`translate(0,${i * 20 + 47})`}>
               <circle cy={-3} cx={3} fill={colorScale(el[0])} r={3} />

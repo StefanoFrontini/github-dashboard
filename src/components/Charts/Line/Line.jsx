@@ -14,11 +14,14 @@ import {
 } from "d3";
 import locale from "../../../utils/locale";
 import { AxisLeft, AxisBottom, LinePath, ColorLegend, Tooltip } from "./index";
+
 timeFormatDefaultLocale(locale);
+
 const formatTime = timeFormat("%B %d, %Y");
 
 const xValue = (d) => d.date;
 const yValue = (d) => d.value;
+
 const margin = { top: 10, right: 20, bottom: 80, left: 45 };
 const svgWidth = 870;
 const svgHeight = 320;
@@ -29,14 +32,13 @@ const innerHeight = svgHeight - margin.top - margin.bottom;
 const Line = ({ data, title }) => {
   const [hoveredPoint, setHoveredPoint] = useState([]);
   const yMax = Math.max(
-    max(data[0].values, yValue),
-    max(data[1].values, yValue),
+    max(data[0]?.values, yValue),
+    max(data[1]?.values, yValue),
     data[2] ? max(data[2].values, yValue) : null
   );
-  const ticks = data[0].values.length;
+  // const ticks = data[0].values.length;
   const ticksHeight = innerHeight / 50;
   // const ticksWidth = innerWidth / 50;
-  // console.log(ticks);
 
   const xScale = scaleTime()
     .domain(extent(data[0].values, xValue))
@@ -47,12 +49,14 @@ const Line = ({ data, title }) => {
   const lineGenerator = line()
     .x((d) => xScale(xValue(d)))
     .y((d) => yScale(yValue(d)));
+
   const X = map(data[0].values, xValue);
   const midPointX = X.length / 2;
 
   const colorScale = scaleOrdinal()
     .domain(data.map((el) => el.name))
     .range([data[2] ? "#B209FF" : "#FF3A00", "#0EC600", "#FF3A00"]);
+
   const handleOnMouseMove = (e) => {
     const m = pointer(e);
     const im = [m[0] - margin.left, m[1] - margin.top];
@@ -101,7 +105,7 @@ const Line = ({ data, title }) => {
             innerWidth={innerWidth}
             ticks={ticksHeight}
           />
-          <AxisBottom xScale={xScale} innerHeight={innerHeight} ticks={ticks} />
+          <AxisBottom xScale={xScale} innerHeight={innerHeight} />
           <line y1={0} y2={innerHeight} stroke="#ededed"></line>
           <line
             x1={innerWidth}
@@ -123,7 +127,6 @@ const Line = ({ data, title }) => {
                   yScale={yScale}
                   xValue={xValue}
                   yValue={yValue}
-                  // hoveredValue={hoveredValue}
                   hoveredPoint={hoveredPoint}
                 />
               );

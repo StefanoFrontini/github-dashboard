@@ -65,7 +65,13 @@ const IssuesChart = () => {
     }),
   };
   issuesDistribution = [issuesDistributionCreated, issuesDistributionClosed];
-  return <Line title="Issues" data={issuesDistribution} />;
+  return (
+    <>
+      {issuesDistribution.length ? (
+        <Line title="Issues" data={issuesDistribution} />
+      ) : null}
+    </>
+  );
 };
 
 export default IssuesChart;

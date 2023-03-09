@@ -45,7 +45,7 @@ const Tooltip = ({
           textAnchor="end"
           fill="black"
           className="font-light text-[10px]"
-        >{`${d.value}h`}</text>
+        >{`${d.value.toFixed(0)}h`}</text>
         <text
           fontSize={10}
           x={xScale(xValue(d)) + 15}
@@ -63,7 +63,7 @@ const Tooltip = ({
           textAnchor="end"
           fill="black"
           className="font-light text-[10px]"
-        >{`${totalPullsBySize[d.size]}`}</text>
+        >{`${totalPullsBySize[d.size].toFixed(0)}`}</text>
       </g>
     </g>
   );

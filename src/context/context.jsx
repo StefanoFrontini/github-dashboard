@@ -63,7 +63,7 @@ const GithubProvider = ({ children }) => {
       const {
         data: { rate },
       } = await axiosInstance.get(`${rootUrl}/rate_limit`);
-      if (rate.remaining < 100) {
+      if (rate.remaining === 0) {
         toggleError(
           true,
           `Sorry, you have exceeded your hourly rate limit! Please try again after ${new Date(
@@ -93,6 +93,7 @@ const GithubProvider = ({ children }) => {
       const checkDate = parsedData.some(
         (el) => parseDate(el.created_at) < monthBefore
       );
+      // discard the results older than a month
       if (checkDate) {
         parsedData = parsedData.reduce((acc, item) => {
           if (parseDate(item.created_at) < monthBefore) {
@@ -152,6 +153,8 @@ const GithubProvider = ({ children }) => {
     }
   };
   const getIssues = async () => {
+    const issuesUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/issues?per_page=100&state=closed`;
+
     try {
       const data = await getPaginatedData(issuesUrl);
       return data;
@@ -161,6 +164,7 @@ const GithubProvider = ({ children }) => {
     }
   };
   const getPullsData = async () => {
+    const pullsUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/pulls?per_page=100&state=closed`;
     toggleError();
     setIsLoading(true);
     try {
@@ -169,16 +173,16 @@ const GithubProvider = ({ children }) => {
         const pullsDetail = () => data.map((el) => getPullDetail(el.number));
         try {
           const result = await Promise.all([getIssues(), ...pullsDetail()]);
-          if (result.every((el) => el != undefined)) {
-            setPulls(data);
-            setIssues(result[0]);
-            setPullsDetail(result.slice(1));
-            console.log(result);
-            console.log("pullsDetail", result.slice(1));
-          } else {
-            console.log("result", result);
-            console.log("Some values are undefined!");
-          }
+          // if (result.every((el) => el != undefined)) {
+          setPulls(data);
+          setIssues(result[0]);
+          setPullsDetail(result.slice(1));
+          console.log(result);
+          console.log("pullsDetail", result.slice(1));
+          // } else {
+          //   console.log("result", result);
+          //   console.log("Some values are undefined!");
+          // }
         } catch (error) {
           console.log("Error from promise.all!");
           toggleError(true, "Sorry, you have exceed your hourly rate limit!");
@@ -195,9 +199,6 @@ const GithubProvider = ({ children }) => {
     }
     setIsLoading(false);
   };
-
-  const issuesUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/issues?per_page=100&state=closed`;
-  const pullsUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/pulls?per_page=100&state=closed`;
 
   useEffect(() => {
     checkRequests();
@@ -221,8 +222,6 @@ const GithubProvider = ({ children }) => {
     </GithubContext.Provider>
   );
 };
-const useGithubContext = () => {
-  return React.useContext(GithubContext);
-};
+const useGithubContext = () => React.useContext(GithubContext);
 
 export { useGithubContext, GithubProvider };

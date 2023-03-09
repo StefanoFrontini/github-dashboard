@@ -4,8 +4,6 @@ const Dot = ({
   yScale,
   colorScale,
   color,
-  // handleOnMouseEnter,
-  // handleOnMouseOut,
   xValue,
   yValue,
   hoveredPoint,
@@ -18,12 +16,8 @@ const Dot = ({
         cy={yScale(yValue(d))}
         r={3}
         fill={colorScale(color)}
-        // fillOpacity={0.4}
         strokeWidth={1}
-        // stroke="white"
         opacity={index === hoveredPoint?.[3] ? 1 : 0}
-        // onMouseEnter={(e) => handleOnMouseEnter(e)}
-        // onMouseOut={handleOnMouseOut}
       ></circle>
     </>
   );

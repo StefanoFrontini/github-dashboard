@@ -2,10 +2,14 @@ import { useState } from "react";
 import { scaleBand, scaleLinear, max, timeFormatDefaultLocale } from "d3";
 import locale from "../../../utils/locale";
 import { AxisLeft, AxisBottom, Tooltip } from "./index";
+
 timeFormatDefaultLocale(locale);
+
 const xValue = (d) => d.size;
 const yValue = (d) => d.value;
+
 const margin = { top: 50, right: 60, bottom: 50, left: 60 };
+
 const svgWidth = 870;
 const svgHeight = 420;
 
