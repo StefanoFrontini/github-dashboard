@@ -70,10 +70,10 @@ const GithubProvider = ({ children }) => {
             rate.reset * 1000
           )}. Showing dummy data.`
         );
-        console.log(rate);
+        // console.log(rate);
         return;
       }
-      console.log(rate);
+      // console.log(rate);
       getPullsData();
     } catch (error) {
       console.log(error);
@@ -177,8 +177,8 @@ const GithubProvider = ({ children }) => {
           setPulls(data);
           setIssues(result[0]);
           setPullsDetail(result.slice(1));
-          console.log(result);
-          console.log("pullsDetail", result.slice(1));
+          // console.log(result);
+          // console.log("pullsDetail", result.slice(1));
           // } else {
           //   console.log("result", result);
           //   console.log("Some values are undefined!");

@@ -61,11 +61,11 @@ const PRChart = () => {
 
     return acc;
   }, {});
-  console.log("pullsDistribution - before", pullsDistribution);
+  // console.log("pullsDistribution - before", pullsDistribution);
   pullsDistribution = Object.values(pullsDistribution).sort(
     (a, b) => a.date - b.date
   );
-  console.log("pullsDistribution - after", pullsDistribution);
+  // console.log("pullsDistribution - after", pullsDistribution);
   const pullsDistributionMerged = {
     name: "Merged",
     values: pullsDistribution.map((el) => {

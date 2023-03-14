@@ -373,11 +373,11 @@ The rate limit for unauthenticated requests is 60 per hour. This rate was not en
 - Opened Pull Requests by Day
   - Display PRs opened by day over a period of a month
 
-So I decided to make authenticated requests with a personal github token that expires in 30 days. This way I increased the rate limit up to 5.000 calls per hour.
+So I decided to make authenticated requests with a personal github token that expires in 30 days. This way I increased the rate limit up to 5.000 calls per hour. While developing the dashboard I used dummy data which I then used as a fallback in case something goes wrong with the API.
 
 #### Github API - pagination
 
-To display the two metrics above I had to go back one month in time. Sometimes the first 100 results - which is the maximum you can get from one API call - was not enough. So I decided to take advantage of the pagination feature of the GitHub API.
+To display the two metrics above I had to go back one month in time from the current date. Sometimes the first 100 results - which is the maximum you can get from one API call - was not enough. So I decided to take advantage of the pagination feature of the GitHub API.
 
 ```javascript
   const subtractMonth = (date) => {

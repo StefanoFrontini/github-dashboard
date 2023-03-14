@@ -37,7 +37,7 @@ const AverageMergeTimePRSize = () => {
       size: pullsDetail?.[index],
     };
   });
-  console.log("PullsDetails - Size", pulls);
+  // console.log("PullsDetails - Size", pulls);
   const totalPullsBySize = pulls.reduce((acc, item) => {
     const { size, merged_time } = item;
     if (!merged_time) return acc;
@@ -48,7 +48,7 @@ const AverageMergeTimePRSize = () => {
     }
     return acc;
   }, {});
-  console.log("totalPullsBySize", totalPullsBySize);
+  // console.log("totalPullsBySize", totalPullsBySize);
   const averagePullsBySize = rollups(
     pulls,
     (v) =>
@@ -65,9 +65,9 @@ const AverageMergeTimePRSize = () => {
       return acc;
     }
   }, []);
-  console.log("averagePullsBySize", averagePullsBySize);
-  console.log("averagePullsBySizeObg", averagePullBySizeObj);
-  const noMergeData = averagePullsBySize.every((el) => el[1] === 0);
+  // console.log("averagePullsBySize", averagePullsBySize);
+  // console.log("averagePullsBySizeObg", averagePullBySizeObj);
+  const noMergeData = averagePullsBySize.every((el) => el[1] === null);
 
   return (
     <section className="w-full bg-white">

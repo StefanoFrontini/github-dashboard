@@ -13,7 +13,7 @@ const Header = () => {
     }
   };
   const handleSubmit = (e) => {
-    console.log("submit!");
+    // console.log("submit!");
     e.preventDefault();
     checkRequests();
   };
