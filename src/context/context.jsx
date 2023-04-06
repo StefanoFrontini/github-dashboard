@@ -13,7 +13,7 @@ import mockFiles26288 from "./mockData/mockFiles26288";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { timeParse } from "d3";
-const token = "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";
+const token = "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";
 const axiosInstance = axios.create({
   headers: {
     Authorization: `Bearer ${token}`,
