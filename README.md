@@ -1,10 +1,10 @@
-# Startup Booster
+# Github Dashboard
 
-This Dashboard Application show metrics about Github projects.
+This application show metrics about Github projects.
 
 <img src="https://res.cloudinary.com/stefano75/image/upload/v1678348964/liferay_l8y4cd.png" width="350"/>
 
-- [Startup Booster](#startup-booster)
+- [Github Dashboard](#github-dashboard)
   - [The challenge](#the-challenge)
   - [Links](#links)
   - [Setup](#setup)
@@ -17,6 +17,7 @@ This Dashboard Application show metrics about Github projects.
     - [React Context API](#react-context-api)
   - [Testing](#testing)
   - [References](#references)
+
 
 ## The challenge
 
