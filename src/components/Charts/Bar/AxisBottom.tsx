@@ -12,7 +12,7 @@ const AxisBottom: React.FC<Props> = ({ xScale, innerHeight, width }) => {
       {xScale.domain().map((domainValue, index) => {
         return (
           <g
-            transform={`translate(${xScale(domainValue) ?? 0 + width / 2}, ${
+            transform={`translate(${(xScale(domainValue) ?? 0) + width / 2}, ${
               innerHeight + offset
             })`}
             key={index}
