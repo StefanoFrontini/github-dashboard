@@ -1,6 +1,6 @@
 # Github Dashboard
 
-This application show metrics about Github projects.
+This application show metrics about Github repos.
 
 <img src="https://res.cloudinary.com/stefano75/image/upload/v1678348964/liferay_l8y4cd.png" width="350"/>
 
@@ -67,7 +67,7 @@ $ npm run test
 
 ### Tech
 
-To implement the mockup I decided to use Tailwind CSS for the UI components and D3 for the charts. D3 is a powerful charting library that lets you customize every tiny detail. D3 though requires more code than a stardard charting library and it is a bit tricky to combine with React (see more on the paragraph "React and D3 integration" below). I decided to use D3 because I have been requested to implement high fidelity mockup.
+React, TypeScript, D3, Tailwind CSS.
 
 ### Github API
 
