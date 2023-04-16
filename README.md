@@ -18,7 +18,6 @@ This application show metrics about Github projects.
   - [Testing](#testing)
   - [References](#references)
 
-
 ## The challenge
 
 The dashboard should display these metrics:
@@ -45,7 +44,7 @@ The dashboard should display these metrics:
 
 ## Links
 
-- [Live Site URL](https://startupbooster.netlify.app/)
+- [Live Site URL](https://github-repo-dashboard.netlify.app/)
 
 ## Setup
 
