@@ -108,14 +108,14 @@ const PRChart = () => {
     pullsDistributionCreated,
     pullsDistributionClosed,
   ];
-  interface PullsDistributions {
-    name: string;
-    values: {
-      date: Date;
-      value: number;
-    }[];
-  }
-  [];
+  // interface PullsDistributions {
+  //   name: string;
+  //   values: {
+  //     date: Date;
+  //     value: number;
+  //   }[];
+  // }
+  // [];
 
   return (
     <>

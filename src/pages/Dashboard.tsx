@@ -5,6 +5,7 @@ import { useGithubContext } from "../context/context";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import Header from "../components/Header";
+import TopPulls from "../components/Contributors/TopPulls";
 
 const Dashboard = () => {
   const { isLoading, error } = useGithubContext();
@@ -24,6 +25,7 @@ const Dashboard = () => {
       <main className="max-w-screen-xl flex flex-col items-center p-6 mx-auto">
         <AverageMergeTimePRSize />
         <MiddleSection />
+        <TopPulls />
         <MonthSummary />
       </main>
     </>
