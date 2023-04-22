@@ -20,10 +20,11 @@ This application show metrics about Github repos.
 
 ## The challenge
 
-The dashboard should display these metrics:
+The dashboard should display these metrics over the period of the last 30 days:
 
 - Average Issue Close Time
 - Average Pull Request Merge Time
+- Top 5 contributors to pull requests
 - Average Merge Time by Pull Request Size
   - Pull Request sizes are:
     - Small (maximum of 100 modified lines: additions + deletions)
