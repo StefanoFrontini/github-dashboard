@@ -67,7 +67,7 @@ const Pie = () => {
   return (
     <svg viewBox={`0 0 ${width} ${height}`}>
       <g transform={`translate(${width / 2}, ${height / 2})`}>
-        {arcs.map((el) => {
+        {arcs.map((el, index) => {
           const sliceInfo = {
             innerRadius: 0,
             outerRadius: radius,
@@ -95,32 +95,36 @@ const Pie = () => {
                 fill={colorScale(el.data.id)}
                 d={slicePath ?? undefined}
               />
-              <circle cx={centroid[0]} cy={centroid[1]} r={2} />
-              <line
-                x1={centroid[0]}
-                y1={centroid[1]}
-                x2={inflexionPoint[0]}
-                y2={inflexionPoint[1]}
-                stroke={"black"}
-                fill={"black"}
-              />
-              <line
-                x1={inflexionPoint[0]}
-                y1={inflexionPoint[1]}
-                x2={labelPosX}
-                y2={inflexionPoint[1]}
-                stroke={"black"}
-                fill={"black"}
-              />
-              <text
-                x={labelPosX + (isRightLabel ? 2 : -2)}
-                y={inflexionPoint[1]}
-                textAnchor={textAnchor}
-                dominantBaseline="middle"
-                fontSize={8}
-              >
-                {label}
-              </text>
+              {index < 5 && (
+                <>
+                  <circle cx={centroid[0]} cy={centroid[1]} r={2} />
+                  <line
+                    x1={centroid[0]}
+                    y1={centroid[1]}
+                    x2={inflexionPoint[0]}
+                    y2={inflexionPoint[1]}
+                    stroke={"black"}
+                    fill={"black"}
+                  />
+                  <line
+                    x1={inflexionPoint[0]}
+                    y1={inflexionPoint[1]}
+                    x2={labelPosX}
+                    y2={inflexionPoint[1]}
+                    stroke={"black"}
+                    fill={"black"}
+                  />
+                  <text
+                    x={labelPosX + (isRightLabel ? 2 : -2)}
+                    y={inflexionPoint[1]}
+                    textAnchor={textAnchor}
+                    dominantBaseline="middle"
+                    fontSize={8}
+                  >
+                    {label}
+                  </text>
+                </>
+              )}
             </g>
           );
         })}
