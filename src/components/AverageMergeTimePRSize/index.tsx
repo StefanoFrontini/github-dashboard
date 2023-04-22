@@ -35,7 +35,7 @@ export interface TotalPullsBySize {
 }
 
 const AverageMergeTimePRSize = () => {
-  let { pulls, pullsDetail } = useGithubContext();
+  const { pulls, pullsDetail } = useGithubContext();
   const pullSize = pullsDetail.map((el) => getPullSize(el));
   const formattedPulls: FormattedPull[] = pulls.map((el, index) => {
     const created_at = parseDate(el.created_at);
@@ -57,17 +57,15 @@ const AverageMergeTimePRSize = () => {
       if (!acc[size as keyof TotalPullsBySize]) {
         acc[size as keyof TotalPullsBySize] = 1;
       } else {
-        acc[size as keyof TotalPullsBySize] = acc[
-          size as keyof TotalPullsBySize
-        ]
-          ? acc[size as keyof TotalPullsBySize]
-          : 0 + 1;
+        acc[size as keyof TotalPullsBySize] =
+          acc[size as keyof TotalPullsBySize]! + 1;
       }
       return acc;
     },
     {}
   );
-  // console.log("totalPullsBySize", totalPullsBySize);
+  console.log("formattedPulls", formattedPulls);
+  console.log("totalPullsBySize", totalPullsBySize);
   const averagePullsBySize = rollups(
     formattedPulls,
     (v) =>
