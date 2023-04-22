@@ -52,7 +52,7 @@ const Pie = () => {
     return acc;
   }, {});
   const contributors = Object.values(aggregateContributors).sort(
-    (a, b) => b.value - a.value
+    (a, b) => a.value - b.value
   );
   console.log("contributors", contributors);
   const arcs = pie<Pull>().value((d) => d.value)(contributors);
