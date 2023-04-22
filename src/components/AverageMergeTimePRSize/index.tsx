@@ -64,8 +64,8 @@ const AverageMergeTimePRSize = () => {
     },
     {}
   );
-  console.log("formattedPulls", formattedPulls);
-  console.log("totalPullsBySize", totalPullsBySize);
+  // console.log("formattedPulls", formattedPulls);
+  // console.log("totalPullsBySize", totalPullsBySize);
   const averagePullsBySize = rollups(
     formattedPulls,
     (v) =>

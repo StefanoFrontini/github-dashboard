@@ -52,9 +52,9 @@ const Pie = () => {
     return acc;
   }, {});
   const contributors = Object.values(aggregateContributors).sort(
-    (a, b) => a.value - b.value
+    (a, b) => b.value - a.value
   );
-  console.log("contributors", contributors);
+  // console.log("contributors", contributors);
   const arcs = pie<Pull>().value((d) => d.value)(contributors);
   const names = contributors.map((el) => el.id);
   const colors = quantize(interpolatePurples, names.length);
@@ -63,7 +63,7 @@ const Pie = () => {
   //   0,
   //   max(contributors, (d) => d.value),
   // ] as [number, number]);
-  console.log("arcs: ", arcs);
+  // console.log("arcs: ", arcs);
   const arcGenerator = arc();
 
   return (
@@ -91,12 +91,8 @@ const Pie = () => {
           const slicePath = arcGenerator(sliceInfo);
 
           return (
-            <g>
-              <path
-                key={el.data.id}
-                fill={colorScale(el.data.id)}
-                d={slicePath ?? undefined}
-              />
+            <g key={el.data.id}>
+              <path fill={colorScale(el.data.id)} d={slicePath ?? undefined} />
               {index < 5 && (
                 <>
                   <circle cx={centroid[0]} cy={centroid[1]} r={2} />
