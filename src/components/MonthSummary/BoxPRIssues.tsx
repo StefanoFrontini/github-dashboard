@@ -17,14 +17,14 @@ const BoxPRIssues: React.FC<Props> = ({ renderPR, renderIssues, pr }) => {
         className={classNames(
           pr
             ? ""
-            : "hover:bg-[#F3F3F3] hover:border-[#0C60FF] hover: border-t-[3px] border-transparent",
+            : "hover:bg-[#F3F3F3] hover:border-sky-600 hover: border-t-[3px] border-transparent",
           "cursor-pointer pb-2 sm:pb-8"
         )}
       >
         <div
           className={classNames(
             pr
-              ? "border-[#0C60FF]  border-t-[3px] text-black "
+              ? "border-sky-600  border-t-[3px] text-black "
               : "border-transparent text-[#6B6C7D]",
             "truncate  p-4  pb-3 font-normal text-xs sm:text-base "
           )}
@@ -45,14 +45,14 @@ const BoxPRIssues: React.FC<Props> = ({ renderPR, renderIssues, pr }) => {
         className={classNames(
           !pr
             ? ""
-            : "border-transparent hover:bg-[#F3F3F3] hover:border-[#0C60FF] hover: border-t-[3px]",
+            : "border-transparent hover:bg-[#F3F3F3] hover:border-sky-600 hover: border-t-[3px]",
           "cursor-pointer pb-2 sm:pb-8 w-24 sm:w-32"
         )}
       >
         <div
           className={classNames(
             !pr
-              ? "border-[#0C60FF] border-t-[3px]   text-black"
+              ? "border-sky-600 border-t-[3px]   text-black"
               : "border-transparent text-[#6B6C7D]",
             "truncate   p-4 pb-3 font-normal text-xs sm:text-base"
           )}

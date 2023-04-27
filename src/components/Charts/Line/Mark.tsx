@@ -1,5 +1,6 @@
 import type { ScaleOrdinal, ScaleTime, ScaleLinear } from "d3";
 import type { Values } from "./Line";
+import { motion } from "framer-motion";
 
 interface Props {
   d: Values;
@@ -22,13 +23,16 @@ const Mark: React.FC<Props> = ({
 }) => {
   return (
     <>
-      <circle
+      <motion.circle
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
         cx={xScale(xValue(d))}
         cy={yScale(yValue(d))}
         r={3}
         fill={colorScale(color)}
         strokeWidth={1}
-      ></circle>
+      ></motion.circle>
     </>
   );
 };

@@ -1,6 +1,7 @@
 import { Mark } from "./index";
 import type { Line, ScaleTime, ScaleOrdinal, ScaleLinear } from "d3";
 import type { Values } from "./Line";
+import { motion } from "framer-motion";
 
 interface Props {
   lineGenerator: Line<Values>;
@@ -25,7 +26,16 @@ const LinePath: React.FC<Props> = ({
 }) => {
   return (
     <>
-      <path
+      <motion.path
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{
+          delay: 0.5,
+          type: "spring",
+          stiffness: 100,
+          damping: 30,
+          mass: 1,
+        }}
         fill="none"
         stroke={colorScale(color)}
         strokeWidth={1.5}

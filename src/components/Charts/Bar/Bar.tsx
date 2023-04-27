@@ -66,7 +66,6 @@ const Bar: React.FC<Props> = ({ data, totalPullsBySize }) => {
                 width={width}
                 height={innerHeight - yScale(yValue(d))}
                 className="fill-sky-600"
-                // fill="#4C9AFF"
                 onMouseOver={() => showTooltip(d)}
                 onMouseLeave={() => showTooltip({ size: "", value: 0 })}
               />
