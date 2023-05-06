@@ -120,14 +120,14 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
 
       let parsedData = parseDataIssues(response.data);
       const checkDate = parsedData.some(
-        (el) => parseDate(el.created_at)! < monthBefore
+        (el) => (parseDate(el.created_at) ?? new Date()) < monthBefore
       );
       // discard the results older than a month
       if (checkDate) {
         // const _parsedData = Array<typeof parsedData> = parsedData
         parsedData = parsedData.reduce(
           (acc: listIssuesReposResponse["data"], item) => {
-            if (parseDate(item.created_at)! < monthBefore) {
+            if ((parseDate(item.created_at) ?? new Date()) < monthBefore) {
               return acc;
             } else {
               return [...acc, item];
@@ -141,7 +141,7 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
       const linkHeader = response.headers.link;
 
       pagesRemaining =
-        linkHeader && linkHeader.includes(`rel=\"next\"`) && !checkDate;
+        linkHeader && linkHeader.includes(`rel="next"`) && !checkDate;
 
       if (pagesRemaining) {
         url = linkHeader.match(nextPattern)[0];
@@ -164,14 +164,14 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
 
       let parsedData = parseDataPulls(response.data);
       const checkDate = parsedData.some(
-        (el) => parseDate(el.created_at)! < monthBefore
+        (el) => (parseDate(el.created_at) ?? new Date()) < monthBefore
       );
       // discard the results older than a month
       if (checkDate) {
         // const _parsedData = Array<typeof parsedData> = parsedData
         parsedData = parsedData.reduce(
           (acc: listPullsReposResponse["data"], item) => {
-            if (parseDate(item.created_at)! < monthBefore) {
+            if ((parseDate(item.created_at) ?? new Date()) < monthBefore) {
               return acc;
             } else {
               return [...acc, item];
@@ -185,7 +185,7 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
       const linkHeader = response.headers.link;
 
       pagesRemaining =
-        linkHeader && linkHeader.includes(`rel=\"next\"`) && !checkDate;
+        linkHeader && linkHeader.includes(`rel="next"`) && !checkDate;
 
       if (pagesRemaining) {
         url = linkHeader.match(nextPattern)[0];
