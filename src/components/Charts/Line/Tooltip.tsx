@@ -20,6 +20,17 @@ const Tooltip: React.FC<Props> = ({
       if (hoveredPoint.i >= midPointX) return -20 - 120;
     }
   };
+  const filteredHoveredPoint = () => {
+    if (title === "Pull Requests") return hoveredPoint;
+    const newTooltipValues = hoveredPoint?.tooltipValues?.filter(
+      (el) => el[0] !== "Merged"
+    );
+    const newHoveredPoint = {
+      ...hoveredPoint,
+      tooltipValues: newTooltipValues,
+    };
+    return newHoveredPoint;
+  };
   return (
     <g
       transform={`translate(${translateTooltip() ?? 0}, 0)`}
@@ -40,7 +51,7 @@ const Tooltip: React.FC<Props> = ({
           x1={-10}
           x2={110}
         ></line>
-        {hoveredPoint.tooltipValues?.map((el, i: number) => {
+        {filteredHoveredPoint().tooltipValues?.map((el, i: number) => {
           return (
             <g key={el[0] as string} transform={`translate(0,${i * 20 + 47})`}>
               <circle cy={-3} cx={3} fill={colorScale(el[0] as string)} r={3} />

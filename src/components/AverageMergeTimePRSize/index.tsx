@@ -87,7 +87,6 @@ const AverageMergeTimePRSize = () => {
     },
     []
   );
-  console.log(averagePullBySizeObj);
   const noMergeData = averagePullsBySize.every((el) => el[1] === null);
 
   return (

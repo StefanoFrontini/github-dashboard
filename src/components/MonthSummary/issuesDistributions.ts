@@ -1,11 +1,6 @@
-import { useGithubContext } from "../../context/hookContext";
-// import { timeParse } from "d3";
-import { parseISO, parse, format } from "date-fns";
-import { Line } from "../Charts/Line";
+import { format, parseISO, parse } from "date-fns";
+import { listIssuesReposResponse } from "../../context/context";
 
-// const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
-// const formatTime = timeFormat("%B %d, %Y");
-// const parseDate2 = timeParse("%B %d, %Y");
 interface Issue {
   date: Date;
   closed_at: number;
@@ -15,8 +10,10 @@ interface Issue {
 export interface IssuesAggregation {
   [key: string]: Issue;
 }
-const IssuesChart = () => {
-  const { issues } = useGithubContext();
+
+export const issuesDistributions = (
+  issues: listIssuesReposResponse["data"]
+) => {
   const issuesAggregation = issues.reduce((acc: IssuesAggregation, item) => {
     let { closed_at, created_at } = item;
     closed_at
@@ -77,17 +74,20 @@ const IssuesChart = () => {
       };
     }),
   };
-  const issuesDistributions = [
+
+  // dummy data for Framer Motion animation
+  const issuesDistributionMerged = {
+    name: "Merged",
+    values: issuesDistribution.map((el) => {
+      return {
+        date: el.date,
+        value: el.closed_at,
+      };
+    }),
+  };
+  return [
+    issuesDistributionMerged,
     issuesDistributionCreated,
     issuesDistributionClosed,
   ];
-  return (
-    <>
-      {issuesDistribution.length ? (
-        <Line title="Issues" data={issuesDistributions} />
-      ) : null}
-    </>
-  );
 };
-
-export default IssuesChart;

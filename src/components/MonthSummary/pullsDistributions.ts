@@ -1,11 +1,5 @@
-import { useGithubContext } from "../../context/hookContext";
-// import { timeParse, timeFormat } from "d3";
-import { Line } from "../Charts/Line";
 import { format, parseISO, parse } from "date-fns";
-
-// const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
-// const formatTime = timeFormat("%B %d, %Y");
-// const parseDate2 = timeParse("%B %d, %Y");
+import { listPullsReposResponse } from "../../context/context";
 
 interface Pull {
   date: Date;
@@ -17,8 +11,8 @@ interface Pull {
 export interface PullsAggregation {
   [key: string]: Pull;
 }
-const PRChart = () => {
-  const { pulls } = useGithubContext();
+
+export const pullsDistributions = (pulls: listPullsReposResponse["data"]) => {
   const pullsAggregation = pulls.reduce((acc: PullsAggregation, item) => {
     let { merged_at, closed_at, created_at } = item;
     merged_at
@@ -110,27 +104,9 @@ const PRChart = () => {
       };
     }),
   };
-  const pullsDistributions = [
+  return [
     pullsDistributionMerged,
     pullsDistributionCreated,
     pullsDistributionClosed,
   ];
-  // interface PullsDistributions {
-  //   name: string;
-  //   values: {
-  //     date: Date;
-  //     value: number;
-  //   }[];
-  // }
-  // [];
-
-  return (
-    <>
-      {pulls.length ? (
-        <Line title="Pull Requests" data={pullsDistributions} />
-      ) : null}
-    </>
-  );
 };
-
-export default PRChart;

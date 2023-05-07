@@ -6,6 +6,7 @@ interface Props {
   tickSize: number;
   tickTextOffset: number;
   colorScale: ScaleOrdinal<string, string>;
+  title: string;
 }
 
 const ColorLegend: React.FC<Props> = ({
@@ -13,8 +14,12 @@ const ColorLegend: React.FC<Props> = ({
   tickSpacing,
   tickSize,
   tickTextOffset,
+  title,
 }) => {
-  const labels = colorScale.domain();
+  const labels =
+    title === "Pull Requests"
+      ? colorScale.domain()
+      : colorScale.domain().filter((el) => el !== "Merged");
   return (
     <>
       {labels.map((label, i) => {

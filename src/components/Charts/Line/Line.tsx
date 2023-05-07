@@ -172,6 +172,7 @@ const Line: React.FC<Props> = ({ data, title }) => {
               tickSpacing={70}
               tickTextOffset={10}
               tickSize={4}
+              title={title}
             />
           </g>
 
