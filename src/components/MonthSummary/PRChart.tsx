@@ -1,10 +1,11 @@
-import { useGithubContext } from "../../context/context";
-import { timeParse, timeFormat } from "d3";
+import { useGithubContext } from "../../context/hookContext";
+// import { timeParse, timeFormat } from "d3";
 import { Line } from "../Charts/Line";
+import { format, parseISO, parse } from "date-fns";
 
-const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
-const formatTime = timeFormat("%B %d, %Y");
-const parseDate2 = timeParse("%B %d, %Y");
+// const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
+// const formatTime = timeFormat("%B %d, %Y");
+// const parseDate2 = timeParse("%B %d, %Y");
 
 interface Pull {
   date: Date;
@@ -20,13 +21,19 @@ const PRChart = () => {
   const { pulls } = useGithubContext();
   const pullsAggregation = pulls.reduce((acc: PullsAggregation, item) => {
     let { merged_at, closed_at, created_at } = item;
-    merged_at ? (merged_at = formatTime(parseDate(merged_at)!)) : null;
-    closed_at ? (closed_at = formatTime(parseDate(closed_at)!)) : null;
-    created_at ? (created_at = formatTime(parseDate(created_at)!)) : null;
+    merged_at
+      ? (merged_at = format(parseISO(merged_at), "MMM dd, yyyy"))
+      : null;
+    closed_at
+      ? (closed_at = format(parseISO(closed_at), "MMM dd, yyyy"))
+      : null;
+    created_at
+      ? (created_at = format(parseISO(created_at), "MMM dd, yyyy"))
+      : null;
     if (merged_at) {
       if (!acc[merged_at]) {
         acc[merged_at] = {
-          date: parseDate2(merged_at)!,
+          date: parse(merged_at, "MMM dd, yyyy", new Date()),
           merged_at: 1,
           closed_at: 0,
           created_at: 0,
@@ -41,7 +48,7 @@ const PRChart = () => {
     if (closed_at) {
       if (!acc[closed_at]) {
         acc[closed_at] = {
-          date: parseDate2(closed_at)!,
+          date: parse(closed_at, "MMM dd, yyyy", new Date()),
           merged_at: 0,
           closed_at: 1,
           created_at: 0,
@@ -56,7 +63,7 @@ const PRChart = () => {
     if (created_at) {
       if (!acc[created_at]) {
         acc[created_at] = {
-          date: parseDate2(created_at)!,
+          date: parse(created_at, "MMM dd, yyyy", new Date()),
           merged_at: 0,
           closed_at: 0,
           created_at: 1,

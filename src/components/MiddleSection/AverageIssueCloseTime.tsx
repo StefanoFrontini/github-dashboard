@@ -1,9 +1,10 @@
-import { useGithubContext } from "../../context/context";
-import { timeParse } from "d3";
-import { dateDiffInHours } from "../../utils/dateDiffInHours";
+import { useGithubContext } from "../../context/hookContext";
+// import { timeParse } from "d3";
+// import { dateDiffInHours } from "../../utils/dateDiffInHours";
 import { hoursToDhms } from "../../utils/secondsToDhms";
+import { eachHourOfInterval, parseISO } from "date-fns";
 
-const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
+// const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
 
 interface FormattedIssues {
   created_at: Date | null;
@@ -14,12 +15,14 @@ interface FormattedIssues {
 const AverageIssueCloseTime = () => {
   const { issues } = useGithubContext();
   const formattedIssues: FormattedIssues[] = issues.map((el) => {
-    const created_at = parseDate(el.created_at);
-    const closed_at = el.closed_at ? parseDate(el.closed_at) : null;
+    const created_at = parseISO(el.created_at);
+    const closed_at = el.closed_at ? parseISO(el.closed_at) : null;
     return {
       created_at,
       closed_at,
-      closed_time: el.closed_at ? dateDiffInHours(created_at, closed_at) : null,
+      closed_time: closed_at
+        ? eachHourOfInterval({ start: created_at, end: closed_at }).length
+        : null,
     };
   });
   interface ClosedTime {
@@ -34,8 +37,9 @@ const AverageIssueCloseTime = () => {
       acc["closed_time" as keyof ClosedTime] = item.closed_time;
       acc["number"] = 1;
     } else {
-      acc["closed_time"] = acc["closed_time"]! + item.closed_time!;
-      acc["number"] = acc["number"]! + 1;
+      acc["closed_time"] =
+        (acc["closed_time"] ?? 0) + (item.closed_time ? item.closed_time : 0);
+      acc["number"] = (acc["number"] ?? 0) + 1;
     }
     return acc;
   }, {});

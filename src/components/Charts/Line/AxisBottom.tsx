@@ -1,6 +1,7 @@
-import { timeFormat } from "d3";
+// import { timeFormat } from "d3";
 import type { ScaleTime } from "d3";
-const formatTime = timeFormat("%d %b");
+import { format } from "date-fns";
+// const formatTime = timeFormat("%d %b");
 
 interface Props {
   xScale: ScaleTime<number, number>;
@@ -32,7 +33,7 @@ const AxisBottom: React.FC<Props> = ({ xScale, innerHeight }) => {
               fontSize="0.6rem"
               fill="#6B6C7D"
             >
-              {formatTime(tickValue)}
+              {format(tickValue, "dd MMM")}
             </text>
           </g>
         );

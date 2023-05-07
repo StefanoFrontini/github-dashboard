@@ -61,7 +61,7 @@ const Tooltip: React.FC<Props> = ({
           textAnchor="end"
           fill="black"
           className="font-light text-[10px]"
-        >{`${d.value.toFixed(0)}h`}</text>
+        >{`${d.value}h`}</text>
         <text
           fontSize={10}
           x={(xScale(xValue(d)) ?? 0) + 15}

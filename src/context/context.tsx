@@ -12,10 +12,12 @@ import mockFiles26285 from "./mockData/mockFiles26285";
 import mockFiles26288 from "./mockData/mockFiles26288";
 import React, { useEffect, useState, ReactNode } from "react";
 import type { Endpoints } from "@octokit/types";
-import { timeParse } from "d3";
+// import { timeParse } from "d3";
 import { axiosInstance } from "../utils/axiosInstance";
+import { getContext } from "./hookContext";
+import { parseISO } from "date-fns";
 
-const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
+// const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
 
 const rootUrl = "https://api.github.com";
 
@@ -44,7 +46,7 @@ interface ErrorType {
   msg?: string;
 }
 
-interface GithubContextType {
+export interface GithubContextType {
   issues: listIssuesReposResponse["data"];
   pulls: listPullsReposResponse["data"];
   pullsDetail: pullsDetailReposResponse["data"][];
@@ -120,14 +122,14 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
 
       let parsedData = parseDataIssues(response.data);
       const checkDate = parsedData.some(
-        (el) => (parseDate(el.created_at) ?? new Date()) < monthBefore
+        (el) => (parseISO(el.created_at) ?? new Date()) < monthBefore
       );
       // discard the results older than a month
       if (checkDate) {
         // const _parsedData = Array<typeof parsedData> = parsedData
         parsedData = parsedData.reduce(
           (acc: listIssuesReposResponse["data"], item) => {
-            if ((parseDate(item.created_at) ?? new Date()) < monthBefore) {
+            if ((parseISO(item.created_at) ?? new Date()) < monthBefore) {
               return acc;
             } else {
               return [...acc, item];
@@ -164,14 +166,14 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
 
       let parsedData = parseDataPulls(response.data);
       const checkDate = parsedData.some(
-        (el) => (parseDate(el.created_at) ?? new Date()) < monthBefore
+        (el) => (parseISO(el.created_at) ?? new Date()) < monthBefore
       );
       // discard the results older than a month
       if (checkDate) {
         // const _parsedData = Array<typeof parsedData> = parsedData
         parsedData = parsedData.reduce(
           (acc: listPullsReposResponse["data"], item) => {
-            if ((parseDate(item.created_at) ?? new Date()) < monthBefore) {
+            if ((parseISO(item.created_at) ?? new Date()) < monthBefore) {
               return acc;
             } else {
               return [...acc, item];
@@ -278,6 +280,7 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     checkRequests();
   }, []);
+
   return (
     <GithubContext.Provider
       value={{
@@ -298,13 +301,6 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
   );
 };
 
-const useGithubContext = () => {
-  const githubContext = React.useContext(GithubContext);
-  if (!githubContext)
-    throw new Error(
-      "No DataContext.Provider found when calling useGithubContext."
-    );
-  return githubContext;
-};
+getContext(GithubContext);
 
-export { useGithubContext, GithubProvider };
+export { GithubProvider };

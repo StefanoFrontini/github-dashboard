@@ -6,7 +6,7 @@ import {
   interpolatePurples,
   quantize,
 } from "d3";
-import { useGithubContext } from "../../../context/context";
+import { useGithubContext } from "../../../context/hookContext";
 
 interface Pull {
   id: number;

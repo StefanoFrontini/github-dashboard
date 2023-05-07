@@ -10,8 +10,9 @@ import {
   extent,
   scaleTime,
   map,
-  timeFormat,
+  // timeFormat,
 } from "d3";
+import { format } from "date-fns";
 import locale from "../../../utils/locale";
 import { AxisLeft, AxisBottom, LinePath, ColorLegend, Tooltip } from "./index";
 
@@ -26,7 +27,7 @@ interface Distribution {
 
 timeFormatDefaultLocale(locale);
 
-const formatTime = timeFormat("%B %d, %Y");
+// const formatTime = timeFormat("%B %d, %Y");
 
 const xValue = (d: Values) => d.date;
 const yValue = (d: Values) => d.value;
@@ -95,7 +96,9 @@ const Line: React.FC<Props> = ({ data, title }) => {
     const Yvalue = yScale.invert(im[1]);
     const i = bisectCenter(X, date);
     const findYValue = (arr: Values[], date: Date) =>
-      arr.find((el) => formatTime(el.date) === formatTime(date));
+      arr.find(
+        (el) => format(el.date, "MMM d, y") === format(date, "MMM d, y")
+      );
     const tooltipValues = data.map((el) => [
       el.name,
       findYValue(el.values, X[i]),

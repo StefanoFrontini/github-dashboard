@@ -11,7 +11,7 @@ describe("d3-rollups", () => {
     ];
     const result = rollups(
       data,
-      (v) => +mean(v, (d) => d.merged_time)!.toFixed(2),
+      (v) => mean(v, (d) => d.merged_time),
       (d) => d.size
     );
     expect(result).toEqual([

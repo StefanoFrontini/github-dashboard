@@ -1,9 +1,9 @@
-import { useGithubContext } from "../../context/context";
-import { timeParse } from "d3";
-import { dateDiffInHours } from "../../utils/dateDiffInHours";
+import { useGithubContext } from "../../context/hookContext";
+// import { dateDiffInHours } from "../../utils/dateDiffInHours";
 import { hoursToDhms } from "../../utils/secondsToDhms";
+import { eachHourOfInterval, parseISO } from "date-fns";
 
-const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
+// const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
 
 interface FormattedPulls {
   created_at: Date | null;
@@ -15,14 +15,16 @@ interface FormattedPulls {
 const AveragePRMergeTime = () => {
   const { pulls } = useGithubContext();
   const formattedPulls: FormattedPulls[] = pulls.map((el) => {
-    const created_at = parseDate(el.created_at);
-    const closed_at = el.closed_at ? parseDate(el.closed_at) : null;
-    const merged_at = el.merged_at ? parseDate(el.merged_at) : null;
+    const created_at = parseISO(el.created_at);
+    const closed_at = el.closed_at ? parseISO(el.closed_at) : null;
+    const merged_at = el.merged_at ? parseISO(el.merged_at) : null;
     return {
       created_at,
       closed_at,
       merged_at,
-      merged_time: el.merged_at ? dateDiffInHours(created_at, merged_at) : null,
+      merged_time: merged_at
+        ? eachHourOfInterval({ start: created_at, end: merged_at }).length
+        : null,
     };
   });
   interface MergeTime {
@@ -36,8 +38,9 @@ const AveragePRMergeTime = () => {
       acc["merged_time" as keyof MergeTime] = item.merged_time;
       acc["number" as keyof MergeTime] = 1;
     } else {
-      acc["merged_time"] = acc["merged_time"]! + item.merged_time!;
-      acc["number"] = acc["number"]! + 1;
+      acc["merged_time"] =
+        (acc["merged_time"] ?? 0) + (item.merged_time ? item.merged_time : 0);
+      acc["number"] = (acc["number"] ?? 0) + 1;
     }
     return acc;
   }, {});

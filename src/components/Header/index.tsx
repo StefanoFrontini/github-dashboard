@@ -1,4 +1,4 @@
-import { useGithubContext } from "../../context/context";
+import { useGithubContext } from "../../context/hookContext";
 
 const Header = () => {
   const { repo, owner, changeRepo, changeOwner, checkRequests } =

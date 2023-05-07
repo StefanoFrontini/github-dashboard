@@ -1,11 +1,11 @@
+import { max, scaleBand, scaleLinear, timeFormatDefaultLocale } from "d3";
 import { useState } from "react";
-import { scaleBand, scaleLinear, max, timeFormatDefaultLocale } from "d3";
+import locale from "../../../utils/locale";
 import type {
   AveragePullBySizeObj,
   TotalPullsBySize,
 } from "../../AverageMergeTimePRSize";
-import locale from "../../../utils/locale";
-import { AxisLeft, AxisBottom, Tooltip } from "./index";
+import { AxisBottom, AxisLeft, Tooltip } from "./index";
 
 timeFormatDefaultLocale(locale);
 

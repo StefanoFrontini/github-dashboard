@@ -1,4 +1,4 @@
-import { useGithubContext } from "../../context/context";
+import { useGithubContext } from "../../context/hookContext";
 
 const classNames = (...classes: string[]) => {
   return classes.filter(Boolean).join(" ");

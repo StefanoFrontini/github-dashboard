@@ -1,10 +1,11 @@
-import { useGithubContext } from "../../context/context";
-import { timeParse, timeFormat } from "d3";
+import { useGithubContext } from "../../context/hookContext";
+// import { timeParse } from "d3";
+import { parseISO, parse, format } from "date-fns";
 import { Line } from "../Charts/Line";
 
-const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
-const formatTime = timeFormat("%B %d, %Y");
-const parseDate2 = timeParse("%B %d, %Y");
+// const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
+// const formatTime = timeFormat("%B %d, %Y");
+// const parseDate2 = timeParse("%B %d, %Y");
 interface Issue {
   date: Date;
   closed_at: number;
@@ -18,12 +19,16 @@ const IssuesChart = () => {
   const { issues } = useGithubContext();
   const issuesAggregation = issues.reduce((acc: IssuesAggregation, item) => {
     let { closed_at, created_at } = item;
-    closed_at ? (closed_at = formatTime(parseDate(closed_at)!)) : null;
-    created_at ? (created_at = formatTime(parseDate(created_at)!)) : null;
+    closed_at
+      ? (closed_at = format(parseISO(closed_at), "MMM dd, yyyy"))
+      : null;
+    created_at
+      ? (created_at = format(parseISO(created_at), "MMM dd, yyyy"))
+      : null;
     if (closed_at) {
       if (!acc[closed_at]) {
         acc[closed_at] = {
-          date: parseDate2(closed_at)!,
+          date: parse(closed_at, "MMM dd, yyyy", new Date()),
           closed_at: 1,
           created_at: 0,
         };
@@ -37,7 +42,7 @@ const IssuesChart = () => {
     if (created_at) {
       if (!acc[created_at]) {
         acc[created_at] = {
-          date: parseDate2(created_at)!,
+          date: parse(created_at, "MMM dd, yyyy", new Date()),
           closed_at: 0,
           created_at: 1,
         };
