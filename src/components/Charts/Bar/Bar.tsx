@@ -1,5 +1,6 @@
 import { max, scaleBand, scaleLinear, timeFormatDefaultLocale } from "d3";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import locale from "../../../utils/locale";
 import type {
   AveragePullBySizeObj,
@@ -60,11 +61,24 @@ const Bar: React.FC<Props> = ({ data, totalPullsBySize }) => {
         {data.map((d) => {
           return (
             <g key={xValue(d)}>
-              <rect
+              <motion.rect
+                initial={{ y: innerHeight, height: 0 }}
+                animate={{
+                  y: yScale(yValue(d)),
+                  height: innerHeight - yScale(yValue(d)),
+                }}
+                transition={{
+                  // duration: 4,
+                  // delay: 0.5,
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 30,
+                  mass: 1,
+                }}
                 x={xScale(xValue(d))}
-                y={yScale(yValue(d))}
+                // y={yScale(yValue(d))}
                 width={width}
-                height={innerHeight - yScale(yValue(d))}
+                // height={innerHeight - yScale(yValue(d))}
                 className="fill-sky-600"
                 onMouseOver={() => showTooltip(d)}
                 onMouseLeave={() => showTooltip({ size: "", value: 0 })}
