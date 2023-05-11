@@ -42,6 +42,7 @@ const innerHeight = svgHeight - margin.top - margin.bottom;
 interface Props {
   title: string;
   data: Distribution[];
+  isInView: boolean;
 }
 export interface HoveredPoint {
   date?: Date;
@@ -51,7 +52,7 @@ export interface HoveredPoint {
   i?: number;
 }
 
-const Line: React.FC<Props> = ({ data, title }) => {
+const Line: React.FC<Props> = ({ data, title, isInView }) => {
   const [hoveredPoint, setHoveredPoint] = useState<HoveredPoint>({});
   const yMax = Math.max(
     max(data[0].values, yValue) ?? 0,
@@ -150,6 +151,7 @@ const Line: React.FC<Props> = ({ data, title }) => {
             {data.map((group) => {
               return (
                 <LinePath
+                  isInView={isInView}
                   key={group.name}
                   color={group.name}
                   lineGenerator={lineGenerator}

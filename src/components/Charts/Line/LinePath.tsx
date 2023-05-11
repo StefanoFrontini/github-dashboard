@@ -12,6 +12,7 @@ interface Props {
   yScale: ScaleLinear<number, number>;
   xValue(d: Values): Date;
   yValue(d: Values): number;
+  isInView: boolean;
 }
 
 const LinePath: React.FC<Props> = ({
@@ -23,12 +24,13 @@ const LinePath: React.FC<Props> = ({
   yScale,
   xValue,
   yValue,
+  isInView,
 }) => {
   return (
     <>
       <motion.path
         initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
+        animate={{ pathLength: isInView ? 1 : 0 }}
         transition={{
           delay: 0.5,
           type: "spring",
