@@ -54,6 +54,7 @@ const LinePath: React.FC<Props> = ({
             colorScale={colorScale}
             xValue={xValue}
             yValue={yValue}
+            isInView={isInView}
           />
         );
       })}

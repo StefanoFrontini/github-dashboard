@@ -10,6 +10,7 @@ interface Props {
   yScale: ScaleLinear<number, number>;
   xValue(d: Values): Date;
   yValue(d: Values): number;
+  isInView: boolean;
 }
 
 const Mark: React.FC<Props> = ({
@@ -20,12 +21,13 @@ const Mark: React.FC<Props> = ({
   color,
   xValue,
   yValue,
+  isInView,
 }) => {
   return (
     <>
       <motion.circle
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={{ opacity: isInView ? 1 : 0 }}
         transition={{ duration: 1 }}
         cx={xScale(xValue(d))}
         cy={yScale(yValue(d))}

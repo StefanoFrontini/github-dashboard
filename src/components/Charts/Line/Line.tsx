@@ -10,7 +10,6 @@ import {
   extent,
   scaleTime,
   map,
-  // timeFormat,
 } from "d3";
 import { format } from "date-fns";
 import locale from "../../../utils/locale";
@@ -26,8 +25,6 @@ interface Distribution {
 }
 
 timeFormatDefaultLocale(locale);
-
-// const formatTime = timeFormat("%B %d, %Y");
 
 const xValue = (d: Values) => d.date;
 const yValue = (d: Values) => d.value;
