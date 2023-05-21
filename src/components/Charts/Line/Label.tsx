@@ -15,7 +15,12 @@ const Label: React.FC<Props> = ({
   return (
     <>
       <circle fill={colorScale(label)} r={tickSize} />
-      <text x={tickTextOffset} dy=".32em" fontSize={10} fill="#6B6C7D">
+      <text
+        className="text-xl sm:text-sm"
+        x={tickTextOffset}
+        dy=".32em"
+        fill="#6B6C7D"
+      >
         {label}
       </text>
     </>

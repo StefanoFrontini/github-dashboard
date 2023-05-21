@@ -25,16 +25,25 @@ const Mark: React.FC<Props> = ({
 }) => {
   return (
     <>
-      <motion.circle
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isInView ? 1 : 0 }}
-        transition={{ duration: 1 }}
-        cx={xScale(xValue(d))}
-        cy={yScale(yValue(d))}
-        r={3}
-        fill={colorScale(color)}
-        strokeWidth={1}
-      ></motion.circle>
+      <path
+        d={`M ${xScale(xValue(d))} ${yScale(yValue(d))} l 0.0001 0`}
+        vectorEffect="non-scaling-stroke"
+        strokeWidth="8"
+        strokeLinecap="round"
+        fill="none"
+        stroke={colorScale(color)}
+      />
+      {/* <motion.circle */}
+      {/*   initial={{ opacity: 0 }} */}
+      {/*   animate={{ opacity: isInView ? 1 : 0 }} */}
+      {/*   transition={{ duration: 1 }} */}
+      {/*   cx={xScale(xValue(d))} */}
+      {/*   cy={yScale(yValue(d))} */}
+      {/*   r={4} */}
+      {/*   fill={colorScale(color)} */}
+      {/*   strokeWidth={1} */}
+      {/*   vectorEffect="non-scaling-stroke" */}
+      {/* ></motion.circle> */}
     </>
   );
 };

@@ -29,9 +29,9 @@ timeFormatDefaultLocale(locale);
 const xValue = (d: Values) => d.date;
 const yValue = (d: Values) => d.value;
 
-const margin = { top: 10, right: 20, bottom: 80, left: 45 };
-const svgWidth = 870;
-const svgHeight = 320;
+const margin = { top: 10, right: 30, bottom: 80, left: 45 };
+const svgWidth = 1280;
+const svgHeight = 470;
 
 const innerWidth = svgWidth - margin.left - margin.right;
 const innerHeight = svgHeight - margin.top - margin.bottom;
@@ -57,7 +57,7 @@ const Line: React.FC<Props> = ({ data, title, isInView }) => {
     data[2] ? max(data[2].values, yValue) ?? 0 : 0
   );
   // const ticks = data[0].values.length;
-  const ticksHeight = innerHeight / 50;
+  const ticksHeight = innerHeight / 100;
   // const ticksWidth = innerWidth / 50;
 
   const xScale = scaleTime()
@@ -112,12 +112,16 @@ const Line: React.FC<Props> = ({ data, title, isInView }) => {
 
   return (
     <svg
+      className="w-full h-full"
       viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+      preserveAspectRatio="none"
       onMouseMove={(e) => {
         handleOnMouseMove(e);
       }}
     >
       <g transform={`translate(${margin.left},${margin.top})`}>
+        <AxisLeft yScale={yScale} innerWidth={innerWidth} ticks={ticksHeight} />
+        <AxisBottom xScale={xScale} innerHeight={innerHeight} />
         <line
           style={{
             stroke: "#999",
@@ -129,64 +133,52 @@ const Line: React.FC<Props> = ({ data, title, isInView }) => {
           x1={xScale(hoveredPoint.date ?? 0)}
           x2={xScale(hoveredPoint.date ?? 0)}
         ></line>
-        <g>
-          <AxisLeft
-            yScale={yScale}
-            innerWidth={innerWidth}
-            ticks={ticksHeight}
+        <line y1={0} y2={innerHeight} stroke="#ededed"></line>
+        <line
+          x1={innerWidth}
+          x2={innerWidth}
+          y1={0}
+          y2={innerHeight}
+          stroke="#ededed"
+        ></line>
+        {data.map((group) => {
+          return (
+            <LinePath
+              isInView={isInView}
+              key={group.name}
+              color={group.name}
+              lineGenerator={lineGenerator}
+              lineData={group.values}
+              colorScale={colorScale}
+              xScale={xScale}
+              yScale={yScale}
+              xValue={xValue}
+              yValue={yValue}
+            />
+          );
+        })}
+
+        <g transform={`translate(${innerWidth / 2 - 80}, ${innerHeight + 50})`}>
+          <ColorLegend
+            colorScale={colorScale}
+            tickSpacing={90}
+            tickTextOffset={10}
+            tickSize={4}
+            title={title}
           />
-          <AxisBottom xScale={xScale} innerHeight={innerHeight} />
-          <line y1={0} y2={innerHeight} stroke="#ededed"></line>
-          <line
-            x1={innerWidth}
-            x2={innerWidth}
-            y1={0}
-            y2={innerHeight}
-            stroke="#ededed"
-          ></line>
-          <g>
-            {data.map((group) => {
-              return (
-                <LinePath
-                  isInView={isInView}
-                  key={group.name}
-                  color={group.name}
-                  lineGenerator={lineGenerator}
-                  lineData={group.values}
-                  colorScale={colorScale}
-                  xScale={xScale}
-                  yScale={yScale}
-                  xValue={xValue}
-                  yValue={yValue}
-                />
-              );
-            })}
-          </g>
+        </g>
 
-          <g
-            transform={`translate(${innerWidth / 2 - 80}, ${innerHeight + 40})`}
-          >
-            <ColorLegend
-              colorScale={colorScale}
-              tickSpacing={70}
-              tickTextOffset={10}
-              tickSize={4}
-              title={title}
-            />
-          </g>
-
-          <g
-            transform={`translate(${xScale(hoveredPoint.date ?? 0)}, ${yScale(
-              hoveredPoint.Yvalue ?? 0
-            )})`}
-          >
-            <Tooltip
-              hoveredPoint={hoveredPoint}
-              colorScale={colorScale}
-              midPointX={midPointX}
-              title={title}
-            />
-          </g>
+        <g
+          transform={`translate(${xScale(hoveredPoint.date ?? 0)}, ${yScale(
+            hoveredPoint.Yvalue ?? 0
+          )})`}
+        >
+          <Tooltip
+            hoveredPoint={hoveredPoint}
+            colorScale={colorScale}
+            midPointX={midPointX}
+            title={title}
+          />
         </g>
       </g>
     </svg>

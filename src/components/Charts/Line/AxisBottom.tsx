@@ -28,9 +28,10 @@ const AxisBottom: React.FC<Props> = ({ xScale, innerHeight }) => {
               strokeDasharray="4 1"
             ></line>
             <text
+              className="text-xl sm:text-sm"
               alignmentBaseline="hanging"
               textAnchor="middle"
-              fontSize="0.6rem"
+              // fontSize="0.6rem"
               fill="#6B6C7D"
             >
               {format(tickValue, "dd MMM")}

@@ -126,7 +126,6 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
       );
       // discard the results older than a month
       if (checkDate) {
-        // const _parsedData = Array<typeof parsedData> = parsedData
         parsedData = parsedData.reduce(
           (acc: listIssuesReposResponse["data"], item) => {
             if ((parseISO(item.created_at) ?? new Date()) < monthBefore) {
@@ -170,7 +169,6 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
       );
       // discard the results older than a month
       if (checkDate) {
-        // const _parsedData = Array<typeof parsedData> = parsedData
         parsedData = parsedData.reduce(
           (acc: listPullsReposResponse["data"], item) => {
             if ((parseISO(item.created_at) ?? new Date()) < monthBefore) {

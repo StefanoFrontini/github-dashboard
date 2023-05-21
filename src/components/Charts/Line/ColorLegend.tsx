@@ -24,7 +24,11 @@ const ColorLegend: React.FC<Props> = ({
     <>
       {labels.map((label, i) => {
         return (
-          <g key={i} transform={`translate(${i * tickSpacing}, 0)`}>
+          <g
+            key={i}
+            className="mt-4"
+            transform={`translate(${i * tickSpacing}, 0)`}
+          >
             <Label
               label={label}
               colorScale={colorScale}

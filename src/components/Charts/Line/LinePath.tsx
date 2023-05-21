@@ -39,6 +39,7 @@ const LinePath: React.FC<Props> = ({
           mass: 1,
         }}
         fill="none"
+        vectorEffect="non-scaling-stroke"
         stroke={colorScale(color)}
         strokeWidth={1.5}
         d={lineGenerator(lineData) ?? undefined}

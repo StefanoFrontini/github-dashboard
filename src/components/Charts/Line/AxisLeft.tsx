@@ -14,7 +14,7 @@ const AxisLeft: React.FC<Props> = ({ yScale, innerWidth, ticks }) => {
 
   const borders = (ind: number) => {
     if (ind === 0 || ind === ticksLeft.length - 1) return "0";
-    else return "1";
+    return "1";
   };
 
   return (
@@ -30,7 +30,8 @@ const AxisLeft: React.FC<Props> = ({ yScale, innerWidth, ticks }) => {
             ></line>
             <text
               // style={{ fontSize: 0.67 + "rem" }}
-              fontSize="0.6rem"
+              className="text-xl sm:text-sm"
+              // fontSize="0.6rem"
               textAnchor="end"
               alignmentBaseline="middle"
               dx="-0.5em"
