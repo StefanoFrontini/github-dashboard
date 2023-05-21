@@ -1,6 +1,5 @@
 import type { ScaleOrdinal, ScaleTime, ScaleLinear } from "d3";
 import type { Values } from "./Line";
-import { motion } from "framer-motion";
 
 interface Props {
   d: Values;
@@ -21,7 +20,6 @@ const Mark: React.FC<Props> = ({
   color,
   xValue,
   yValue,
-  isInView,
 }) => {
   return (
     <>
