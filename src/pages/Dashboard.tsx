@@ -11,9 +11,15 @@ const Dashboard = () => {
   const { isLoading, error } = useGithubContext();
   if (isLoading)
     return (
-      <main>
-        <Loading />
-      </main>
+      <>
+        {error.show && <Error />}
+        <header className="max-w-[1300px] mx-auto">
+          <Header />
+        </header>
+        <main>
+          <Loading />
+        </main>
+      </>
     );
 
   return (
