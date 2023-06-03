@@ -1,8 +1,17 @@
+import { useState } from "react";
 import { useGithubContext } from "../../context/hookContext";
 
 const Header = () => {
-  const { repo, owner, changeRepo, changeOwner, checkRequests } =
-    useGithubContext();
+  const { checkRequests } = useGithubContext();
+  const [repo, setRepo] = useState("react");
+  const [owner, setOwner] = useState("facebook");
+
+  const changeRepo = (repo: string) => {
+    setRepo(repo);
+  };
+  const changeOwner = (owner: string) => {
+    setOwner(owner);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -15,7 +24,7 @@ const Header = () => {
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    checkRequests();
+    checkRequests(repo, owner);
   };
   return (
     <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
@@ -26,7 +35,7 @@ const Header = () => {
           onChange={(e) => handleChange(e)}
           name="owner"
           id="owner"
-          className="text-2xl font-normal p-0 leading-6 block w-full rounded-md border-transparent focus:border-transparent focus:ring-0"
+          className="text-2xl font-normal p-0 mb-1 leading-6 block w-full rounded-md border-transparent focus:border-transparent  focus:ring-0"
         />
         <input
           type="text"

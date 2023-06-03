@@ -52,11 +52,11 @@ export interface GithubContextType {
   pullsDetail: pullsDetailReposResponse["data"][];
   isLoading: boolean;
   error: ErrorType;
-  repo: string;
-  owner: string;
-  changeRepo: (repo: string) => void;
-  changeOwner: (owner: string) => void;
-  checkRequests: () => void;
+  // repo: string;
+  // owner: string;
+  // changeRepo: (repo: string) => void;
+  // changeOwner: (owner: string) => void;
+  checkRequests: (repo: string, owner: string) => void;
 }
 interface Props {
   children?: ReactNode;
@@ -71,23 +71,15 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
   const [pullsDetail, setPullsDetail] = useState(mockPullsDetail);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({ show: false, msg: "" });
-  const [repo, setRepo] = useState("react");
-  const [owner, setOwner] = useState("facebook");
   const toggleError = (show = false, msg = "") => {
     setError({ show, msg });
-  };
-  const changeRepo = (repo: string) => {
-    setRepo(repo);
-  };
-  const changeOwner = (owner: string) => {
-    setOwner(owner);
   };
   const subtractMonth = (date: Date) => {
     const newDate = date.setMonth(date.getMonth() - 1);
 
     return new Date(newDate);
   };
-  const checkRequests = async () => {
+  const checkRequests = async (repo = "react", owner = "facebook") => {
     try {
       const {
         data: { rate },
@@ -103,7 +95,7 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
         return;
       }
       // console.log(rate);
-      getPullsData();
+      getPullsData(repo, owner);
     } catch (error) {
       console.log(error);
     }
@@ -224,7 +216,7 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
 
     return data;
   };
-  const getPullDetail = async (number: number) => {
+  const getPullDetail = async (number: number, repo: string, owner: string) => {
     const pullsDetailUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/pulls/${number}/files`;
     try {
       const { data } = await axiosInstance.get(pullsDetailUrl);
@@ -234,7 +226,7 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
       throw new Error(error);
     }
   };
-  const getIssues = async () => {
+  const getIssues = async (repo: string, owner: string) => {
     const issuesUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/issues?per_page=100&state=closed`;
 
     try {
@@ -245,16 +237,20 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
       throw new Error(error);
     }
   };
-  const getPullsData = async () => {
+  const getPullsData = async (repo: string, owner: string) => {
     const pullsUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/pulls?per_page=100&state=closed`;
     toggleError();
     setIsLoading(true);
     try {
       const data = await getPaginatedDataPulls(pullsUrl);
       if (data) {
-        const pullsDetail = () => data.map((el) => getPullDetail(el.number));
+        const pullsDetail = () =>
+          data.map((el) => getPullDetail(el.number, repo, owner));
         try {
-          const result = await Promise.all([getIssues(), ...pullsDetail()]);
+          const result = await Promise.all([
+            getIssues(repo, owner),
+            ...pullsDetail(),
+          ]);
           setPulls(data);
           setIssues(result[0]);
           setPullsDetail(result.slice(1));
@@ -287,10 +283,10 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
         pullsDetail,
         error,
         isLoading,
-        repo,
-        owner,
-        changeRepo,
-        changeOwner,
+        // repo,
+        // owner,
+        // changeRepo,
+        // changeOwner,
         checkRequests,
       }}
     >

@@ -34,6 +34,7 @@ const Slice: React.FC<Props> = ({
   width,
   height,
 }) => {
+  console.log("Slice component");
   const [pathIndex, setPathIndex] = useState(0);
   const progress = useMotionValue(pathIndex);
   const radius = Math.min(width - 2 * MARGIN_X, height - 2 * MARGIN_Y) / 2;
