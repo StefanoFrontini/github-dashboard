@@ -27,7 +27,6 @@ const Slice: React.FC<Props> = ({
   el,
   colorScale,
   index,
-  animate,
   isInView,
   width,
   height,

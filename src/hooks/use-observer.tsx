@@ -5,7 +5,7 @@ const options = {
   threshold: 0,
 };
 
-const useObserver = (elementRef) => {
+const useObserver = (elementRef: React.MutableRefObject<Element>) => {
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
     if (!elementRef.current) return;
