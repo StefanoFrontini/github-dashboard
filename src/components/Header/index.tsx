@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useGithubContext } from "../../context/hookContext";
 
 const Header = () => {
-  const { checkRequests } = useGithubContext();
+  const { handleChangeRepoOwner } = useGithubContext();
   const [repo, setRepo] = useState("react");
   const [owner, setOwner] = useState("facebook");
 
@@ -24,7 +24,7 @@ const Header = () => {
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    checkRequests(repo, owner);
+    handleChangeRepoOwner(repo, owner);
   };
   return (
     <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">

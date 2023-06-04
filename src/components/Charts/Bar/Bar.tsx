@@ -27,7 +27,6 @@ interface Props {
 }
 
 const Bar: React.FC<Props> = ({ data, totalPullsBySize }) => {
-  console.log("BarChart");
   const [hoveredPoint, setHoveredPoint] = useState("");
 
   const xScale = scaleBand()

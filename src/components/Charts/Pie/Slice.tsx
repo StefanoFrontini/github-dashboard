@@ -31,7 +31,6 @@ const Slice: React.FC<Props> = ({
   width,
   height,
 }) => {
-  console.log("Slice component");
   const radius = Math.min(width - 2 * MARGIN_X, height - 2 * MARGIN_Y) / 2;
 
   const arcGenerator = arc();
