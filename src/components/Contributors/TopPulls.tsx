@@ -1,4 +1,6 @@
-import PieChart from "../Charts/Pie/Pie";
+// import useObserver from "../../hooks/use-observer";
+
+import Pie from "../Charts/Pie/Pie";
 import { useAnimate, useInView } from "framer-motion";
 
 const TopPulls = () => {
@@ -12,7 +14,7 @@ const TopPulls = () => {
           Top 5 constributors - pull requests
         </div>
         <div ref={scope}>
-          <PieChart animate={animate} isInView={isInView} />
+          <Pie animate={animate} isInView={isInView} />
         </div>
       </div>
     </section>

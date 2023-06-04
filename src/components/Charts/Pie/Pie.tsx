@@ -1,10 +1,4 @@
-import {
-  pie,
-  // scaleSequential,
-  scaleOrdinal,
-  interpolatePurples,
-  quantize,
-} from "d3";
+import { pie, scaleOrdinal, interpolatePurples, quantize } from "d3";
 import { useGithubContext } from "../../../context/hookContext";
 import Slice from "./Slice";
 
@@ -20,14 +14,12 @@ interface PullsAggregation {
   [key: string]: Pull;
 }
 
-interface PropsPie {
+interface Props {
   isInView: boolean;
   animate: any;
 }
 
-const Pie: React.FC<PropsPie> = ({ animate, isInView }) => {
-  // const [pathIndex, setPathIndex] = useState(0);
-  // const progress = useMotionValue(pathIndex);
+const Pie: React.FC<Props> = ({ animate, isInView }) => {
   const { pulls } = useGithubContext();
   const aggregateContributors = pulls.reduce((acc: PullsAggregation, item) => {
     const { user } = item;
@@ -54,11 +46,6 @@ const Pie: React.FC<PropsPie> = ({ animate, isInView }) => {
   const names = contributors.map((el) => el.id);
   const colors = quantize(interpolatePurples, names.length);
   const colorScale = scaleOrdinal(names, colors);
-  // const colorScale = scaleSequential(interpolateYlOrRd).domain([
-  //   0,
-  //   max(contributors, (d) => d.value),
-  // ] as [number, number]);
-  // console.log("arcs: ", arcs);
   const width = 400,
     height = 200;
 
@@ -76,8 +63,6 @@ const Pie: React.FC<PropsPie> = ({ animate, isInView }) => {
               isInView={isInView}
               width={width}
               height={height}
-              // progress={progress}
-              // pathIndex={pathIndex}
             />
           );
         })}

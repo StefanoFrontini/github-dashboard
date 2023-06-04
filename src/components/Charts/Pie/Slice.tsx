@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
 import { arc, PieArcDatum, ScaleOrdinal } from "d3";
-import { motion, useMotionValue } from "framer-motion";
-import { useFlubber } from "../../../hooks/use-flubber";
+import { motion } from "framer-motion";
 
 interface Props {
   index: number;
@@ -35,8 +33,6 @@ const Slice: React.FC<Props> = ({
   height,
 }) => {
   console.log("Slice component");
-  const [pathIndex, setPathIndex] = useState(0);
-  const progress = useMotionValue(pathIndex);
   const radius = Math.min(width - 2 * MARGIN_X, height - 2 * MARGIN_Y) / 2;
 
   const arcGenerator = arc();
@@ -60,35 +56,19 @@ const Slice: React.FC<Props> = ({
   const textAnchor = isRightLabel ? "start" : "end";
   const label = el.data.username + " (" + el.value + ")";
   const slicePath = arcGenerator(sliceInfo);
-  const sliceInfoStart = {
-    innerRadius: 0,
-    outerRadius: radius,
-    startAngle: el.startAngle,
-    endAngle: el.startAngle,
-  };
-  const slicePathStart = arcGenerator(sliceInfoStart);
-  const path = useFlubber(progress, [slicePathStart ?? "", slicePath ?? ""]);
-
-  useEffect(() => {
-    if (path && isInView) {
-      animate(progress, pathIndex, {
-        duration: 0.3,
-        delay: 0.1 * index,
-        ease: "easeInOut",
-      });
-      if (pathIndex === 0) {
-        setPathIndex(1);
-      }
-    }
-  }, [path, pathIndex, progress, index, animate, isInView]);
-  // const animation = animate(progress, pathIndex, {
-  //   duration: 0.8,
-  //   ease: "easeInOut",
-  // });
 
   return (
     <g key={el.data.id}>
-      <motion.path fill={colorScale(el.data.id)} d={path ?? undefined} />
+      <motion.path
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isInView ? 1 : 0 }}
+        transition={{
+          duration: 1.5,
+          delay: index * 0.2,
+        }}
+        fill={colorScale(el.data.id)}
+        d={slicePath ?? undefined}
+      />
       {index < 5 && (
         <>
           <motion.circle
