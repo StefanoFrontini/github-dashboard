@@ -25,7 +25,7 @@ const Mark: React.FC<Props> = ({
     <>
       <path
         d={`M ${xScale(xValue(d))} ${yScale(yValue(d))} l 0.0001 0`}
-        vectorEffect="non-scaling-stroke"
+        // vectorEffect="non-scaling-stroke"
         strokeWidth="8"
         strokeLinecap="round"
         fill="none"

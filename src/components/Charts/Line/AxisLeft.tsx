@@ -30,7 +30,7 @@ const AxisLeft: React.FC<Props> = ({ yScale, innerWidth, ticks }) => {
             ></line>
             <text
               // style={{ fontSize: 0.67 + "rem" }}
-              className="text-xl sm:text-sm"
+              className="text-[10px]"
               // fontSize="0.6rem"
               textAnchor="end"
               alignmentBaseline="middle"

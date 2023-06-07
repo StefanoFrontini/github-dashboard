@@ -14,6 +14,7 @@ import {
 import { format } from "date-fns";
 import locale from "../../../utils/locale";
 import { AxisLeft, AxisBottom, LinePath, ColorLegend, Tooltip } from "./index";
+import useMeasure from "react-use-measure";
 
 export interface Values {
   date: Date;
@@ -30,16 +31,15 @@ const xValue = (d: Values) => d.date;
 const yValue = (d: Values) => d.value;
 
 const margin = { top: 10, right: 30, bottom: 80, left: 45 };
-const svgWidth = 1280;
-const svgHeight = 470;
-
-const innerWidth = svgWidth - margin.left - margin.right;
-const innerHeight = svgHeight - margin.top - margin.bottom;
+// const svgWidth = 1280;
+// const svgHeight = 470;
 
 interface Props {
   title: string;
   data: Distribution[];
   isInView: boolean;
+  width: number;
+  height: number;
 }
 export interface HoveredPoint {
   date?: Date;
@@ -49,8 +49,11 @@ export interface HoveredPoint {
   i?: number;
 }
 
-const Line: React.FC<Props> = ({ data, title, isInView }) => {
+const Line: React.FC<Props> = ({ data, title, isInView, width, height }) => {
   const [hoveredPoint, setHoveredPoint] = useState<HoveredPoint>({});
+  const [ref, { width: widthRef }] = useMeasure();
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
   const yMax = Math.max(
     max(data[0].values, yValue) ?? 0,
     max(data[1].values, yValue) ?? 0,
@@ -113,8 +116,8 @@ const Line: React.FC<Props> = ({ data, title, isInView }) => {
   return (
     <svg
       className="w-full h-full"
-      viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-      preserveAspectRatio="none"
+      viewBox={`0 0 ${width} ${height}`}
+      // preserveAspectRatio="none"
       onMouseMove={(e) => {
         handleOnMouseMove(e);
       }}
@@ -158,7 +161,12 @@ const Line: React.FC<Props> = ({ data, title, isInView }) => {
           );
         })}
 
-        <g transform={`translate(${innerWidth / 2 - 80}, ${innerHeight + 50})`}>
+        <g
+          ref={ref}
+          transform={`translate(${innerWidth / 2 - widthRef / 2}, ${
+            innerHeight + 50
+          })`}
+        >
           <ColorLegend
             colorScale={colorScale}
             tickSpacing={90}

@@ -9,7 +9,7 @@ interface Props {
 }
 
 const AxisBottom: React.FC<Props> = ({ xScale, innerHeight }) => {
-  const ticksBottom = xScale.ticks();
+  const ticksBottom = xScale.ticks(5);
   const offset = 10;
   return (
     <>
@@ -28,7 +28,7 @@ const AxisBottom: React.FC<Props> = ({ xScale, innerHeight }) => {
               strokeDasharray="4 1"
             ></line>
             <text
-              className="text-xl sm:text-sm"
+              className="text-[10px]"
               alignmentBaseline="hanging"
               textAnchor="middle"
               // fontSize="0.6rem"
