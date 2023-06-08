@@ -7,10 +7,11 @@ interface Props {
   xScale: ScaleTime<number, number>;
   innerHeight: number;
   X: Date[];
+  width: number;
 }
 
-const AxisBottom: React.FC<Props> = ({ xScale, innerHeight, X }) => {
-  const ticksBottom = xScale.ticks(X.length);
+const AxisBottom: React.FC<Props> = ({ xScale, innerHeight, X, width }) => {
+  const ticksBottom = xScale.ticks(width < 400 ? 5 : X.length * 0.75);
   const offset = 10;
   return (
     <>
