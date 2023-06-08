@@ -10,11 +10,11 @@ interface Props {
 }
 
 const AxisBottom: React.FC<Props> = ({ xScale, innerHeight, X }) => {
-  // const ticksBottom = xScale.ticks(X.length);
+  const ticksBottom = xScale.ticks(X.length);
   const offset = 10;
   return (
     <>
-      {X.map((tickValue, index) => {
+      {ticksBottom.map((tickValue, index) => {
         return (
           <g
             transform={`translate(${xScale(tickValue)}, ${
