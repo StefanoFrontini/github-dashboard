@@ -124,7 +124,7 @@ const Line: React.FC<Props> = ({ data, title, isInView, width, height }) => {
     >
       <g transform={`translate(${margin.left},${margin.top})`}>
         <AxisLeft yScale={yScale} innerWidth={innerWidth} ticks={ticksHeight} />
-        <AxisBottom xScale={xScale} innerHeight={innerHeight} />
+        <AxisBottom X={X} xScale={xScale} innerHeight={innerHeight} />
         <line
           style={{
             stroke: "#999",

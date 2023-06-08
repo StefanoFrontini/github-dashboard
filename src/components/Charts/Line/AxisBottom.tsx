@@ -6,10 +6,11 @@ import { format } from "date-fns";
 interface Props {
   xScale: ScaleTime<number, number>;
   innerHeight: number;
+  X: Date[];
 }
 
-const AxisBottom: React.FC<Props> = ({ xScale, innerHeight }) => {
-  const ticksBottom = xScale.ticks(5);
+const AxisBottom: React.FC<Props> = ({ xScale, innerHeight, X }) => {
+  const ticksBottom = xScale.ticks(X.length);
   const offset = 10;
   return (
     <>

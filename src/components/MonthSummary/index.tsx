@@ -44,7 +44,9 @@ const MonthSummary = () => {
                 title="Pull Requests"
                 data={pullsDistributions(pulls)}
                 width={bounds.width}
-                height={0.5 * bounds.width}
+                height={
+                  bounds.width < 400 ? 0.6 * bounds.width : 0.4 * bounds.width
+                }
               />
             )
           : bounds.width > 0 && (
@@ -53,7 +55,9 @@ const MonthSummary = () => {
                 title="Issues"
                 data={issuesDistributions(issues)}
                 width={bounds.width}
-                height={0.5 * bounds.width}
+                height={
+                  bounds.width < 400 ? 0.6 * bounds.width : 0.4 * bounds.width
+                }
               />
             )}
       </div>
