@@ -22,7 +22,7 @@ const MonthSummary = () => {
   };
 
   const refChart = useRef(null);
-  const isInView = useInView(refChart, { once: true, amount: 0.2 });
+  const isInView = useInView(refChart, { once: true, amount: 0.5 });
 
   if (pr && pulls.length === 0) return null;
   if (!pr && issues.length === 0) return null;
