@@ -6,7 +6,7 @@ import { useAnimate, useInView } from "framer-motion";
 
 const TopPulls = () => {
   const [scope, animate] = useAnimate();
-  const isInView = useInView(scope, { once: true });
+  const isInView = useInView(scope, { once: true, amount: 0.5 });
   const refT = useRef(null);
 
   return (
