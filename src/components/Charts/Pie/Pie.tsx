@@ -1,5 +1,5 @@
 import { pie, scaleOrdinal, interpolatePurples, quantize } from "d3";
-import { useGithubContext } from "../../../context/hookContext";
+import { useGithubContext } from "../../../hooks/useGithubContext";
 import Slice from "./Slice";
 
 interface Pull {
@@ -16,7 +16,7 @@ interface PullsAggregation {
 
 interface Props {
   isInView: boolean;
-  animate: any;
+  animate: unknown;
 }
 
 const Pie: React.FC<Props> = ({ animate, isInView }) => {

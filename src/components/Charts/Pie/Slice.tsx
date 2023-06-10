@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 
 interface Props {
   index: number;
-  animate: any;
   isInView: boolean;
   colorScale: ScaleOrdinal<number, string, never>;
   el: PieArcDatum<Pull>;
@@ -55,38 +54,26 @@ const Slice: React.FC<Props> = ({
   const label = el.data.username + " (" + el.value + ")";
   const slicePath = arcGenerator(sliceInfo);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: isInView ? 1 : 0,
+      transition: { duration: 1.5, delay: index * 0.2 },
+    },
+  };
+
   return (
-    <g key={el.data.id}>
-      <motion.path
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isInView ? 1 : 0 }}
-        transition={{
-          duration: 1.5,
-          delay: index * 0.2,
-        }}
-        fill={colorScale(el.data.id)}
-        d={slicePath ?? undefined}
-      />
+    <motion.g
+      key={el.data.id}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <path fill={colorScale(el.data.id)} d={slicePath ?? undefined} />
       {index < 5 && (
         <>
-          <motion.circle
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              duration: 1.5,
-              delay: 2,
-            }}
-            cx={centroid[0]}
-            cy={centroid[1]}
-            r={2}
-          />
+          <motion.circle cx={centroid[0]} cy={centroid[1]} r={2} />
           <motion.line
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              duration: 1.5,
-              delay: 2,
-            }}
             x1={centroid[0]}
             y1={centroid[1]}
             x2={inflexionPoint[0]}
@@ -95,12 +82,6 @@ const Slice: React.FC<Props> = ({
             fill={"black"}
           />
           <motion.line
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              duration: 1.5,
-              delay: 2,
-            }}
             x1={inflexionPoint[0]}
             y1={inflexionPoint[1]}
             x2={labelPosX}
@@ -109,12 +90,6 @@ const Slice: React.FC<Props> = ({
             fill={"black"}
           />
           <motion.text
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              duration: 1.5,
-              delay: 2,
-            }}
             x={labelPosX + (isRightLabel ? 2 : -2)}
             y={inflexionPoint[1]}
             textAnchor={textAnchor}
@@ -125,7 +100,7 @@ const Slice: React.FC<Props> = ({
           </motion.text>
         </>
       )}
-    </g>
+    </motion.g>
   );
 };
 export default Slice;

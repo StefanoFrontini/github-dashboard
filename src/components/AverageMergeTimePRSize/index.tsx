@@ -1,4 +1,4 @@
-import { useGithubContext } from "../../context/hookContext";
+import { useGithubContext } from "../../hooks/useGithubContext";
 import { rollups, mean } from "d3";
 import { Bar } from "../Charts/Bar";
 import type { pullsDetailReposResponse } from "../../context/context";

@@ -1,5 +1,5 @@
 import React from "react";
-import type { GithubContextType } from "./context";
+import type { GithubContextType } from "../context/context";
 
 let context: React.Context<GithubContextType | undefined>;
 

@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from "react";
 import type { Endpoints } from "@octokit/types";
 // import { timeParse } from "d3";
-import { getContext } from "./hookContext";
+import { getContext } from "../hooks/useGithubContext";
 import useFetchData from "../hooks/useFetchData";
 
 // const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");

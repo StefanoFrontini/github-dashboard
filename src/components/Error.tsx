@@ -1,6 +1,6 @@
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 
-import { useGithubContext } from "../context/hookContext";
+import { useGithubContext } from "../hooks/useGithubContext";
 const Error = () => {
   const { error } = useGithubContext();
   return (

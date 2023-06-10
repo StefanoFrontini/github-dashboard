@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGithubContext } from "../../context/hookContext";
+import { useGithubContext } from "../../hooks/useGithubContext";
 
 const Header = () => {
   const { handleChangeRepoOwner } = useGithubContext();

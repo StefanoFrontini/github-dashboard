@@ -1,7 +1,7 @@
 import AverageMergeTimePRSize from "../components/AverageMergeTimePRSize";
 import MiddleSection from "../components/MiddleSection";
 import MonthSummary from "../components/MonthSummary";
-import { useGithubContext } from "../context/hookContext";
+import { useGithubContext } from "../hooks/useGithubContext";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import Header from "../components/Header";
