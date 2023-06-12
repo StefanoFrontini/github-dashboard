@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 interface Props {
   index: number;
-  isInView: boolean;
+  // isInView: boolean;
   colorScale: ScaleOrdinal<number, string, never>;
   el: PieArcDatum<Pull>;
   width: number;
@@ -26,7 +26,7 @@ const Slice: React.FC<Props> = ({
   el,
   colorScale,
   index,
-  isInView,
+  // isInView,
   width,
   height,
 }) => {
@@ -57,7 +57,7 @@ const Slice: React.FC<Props> = ({
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
-      opacity: isInView ? 1 : 0,
+      opacity: 1,
       transition: { duration: 1.5, delay: index * 0.2 },
     },
   };

@@ -1,14 +1,23 @@
+import { Suspense, lazy, useRef } from "react";
 import AverageMergeTimePRSize from "../components/AverageMergeTimePRSize";
 import MiddleSection from "../components/MiddleSection";
-import MonthSummary from "../components/MonthSummary";
+// import MonthSummary from "../components/MonthSummary";
 import { useGithubContext } from "../hooks/useGithubContext";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import Header from "../components/Header";
-import TopPulls from "../components/Contributors/TopPulls";
+// import TopPulls from "../components/Contributors/TopPulls";
+import useObserver from "../hooks/useObserver";
+const TopPulls = lazy(() => import("../components/Contributors/TopPulls"));
+const MonthSummary = lazy(() => import("../components/MonthSummary"));
 
 const Dashboard = () => {
   const { isLoading, error } = useGithubContext();
+  const refPulls = useRef(null);
+  const refSummary = useRef(null);
+  const isVisiblePulls = useObserver(refPulls);
+  const isVisibleSummary = useObserver(refSummary);
+
   if (isLoading)
     return (
       <>
@@ -31,8 +40,16 @@ const Dashboard = () => {
       <main className="max-w-screen-xl flex flex-col items-center p-6 mx-auto">
         <AverageMergeTimePRSize />
         <MiddleSection />
-        <TopPulls />
-        <MonthSummary />
+        <div ref={refPulls} className="w-full">
+          <Suspense fallback={<Loading />}>
+            {isVisiblePulls && <TopPulls />}
+          </Suspense>
+        </div>
+        <div ref={refSummary} className="w-full">
+          <Suspense fallback={<Loading />}>
+            {isVisibleSummary && <MonthSummary />}
+          </Suspense>
+        </div>
       </main>
     </>
   );

@@ -5,15 +5,15 @@ const options = {
   threshold: 0,
 };
 
-const useObserver = (elementRef: React.MutableRefObject<Element>) => {
+const useObserver = (elementRef: React.MutableRefObject<Element | null>) => {
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
-    if (!elementRef.current) return;
+    if (!elementRef.current || !elementRef) return;
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.unobserve(elementRef.current);
+          elementRef.current && observer.unobserve(elementRef.current);
         }
       });
     }, options);

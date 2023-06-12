@@ -14,11 +14,10 @@ interface PullsAggregation {
   [key: string]: Pull;
 }
 
-interface Props {
-  isInView: boolean;
-}
+// interface Props {
+//   isInView: boolean;
 
-const Pie: React.FC<Props> = ({ isInView }) => {
+const Pie = () => {
   const { pulls } = useGithubContext();
   const aggregateContributors = pulls.reduce((acc: PullsAggregation, item) => {
     const { user } = item;
@@ -58,7 +57,7 @@ const Pie: React.FC<Props> = ({ isInView }) => {
               el={el}
               index={index}
               colorScale={colorScale}
-              isInView={isInView}
+              // isInView={isInView}
               width={width}
               height={height}
             />
