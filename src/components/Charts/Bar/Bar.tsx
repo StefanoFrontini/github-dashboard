@@ -15,19 +15,20 @@ const yValue = (d: AveragePullBySizeObj) => d.value;
 
 const margin = { top: 50, right: 60, bottom: 50, left: 60 };
 
-const svgWidth = 870;
-const svgHeight = 420;
-
-const innerWidth = svgWidth - margin.left - margin.right;
-const innerHeight = svgHeight - margin.top - margin.bottom;
+// const svgWidth = 870;
+// const svgHeight = 420;
 
 interface Props {
   data: AveragePullBySizeObj[];
   totalPullsBySize: TotalPullsBySize;
+  width: number;
+  height: number;
 }
 
-const Bar: React.FC<Props> = ({ data, totalPullsBySize }) => {
+const Bar: React.FC<Props> = ({ data, totalPullsBySize, width, height }) => {
   const [hoveredPoint, setHoveredPoint] = useState("");
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
 
   const xScale = scaleBand()
     .domain(["small", "medium", "large"])
@@ -39,17 +40,21 @@ const Bar: React.FC<Props> = ({ data, totalPullsBySize }) => {
     .range([innerHeight, 0])
     .nice();
 
-  const width = xScale.bandwidth();
+  const barWidth = xScale.bandwidth();
 
   const showTooltip = (d: AveragePullBySizeObj) => {
     setHoveredPoint(d.size);
   };
 
   return (
-    <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
+    <svg viewBox={`0 0 ${width} ${height}`}>
       <g transform={`translate(${margin.left},${margin.top})`}>
         <AxisLeft yScale={yScale} innerWidth={innerWidth} />
-        <AxisBottom xScale={xScale} innerHeight={innerHeight} width={width} />
+        <AxisBottom
+          xScale={xScale}
+          innerHeight={innerHeight}
+          width={barWidth}
+        />
         <line y1={0} y2={innerHeight} stroke="#ededed"></line>
         <line
           x1={innerWidth}
@@ -77,14 +82,14 @@ const Bar: React.FC<Props> = ({ data, totalPullsBySize }) => {
                 }}
                 x={xScale(xValue(d))}
                 // y={yScale(yValue(d))}
-                width={width}
+                width={barWidth}
                 // height={innerHeight - yScale(yValue(d))}
                 className="fill-sky-600"
                 onMouseOver={() => showTooltip(d)}
                 onMouseLeave={() => showTooltip({ size: "", value: 0 })}
               />
               <Tooltip
-                width={width}
+                width={barWidth}
                 xScale={xScale}
                 yScale={yScale}
                 xValue={xValue}

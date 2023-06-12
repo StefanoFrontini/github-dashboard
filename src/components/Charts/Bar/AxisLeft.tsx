@@ -8,7 +8,7 @@ interface Props {
 }
 
 const AxisLeft: React.FC<Props> = ({ yScale, innerWidth }) => {
-  const ticks = yScale.ticks();
+  const ticks = yScale.ticks(innerWidth < 400 ? 5 : undefined);
 
   const borders = (ind: number) => {
     if (ind === 0 || ind === ticks.length - 1) return "0";

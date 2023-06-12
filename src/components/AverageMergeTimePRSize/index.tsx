@@ -5,6 +5,7 @@ import type { pullsDetailReposResponse } from "../../context/context";
 // import { dateDiffInHours } from "../../utils/dateDiffInHours";
 import { eachHourOfInterval, parseISO } from "date-fns";
 import { format as d3Format } from "d3";
+import useMeasure from "react-use-measure";
 const formatNumber = d3Format(".1f");
 
 // const parseDate = timeParse("%Y-%m-%dT%H:%M:%SZ");
@@ -39,6 +40,7 @@ export interface TotalPullsBySize {
 
 const AverageMergeTimePRSize = () => {
   const { pulls, pullsDetail } = useGithubContext();
+  const [ref, bounds] = useMeasure();
   const pullSize = pullsDetail.map((el) => getPullSize(el));
   const formattedPulls: FormattedPull[] = pulls.map((el, index) => {
     const created_at = parseISO(el.created_at);
@@ -90,15 +92,17 @@ const AverageMergeTimePRSize = () => {
   const noMergeData = averagePullsBySize.every((el) => el[1] === null);
 
   return (
-    <section className="w-full bg-white">
+    <section className="w-full bg-white" ref={ref}>
       <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
         <div className="px-4 py-4 sm:px-6 font-light text-sm">
           Average Merge Time by Pull Request Size
         </div>
-        {!noMergeData && pulls && pullSize && (
+        {!noMergeData && pulls && pullSize && bounds.width > 0 && (
           <Bar
             data={averagePullBySizeObj}
             totalPullsBySize={totalPullsBySize}
+            width={bounds.width}
+            height={0.48 * bounds.width}
           />
         )}{" "}
       </div>

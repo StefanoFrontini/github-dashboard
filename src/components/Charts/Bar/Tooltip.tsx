@@ -27,15 +27,15 @@ const Tooltip: React.FC<Props> = ({
   return (
     <g opacity={hoveredPoint === d.size ? 1 : 0}>
       <rect
-        x={(xScale(xValue(d)) ?? 0) + width / 6}
+        x={(xScale(xValue(d)) ?? 0) + width / 12}
         y={yScale(yValue(d)) - 60}
-        width={width / 1.5}
+        width={width / 1.2}
         height={50}
         fill="white"
         className="drop-shadow"
       />
       <rect
-        x={(xScale(xValue(d)) ?? 0) + 100}
+        x={(xScale(xValue(d)) ?? 0) + 70}
         y={yScale(yValue(d)) - 12}
         width={4}
         height={4}
