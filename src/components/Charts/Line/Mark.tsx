@@ -9,7 +9,7 @@ interface Props {
   yScale: ScaleLinear<number, number>;
   xValue(d: Values): Date;
   yValue(d: Values): number;
-  isInView: boolean;
+  // isInView: boolean;
 }
 
 const Mark: React.FC<Props> = ({

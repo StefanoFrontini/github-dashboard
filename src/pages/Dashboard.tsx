@@ -17,6 +17,7 @@ const Dashboard = () => {
   const refSummary = useRef(null);
   const isVisiblePulls = useObserver(refPulls);
   const isVisibleSummary = useObserver(refSummary);
+  console.log(isVisibleSummary);
 
   if (isLoading)
     return (

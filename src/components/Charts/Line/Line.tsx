@@ -37,7 +37,7 @@ const margin = { top: 10, right: 30, bottom: 80, left: 45 };
 interface Props {
   title: string;
   data: Distribution[];
-  isInView: boolean;
+  // isInView: boolean;
   width: number;
   height: number;
 }
@@ -49,7 +49,7 @@ export interface HoveredPoint {
   i?: number;
 }
 
-const Line: React.FC<Props> = ({ data, title, isInView, width, height }) => {
+const Line: React.FC<Props> = ({ data, title, width, height }) => {
   const [hoveredPoint, setHoveredPoint] = useState<HoveredPoint>({});
   const [ref, { width: widthRef }] = useMeasure();
   const innerWidth = width - margin.left - margin.right;
@@ -152,7 +152,7 @@ const Line: React.FC<Props> = ({ data, title, isInView, width, height }) => {
         {data.map((group) => {
           return (
             <LinePath
-              isInView={isInView}
+              // isInView={isInView}
               key={group.name}
               color={group.name}
               lineGenerator={lineGenerator}

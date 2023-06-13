@@ -21,18 +21,15 @@ const MonthSummary = () => {
     setPr(false);
   };
 
-  const refChart = useRef(null);
-  const isInView = useInView(refChart, { once: true, amount: 0.3 });
+  // const refChart = useRef(null);
+  // const isInView = useInView(refChart, { once: true, amount: 0.3 });
 
   if (pr && pulls.length === 0) return null;
   if (!pr && issues.length === 0) return null;
 
   return (
     <section className="w-full h-full bg-white" ref={ref}>
-      <div
-        className=" overflow-hidden rounded-lg bg-white shadow"
-        ref={refChart}
-      >
+      <div className=" overflow-hidden rounded-lg bg-white shadow">
         <div className="text-sm font-light px-4 py-4 sm:px-6">
           Month Summary
         </div>
@@ -40,7 +37,7 @@ const MonthSummary = () => {
         {pr
           ? bounds.width > 0 && (
               <Line
-                isInView={isInView}
+                // isInView={isInView}
                 title="Pull Requests"
                 data={pullsDistributions(pulls)}
                 width={bounds.width}
@@ -51,7 +48,7 @@ const MonthSummary = () => {
             )
           : bounds.width > 0 && (
               <Line
-                isInView={isInView}
+                // isInView={isInView}
                 title="Issues"
                 data={issuesDistributions(issues)}
                 width={bounds.width}

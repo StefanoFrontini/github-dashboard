@@ -89,7 +89,7 @@ const Bar: React.FC<Props> = ({ data, totalPullsBySize, width, height }) => {
                 onMouseLeave={() => showTooltip({ size: "", value: 0 })}
               />
               <Tooltip
-                width={barWidth}
+                barWidth={barWidth}
                 xScale={xScale}
                 yScale={yScale}
                 xValue={xValue}

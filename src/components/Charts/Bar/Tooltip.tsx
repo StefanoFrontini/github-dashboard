@@ -7,7 +7,7 @@ import type { ScaleBand, ScaleLinear } from "d3";
 interface Props {
   xScale: ScaleBand<string>;
   yScale: ScaleLinear<number, number>;
-  width: number;
+  barWidth: number;
   xValue: (d: AveragePullBySizeObj) => string;
   yValue: (d: AveragePullBySizeObj) => number;
   hoveredPoint: string;
@@ -20,22 +20,28 @@ const Tooltip: React.FC<Props> = ({
   yScale,
   totalPullsBySize,
   hoveredPoint,
-  width,
+  barWidth,
   xValue,
   yValue,
 }) => {
+  const toolTipWidth = 120;
   return (
     <g opacity={hoveredPoint === d.size ? 1 : 0}>
       <rect
-        x={(xScale(xValue(d)) ?? 0) + width / 12}
+        // x={
+        //   (xScale(xValue(d)) ?? 0) +
+        //   (width < 100 ? barWidth - 95 : barWidth / 6)
+        // }
+        x={(xScale(xValue(d)) ?? 0) + barWidth / 2 - toolTipWidth / 2}
         y={yScale(yValue(d)) - 60}
-        width={width / 1.2}
+        // width={width < 100 ? barWidth / 0.5 : barWidth / 1.5}
+        width={toolTipWidth}
         height={50}
         fill="white"
         className="drop-shadow"
       />
       <rect
-        x={(xScale(xValue(d)) ?? 0) + 70}
+        x={(xScale(xValue(d)) ?? 0) + barWidth / 2}
         y={yScale(yValue(d)) - 12}
         width={4}
         height={4}
@@ -43,7 +49,7 @@ const Tooltip: React.FC<Props> = ({
         transform="rotate(45)"
         style={{ transformBox: "fill-box", transformOrigin: "center" }}
       />
-      <g transform={`translate(${width / 2}, 0)`}>
+      <g transform={`translate(${barWidth / 2}, 0)`}>
         <text
           fontSize={10}
           x={(xScale(xValue(d)) ?? 0) + 10}

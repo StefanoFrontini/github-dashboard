@@ -11,7 +11,7 @@ interface Props {
 }
 
 const AxisBottom: React.FC<Props> = ({ xScale, innerHeight, X, width }) => {
-  const ticksBottom = xScale.ticks(width < 400 ? 5 : X.length * 0.75);
+  const ticksBottom = xScale.ticks(width < 600 ? 5 : X.length * 0.75);
   const offset = 10;
   return (
     <>
