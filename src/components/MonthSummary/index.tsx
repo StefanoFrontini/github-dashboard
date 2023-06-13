@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { useInView } from "framer-motion";
+import { useState} from "react";
+//import { useInView } from "framer-motion";
 import { useGithubContext } from "../../hooks/useGithubContext";
 import { Line } from "../Charts/Line";
 import BoxPRIssues from "./BoxPRIssues";
