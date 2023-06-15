@@ -13,7 +13,7 @@ import {
 } from "d3";
 import { format } from "date-fns";
 import locale from "../../../utils/locale";
-import { AxisLeft, AxisBottom, LinePath, ColorLegend, Tooltip } from "./index";
+import { AxisLeft, AxisBottom, LinePath, ColorLegend, Tooltip } from ".";
 import useMeasure from "react-use-measure";
 
 export interface Values {

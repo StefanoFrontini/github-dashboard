@@ -1,6 +1,6 @@
 // import { useRef } from "react";
 
-import Pie from "../Charts/Pie/Pie";
+import {Pie} from "../Charts/Pie";
 // import { useInView } from "framer-motion";
 
 const TopPulls = () => {

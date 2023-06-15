@@ -6,7 +6,7 @@ import type {
   AveragePullBySizeObj,
   TotalPullsBySize,
 } from "../../AverageMergeTimePRSize";
-import { AxisBottom, AxisLeft, Tooltip } from "./index";
+import { AxisBottom, AxisLeft, Tooltip } from ".";
 
 timeFormatDefaultLocale(locale);
 

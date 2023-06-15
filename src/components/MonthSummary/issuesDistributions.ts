@@ -53,9 +53,11 @@ export const issuesDistributions = (
 
     return acc;
   }, {});
+
   const issuesDistribution = Object.values(issuesAggregation).sort(
     (a, b) => +a.date - +b.date
   );
+
   const issuesDistributionCreated = {
     name: "Opened",
     values: issuesDistribution.map((el) => {
@@ -65,6 +67,7 @@ export const issuesDistributions = (
       };
     }),
   };
+
   const issuesDistributionClosed = {
     name: "Closed",
     values: issuesDistribution.map((el) => {
