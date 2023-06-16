@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import type { Endpoints } from "@octokit/types";
 // import { timeParse } from "d3";
 import { getContext } from "../hooks/useGithubContext";
@@ -24,7 +24,7 @@ export interface GithubContextType {
   pullsDetail: pullsDetailReposResponse["data"][];
   isLoading: boolean;
   error: ErrorType;
-  handleChangeRepoOwner: (repo: string, owner: string) => void;
+  checkRequests: (repo: string, owner: string) => Promise<void>;
 }
 interface Props {
   children?: ReactNode;
@@ -34,17 +34,8 @@ const GithubContext = React.createContext<GithubContextType | undefined>(
 );
 
 const GithubProvider: React.FC<Props> = ({ children }) => {
-  const [repo, setRepo] = useState("react");
-  const [owner, setOwner] = useState("facebook");
-  const { issues, pulls, pullsDetail, isLoading, error } = useFetchData(
-    repo,
-    owner
-  );
-
-  const handleChangeRepoOwner = (repo: string, owner: string) => {
-    setRepo(repo);
-    setOwner(owner);
-  };
+  const { issues, pulls, pullsDetail, isLoading, error, checkRequests } =
+    useFetchData();
 
   return (
     <GithubContext.Provider
@@ -54,7 +45,8 @@ const GithubProvider: React.FC<Props> = ({ children }) => {
         pullsDetail,
         error,
         isLoading,
-        handleChangeRepoOwner,
+        // handleChangeRepoOwner,
+        checkRequests,
       }}
     >
       {children}

@@ -6,19 +6,19 @@ import { useGithubContext } from "../hooks/useGithubContext";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import Header from "../components/Header";
-import { useInView } from 'react-intersection-observer';
+import { useInView } from "react-intersection-observer";
 // import TopPulls from "../components/Contributors/TopPulls";
 // import useObserver from "../hooks/useObserver";
 const TopPulls = lazy(() => import("../components/Contributors/TopPulls"));
 const MonthSummary = lazy(() => import("../components/MonthSummary"));
 
 const Dashboard = () => {
-  const { isLoading, error } = useGithubContext();
-  const { ref: refPulls, inView: inViewPulls} = useInView({
+  const { isLoading, error, pulls } = useGithubContext();
+  const { ref: refPulls, inView: inViewPulls } = useInView({
     /* Optional options */
     threshold: 0,
   });
-  const { ref: refSummary, inView: inViewSummary} = useInView({
+  const { ref: refSummary, inView: inViewSummary } = useInView({
     /* Optional options */
     threshold: 0,
   });
@@ -47,11 +47,11 @@ const Dashboard = () => {
         <Header />
       </header>
       <main className="max-w-screen-xl flex flex-col items-center p-6 mx-auto">
-        <AverageMergeTimePRSize />
+        {pulls.length > 0 && <AverageMergeTimePRSize />}
         <MiddleSection />
         <div ref={refPulls} className="w-full">
           <Suspense fallback={<Loading />}>
-            {inViewPulls && <TopPulls />}
+            {inViewPulls && pulls.length > 0 && <TopPulls />}
           </Suspense>
         </div>
         <div ref={refSummary} className="w-full">

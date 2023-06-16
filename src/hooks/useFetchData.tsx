@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   listPullsReposResponse,
   listIssuesReposResponse,
@@ -32,7 +32,7 @@ const mockPullsDetail = [
   mockFiles26270,
 ];
 
-const useFetchData = (repo: string, owner: string) => {
+const useFetchData = () => {
   const [pulls, setPulls] = useState<listPullsReposResponse["data"]>(mockPulls);
   const [issues, setIssues] = useState(mockIssues);
   const [pullsDetail, setPullsDetail] = useState(mockPullsDetail);
@@ -49,186 +49,188 @@ const useFetchData = (repo: string, owner: string) => {
     return new Date(newDate);
   };
 
-  useEffect(() => {
-    const getPullDetail = async (
-      number: number,
-      repo: string,
-      owner: string
-    ) => {
-      const pullsDetailUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/pulls/${number}/files`;
-      try {
-        const { data } = await axiosInstance.get(pullsDetailUrl);
+  const checkRequests = useCallback(
+    async (repo = "react", owner = "facebook") => {
+      const getPullDetail = async (
+        number: number,
+        repo: string,
+        owner: string
+      ) => {
+        const pullsDetailUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/pulls/${number}/files`;
+        try {
+          const { data } = await axiosInstance.get(pullsDetailUrl);
+          return data;
+        } catch (error: unknown) {
+          console.log(error);
+          throw new Error("error");
+        }
+      };
+
+      const parseDataIssues = (data: listIssuesReposResponse["data"]) => {
+        // If the data is an array, return that
+        if (Array.isArray(data)) {
+          return data;
+        }
+
+        // Some endpoints respond with 204 No Content instead of empty array
+        //   when there is no data. In that case, return an empty array.
+        if (!data) {
+          return [];
+        }
+
         return data;
-      } catch (error: any) {
-        console.log(error);
-        throw new Error(error);
-      }
-    };
+      };
 
-    const parseDataIssues = (data: listIssuesReposResponse["data"]) => {
-      // If the data is an array, return that
-      if (Array.isArray(data)) {
-        return data;
-      }
+      const getPaginatedDataIssues = async (
+        url: string
+      ): Promise<listIssuesReposResponse["data"]> => {
+        const nextPattern = /(?<=<)([\S]*)(?=>; rel="Next")/i;
+        let pagesRemaining = true;
+        let data: listIssuesReposResponse["data"] = [];
+        const now = new Date();
+        const monthBefore = subtractMonth(now);
 
-      // Some endpoints respond with 204 No Content instead of empty array
-      //   when there is no data. In that case, return an empty array.
-      if (!data) {
-        return [];
-      }
+        while (pagesRemaining) {
+          const response = await axiosInstance.get(url);
 
-      return data;
-    };
+          let parsedData = parseDataIssues(response.data);
 
-    const getPaginatedDataIssues = async (
-      url: string
-    ): Promise<listIssuesReposResponse["data"]> => {
-      const nextPattern = /(?<=<)([\S]*)(?=>; rel="Next")/i;
-      let pagesRemaining = true;
-      let data: listIssuesReposResponse["data"] = [];
-      const now = new Date();
-      const monthBefore = subtractMonth(now);
-
-      while (pagesRemaining) {
-        const response = await axiosInstance.get(url);
-
-        let parsedData = parseDataIssues(response.data);
-        const checkDate = parsedData.some(
-          (el) => (parseISO(el.created_at) ?? new Date()) < monthBefore
-        );
-        // discard the results older than a month
-        if (checkDate) {
-          parsedData = parsedData.reduce(
-            (acc: listIssuesReposResponse["data"], item) => {
-              if ((parseISO(item.created_at) ?? new Date()) < monthBefore) {
-                return acc;
-              } else {
-                return [...acc, item];
-              }
-            },
-            []
+          const checkDate = parsedData.some(
+            (el) => (parseISO(el.created_at) ?? new Date()) < monthBefore
           );
-        }
-        data = [...data, ...parsedData];
+          // discard the results older than a month
+          if (checkDate) {
+            parsedData = parsedData.reduce(
+              (acc: listIssuesReposResponse["data"], item) => {
+                if ((parseISO(item.created_at) ?? new Date()) < monthBefore) {
+                  return acc;
+                } else {
+                  return [...acc, item];
+                }
+              },
+              []
+            );
+          }
+          data = [...data, ...parsedData];
 
-        const linkHeader = response.headers.link;
+          const linkHeader = response.headers.link;
 
-        pagesRemaining =
-          linkHeader && linkHeader.includes(`rel="next"`) && !checkDate;
+          pagesRemaining =
+            linkHeader && linkHeader.includes(`rel="next"`) && !checkDate;
 
-        if (pagesRemaining) {
-          url = linkHeader.match(nextPattern)[0];
-        }
-      }
-
-      return data;
-    };
-    const parseDataPulls = (data: listPullsReposResponse["data"]) => {
-      // If the data is an array, return that
-      if (Array.isArray(data)) {
-        return data;
-      }
-
-      // Some endpoints respond with 204 No Content instead of empty array
-      //   when there is no data. In that case, return an empty array.
-      if (!data) {
-        return [];
-      }
-
-      return data;
-    };
-
-    const getPaginatedDataPulls = async (
-      url: string
-    ): Promise<listPullsReposResponse["data"]> => {
-      const nextPattern = /(?<=<)([\S]*)(?=>; rel="Next")/i;
-      let pagesRemaining = true;
-      let data: listPullsReposResponse["data"] = [];
-      const now = new Date();
-      const monthBefore = subtractMonth(now);
-
-      while (pagesRemaining) {
-        const response = await axiosInstance.get(url);
-
-        let parsedData = parseDataPulls(response.data);
-        const checkDate = parsedData.some(
-          (el) => (parseISO(el.created_at) ?? new Date()) < monthBefore
-        );
-        // discard the results older than a month
-        if (checkDate) {
-          parsedData = parsedData.reduce(
-            (acc: listPullsReposResponse["data"], item) => {
-              if ((parseISO(item.created_at) ?? new Date()) < monthBefore) {
-                return acc;
-              } else {
-                return [...acc, item];
-              }
-            },
-            []
-          );
-        }
-        data = [...data, ...parsedData];
-
-        const linkHeader = response.headers.link;
-
-        pagesRemaining =
-          linkHeader && linkHeader.includes(`rel="next"`) && !checkDate;
-
-        if (pagesRemaining) {
-          url = linkHeader.match(nextPattern)[0];
-        }
-      }
-
-      return data;
-    };
-
-    const getIssues = async (repo: string, owner: string) => {
-      const issuesUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/issues?per_page=100&state=closed`;
-
-      try {
-        const data = await getPaginatedDataIssues(issuesUrl);
-        return data;
-      } catch (error: any) {
-        console.log(error);
-        throw new Error(error);
-      }
-    };
-
-    const getPullsData = async (repo: string, owner: string) => {
-      const pullsUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/pulls?per_page=100&state=closed`;
-      toggleError();
-      setIsLoading(true);
-      try {
-        const data = await getPaginatedDataPulls(pullsUrl);
-        if (data) {
-          const pullsDetail = () =>
-            data.map((el) => getPullDetail(el.number, repo, owner));
-          try {
-            const result = await Promise.all([
-              getIssues(repo, owner),
-              ...pullsDetail(),
-            ]);
-            setPulls(data);
-            setIssues(result[0]);
-            setPullsDetail(result.slice(1));
-          } catch (error) {
-            console.log("Error from promise.all!");
-            toggleError(true, "Sorry, you have exceed your hourly rate limit!");
-            setIsLoading(false);
-            return;
+          if (pagesRemaining) {
+            url = linkHeader.match(nextPattern)[0];
           }
         }
-      } catch (error) {
-        console.log(error);
-        toggleError(
-          true,
-          "Repository not found. Please try for instance: 'facebook' as owner and 'react' as repo"
-        );
-      }
-      setIsLoading(false);
-    };
 
-    const checkRequests = async (repo: string, owner: string) => {
+        return data;
+      };
+      const parseDataPulls = (data: listPullsReposResponse["data"]) => {
+        // If the data is an array, return that
+        if (Array.isArray(data)) {
+          return data;
+        }
+
+        // Some endpoints respond with 204 No Content instead of empty array
+        //   when there is no data. In that case, return an empty array.
+        if (!data) {
+          return [];
+        }
+
+        return data;
+      };
+
+      const getPaginatedDataPulls = async (
+        url: string
+      ): Promise<listPullsReposResponse["data"]> => {
+        const nextPattern = /(?<=<)([\S]*)(?=>; rel="Next")/i;
+        let pagesRemaining = true;
+        let data: listPullsReposResponse["data"] = [];
+        const now = new Date();
+        const monthBefore = subtractMonth(now);
+
+        while (pagesRemaining) {
+          const response = await axiosInstance.get(url);
+
+          let parsedData = parseDataPulls(response.data);
+          const checkDate = parsedData.some(
+            (el) => (parseISO(el.created_at) ?? new Date()) < monthBefore
+          );
+          // discard the results older than a month
+          if (checkDate) {
+            parsedData = parsedData.reduce(
+              (acc: listPullsReposResponse["data"], item) => {
+                if ((parseISO(item.created_at) ?? new Date()) < monthBefore) {
+                  return acc;
+                } else {
+                  return [...acc, item];
+                }
+              },
+              []
+            );
+          }
+          data = [...data, ...parsedData];
+
+          const linkHeader = response.headers.link;
+
+          pagesRemaining =
+            linkHeader && linkHeader.includes(`rel="next"`) && !checkDate;
+
+          if (pagesRemaining) {
+            url = linkHeader.match(nextPattern)[0];
+          }
+        }
+
+        return data;
+      };
+
+      const getIssues = async (repo: string, owner: string) => {
+        const issuesUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/issues?per_page=100&state=closed`;
+
+        try {
+          const data = await getPaginatedDataIssues(issuesUrl);
+          return data;
+        } catch (error: unknown) {
+          console.log(error);
+          throw new Error("error");
+        }
+      };
+      const getPullsData = async (repo: string, owner: string) => {
+        const pullsUrl = `${rootUrl}/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/pulls?per_page=100&state=closed`;
+        toggleError();
+        setIsLoading(true);
+        try {
+          const data = await getPaginatedDataPulls(pullsUrl);
+          if (data) {
+            const pullsDetail = () =>
+              data.map((el) => getPullDetail(el.number, repo, owner));
+            try {
+              const result = await Promise.all([
+                getIssues(repo, owner),
+                ...pullsDetail(),
+              ]);
+              setPulls(data);
+              setIssues(result[0]);
+              setPullsDetail(result.slice(1));
+            } catch (error) {
+              console.log("Error from promise.all!");
+              toggleError(
+                true,
+                "Sorry, you have exceed your hourly rate limit!"
+              );
+              setIsLoading(false);
+              return;
+            }
+          }
+        } catch (error) {
+          console.log(error);
+          toggleError(
+            true,
+            "Repository not found. Please try for instance: 'facebook' as owner and 'react' as repo"
+          );
+        }
+        setIsLoading(false);
+      };
       try {
         const {
           data: { rate },
@@ -248,10 +250,13 @@ const useFetchData = (repo: string, owner: string) => {
       } catch (error) {
         console.log(error);
       }
-    };
+    },
+    []
+  );
 
-    checkRequests(repo, owner);
-  }, [repo, owner]);
+  useEffect(() => {
+    checkRequests();
+  }, [checkRequests]);
 
   return {
     pulls,
@@ -259,6 +264,7 @@ const useFetchData = (repo: string, owner: string) => {
     pullsDetail,
     isLoading,
     error,
+    checkRequests,
   };
 };
 export default useFetchData;

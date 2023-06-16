@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState } from "react";
 //import { useInView } from "framer-motion";
 import { useGithubContext } from "../../hooks/useGithubContext";
 import { Line } from "../Charts/Line";
@@ -8,8 +8,7 @@ import { pullsDistributions } from "./pullsDistributions";
 import useMeasure from "react-use-measure";
 
 const MonthSummary = () => {
-  const { pulls } = useGithubContext();
-  const { issues } = useGithubContext();
+  const { pulls, issues } = useGithubContext();
   const [pr, setPr] = useState(true);
   const [ref, bounds] = useMeasure();
 

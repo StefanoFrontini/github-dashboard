@@ -1,4 +1,10 @@
-import { pie, scaleOrdinal, interpolatePurples, quantize } from "d3";
+import {
+  pie,
+  scaleOrdinal,
+  interpolatePurples,
+  quantize,
+  // interpolatePuBu,
+} from "d3";
 import { useGithubContext } from "../../../hooks/useGithubContext";
 import Slice from "./Slice";
 
@@ -43,7 +49,8 @@ const Pie = () => {
   const arcs = pie<Pull>().value((d) => d.value)(contributors);
   const names = contributors.map((el) => el.id);
   const colors = quantize(interpolatePurples, names.length);
-  const colorScale = scaleOrdinal(names, colors);
+
+  const colorScale = scaleOrdinal(names, colors.reverse());
   const width = 400,
     height = 200;
 

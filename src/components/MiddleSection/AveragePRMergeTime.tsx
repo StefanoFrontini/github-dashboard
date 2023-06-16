@@ -56,7 +56,9 @@ const AveragePRMergeTime = () => {
         Average Pull Request Merge Time
       </div>
       <div className="px-4 py-14 text-5xl sm:text-6xl text-center">
-        {averageMergeTime ? hoursToDhms(averageMergeTime) : "No pulls merged"}
+        {averageMergeTime
+          ? hoursToDhms(averageMergeTime)
+          : "No pulls merged for the last month"}
       </div>
     </div>
   );
