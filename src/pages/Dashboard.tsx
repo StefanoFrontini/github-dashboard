@@ -35,7 +35,7 @@ const Dashboard: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
       setHeaderHeight(refHeader.current.getBoundingClientRect().height);
   }, []);
 
-  if (isLoading) {
+  if (isLoading && headerHeight > 0) {
     return (
       <>
         {error.show && <Error />}
@@ -44,8 +44,9 @@ const Dashboard: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
         </header>
         <main>
           <div
-            // className="h-screen flex justify-center items-center bg-white dark:bg-slate-800"
-            className={`h-[calc(100vh_-_${headerHeight}px)] flex justify-center items-center bg-white dark:bg-slate-800`}
+            className="max-w-[1300px] mx-auto flex justify-center items-center bg-white dark:bg-slate-800"
+            // className={style}
+            style={{ height: "calc(100vh - " + headerHeight + "px)" }}
           >
             <Loading />
           </div>

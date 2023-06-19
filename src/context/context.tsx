@@ -34,9 +34,8 @@ const GithubContext = React.createContext<GithubContextType | undefined>(
 );
 
 const GithubProvider: React.FC<Props> = ({ children }) => {
-  const { issues, pulls, pullsDetail, isLoading, error, checkRequests } =
-    useFetchData();
-
+  const { issues, pulls, pullsDetail, error, checkRequests } = useFetchData();
+  const isLoading = true;
   return (
     <GithubContext.Provider
       value={{
