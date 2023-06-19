@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useRef, useEffect, useState } from "react";
 import AverageMergeTimePRSize from "../components/AverageMergeTimePRSize";
 import MiddleSection from "../components/MiddleSection";
 // import MonthSummary from "../components/MonthSummary";
@@ -27,7 +27,16 @@ const Dashboard: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
     /* Optional options */
     threshold: 0,
   });
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const refHeader = useRef<HTMLElement>(null);
 
+  useEffect(() => {
+    if (refHeader.current)
+      setHeaderHeight(refHeader.current.getBoundingClientRect().height);
+  }, []);
+
+  // console.log(refHeader.current);
+  // const headerHeight = refHeader.current?.getBoundingClientRect().height;
   // const isVisiblePulls = useObserver(refPulls);
   // const isVisibleSummary = useObserver(refSummary);
   // console.log(isVisibleSummary);
@@ -40,7 +49,13 @@ const Dashboard: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
           <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
         </header>
         <main>
-          <Loading />
+          <div
+            className={`${
+              headerHeight && `h-[calc(100vh_-_${headerHeight}px)]`
+            }  flex justify-center items-center bg-white dark:bg-slate-800 `}
+          >
+            <Loading />
+          </div>
         </main>
       </>
     );
@@ -48,7 +63,7 @@ const Dashboard: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
   return (
     <>
       {error.show && <Error />}
-      <header className="max-w-[1300px] mx-auto">
+      <header className="max-w-[1300px] mx-auto" ref={refHeader}>
         <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       </header>
       <main className="max-w-screen-xl flex flex-col items-center p-6 mx-auto">
