@@ -35,13 +35,7 @@ const Dashboard: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
       setHeaderHeight(refHeader.current.getBoundingClientRect().height);
   }, []);
 
-  // console.log(refHeader.current);
-  // const headerHeight = refHeader.current?.getBoundingClientRect().height;
-  // const isVisiblePulls = useObserver(refPulls);
-  // const isVisibleSummary = useObserver(refSummary);
-  // console.log(isVisibleSummary);
-
-  if (isLoading)
+  if (isLoading) {
     return (
       <>
         {error.show && <Error />}
@@ -50,15 +44,15 @@ const Dashboard: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
         </header>
         <main>
           <div
-            className={`${
-              headerHeight && `h-[calc(100vh_-_${headerHeight}px)]`
-            }  flex justify-center items-center bg-white dark:bg-slate-800 `}
+            // className="h-screen flex justify-center items-center bg-white dark:bg-slate-800"
+            className={`h-[calc(100vh_-_${headerHeight}px)] flex justify-center items-center bg-white dark:bg-slate-800`}
           >
             <Loading />
           </div>
         </main>
       </>
     );
+  }
 
   return (
     <>
