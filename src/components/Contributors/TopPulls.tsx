@@ -8,9 +8,9 @@ const TopPulls = () => {
   // const isInView = useInView(refT, { once: true, amount: 0.5 });
 
   return (
-    <section className="w-full">
-      <div className="mb-6 sm:mb-6 flex-1  divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
-        <div className="px-4 py-4 sm:px-6 text-sm font-light">
+    <section className="w-full dark:bg-slate-800 bg-white">
+      <div className="mb-6 sm:mb-6 flex-1  divide-y divide-gray-200 dark:divide-gray-700 overflow-hidden rounded-lg  shadow">
+        <div className="px-4 py-4 sm:px-6 text-sm font-light dark:text-gray-200">
           Top 5 constributors - pull requests
         </div>
         <div>

@@ -17,15 +17,15 @@ const BoxPRIssues: React.FC<Props> = ({ renderPR, renderIssues, pr }) => {
         className={classNames(
           pr
             ? ""
-            : "hover:bg-[#F3F3F3] hover:border-sky-600 hover: border-t-[3px] border-transparent",
+            : "hover:bg-gray-100 dark:hover:bg-slate-700 hover:border-sky-600 dark:hover:border-sky-800 hover: border-t-[3px] border-transparent",
           "cursor-pointer pb-2 sm:pb-8"
         )}
       >
         <div
           className={classNames(
             pr
-              ? "border-sky-600  border-t-[3px] text-black "
-              : "border-transparent text-[#6B6C7D]",
+              ? "border-sky-600 dark:border-sky-800  border-t-[3px] text-black dark:text-gray-200 "
+              : "border-transparent text-gray-500",
             "truncate  p-4  pb-3 font-normal text-xs sm:text-base "
           )}
         >
@@ -33,7 +33,7 @@ const BoxPRIssues: React.FC<Props> = ({ renderPR, renderIssues, pr }) => {
         </div>
         <div
           className={classNames(
-            pr ? "text-black" : "text-[#6B6C7D]",
+            pr ? "text-black dark:text-gray-200" : "text-gray-500",
             "pl-4 sm:text-5xl font-normal tracking-tight text-3xl "
           )}
         >
@@ -45,15 +45,15 @@ const BoxPRIssues: React.FC<Props> = ({ renderPR, renderIssues, pr }) => {
         className={classNames(
           !pr
             ? ""
-            : "border-transparent hover:bg-[#F3F3F3] hover:border-sky-600 hover: border-t-[3px]",
+            : "border-transparent hover:bg-gray-100 dark:hover:bg-slate-700 hover:border-sky-600 dark:hover:border-sky-800 hover: border-t-[3px]",
           "cursor-pointer pb-2 sm:pb-8 w-24 sm:w-32"
         )}
       >
         <div
           className={classNames(
             !pr
-              ? "border-sky-600 border-t-[3px]   text-black"
-              : "border-transparent text-[#6B6C7D]",
+              ? "border-sky-600 dark:border-sky-800 border-t-[3px] text-black dark:text-gray-200 "
+              : "border-transparent text-gray-500",
             "truncate   p-4 pb-3 font-normal text-xs sm:text-base"
           )}
         >
@@ -61,7 +61,7 @@ const BoxPRIssues: React.FC<Props> = ({ renderPR, renderIssues, pr }) => {
         </div>
         <div
           className={classNames(
-            !pr ? "text-black" : "text-[#6B6C7D]",
+            !pr ? "text-black dark:text-gray-200" : "text-gray-500",
             "pl-4 text-3xl sm:text-5xl font-normal tracking-tight "
           )}
         >

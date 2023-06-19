@@ -22,8 +22,9 @@ const AxisLeft: React.FC<Props> = ({ yScale, innerWidth }) => {
             <line
               x1={0}
               x2={innerWidth}
-              stroke="#ededed"
+              // stroke="#ededed"
               strokeDasharray={borders(index)}
+              className="stroke-gray-200 dark:stroke-gray-700"
             ></line>
             <text
               // style={{ fontSize: 0.67 + "rem" }}
@@ -31,7 +32,8 @@ const AxisLeft: React.FC<Props> = ({ yScale, innerWidth }) => {
               textAnchor="end"
               alignmentBaseline="middle"
               dx="-0.5em"
-              fill="#6B6C7D"
+              // fill="#6B6C7D"
+              className="fill-gray-500 dark:fill-gray-400"
             >
               {formatNumber(tickValue) + "h"}
             </text>

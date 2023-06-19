@@ -20,9 +20,9 @@ const AxisBottom: React.FC<Props> = ({ xScale, innerHeight, width }) => {
             <text
               alignmentBaseline="hanging"
               textAnchor="middle"
-              fontSize="0.6rem"
-              className="capitalize"
-              fill="#6B6C7D"
+              // fontSize="0.6rem"
+              // fill="#6B6C7D"
+              className="text-[10px] capitalize fill-gray-500 dark:fill-gray-400"
             >
               {domainValue}
             </text>

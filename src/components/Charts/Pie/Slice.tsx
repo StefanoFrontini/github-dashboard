@@ -72,22 +72,28 @@ const Slice: React.FC<Props> = ({
       <path fill={colorScale(el.data.id)} d={slicePath ?? undefined} />
       {index < 5 && (
         <>
-          <motion.circle cx={centroid[0]} cy={centroid[1]} r={2} />
+          <motion.circle
+            cx={centroid[0]}
+            cy={centroid[1]}
+            r={2}
+            className="fill-black dark:fill-gray-400"
+          />
           <motion.line
             x1={centroid[0]}
             y1={centroid[1]}
             x2={inflexionPoint[0]}
             y2={inflexionPoint[1]}
-            stroke={"black"}
-            fill={"black"}
+            className="stroke-black dark:stroke-gray-400"
+            // stroke={"black"}
           />
           <motion.line
             x1={inflexionPoint[0]}
             y1={inflexionPoint[1]}
             x2={labelPosX}
             y2={inflexionPoint[1]}
-            stroke={"black"}
-            fill={"black"}
+            className="stroke-black dark:stroke-gray-400"
+            // stroke={"black"}
+            // fill={"black"}
           />
           <motion.text
             x={labelPosX + (isRightLabel ? 2 : -2)}
@@ -95,6 +101,7 @@ const Slice: React.FC<Props> = ({
             textAnchor={textAnchor}
             dominantBaseline="middle"
             fontSize={8}
+            className="fill-black dark:fill-gray-400"
           >
             {label}
           </motion.text>

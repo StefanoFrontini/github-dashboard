@@ -26,15 +26,16 @@ const AxisBottom: React.FC<Props> = ({ xScale, innerHeight, X, width }) => {
             <line
               y1={-innerHeight - offset}
               y2={-offset}
-              stroke="#ededed"
+              className="stroke-gray-200 dark:stroke-gray-700"
+              // stroke="#ededed"
               strokeDasharray="4 1"
             ></line>
             <text
-              className="text-[10px]"
+              className="text-[10px] fill-gray-500 dark:fill-gray-200"
               alignmentBaseline="hanging"
               textAnchor="middle"
               // fontSize="0.6rem"
-              fill="#6B6C7D"
+              // fill="#6B6C7D"
             >
               {format(tickValue, "dd MMM")}
             </text>

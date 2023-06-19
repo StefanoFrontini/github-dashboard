@@ -12,7 +12,12 @@ import { useInView } from "react-intersection-observer";
 const TopPulls = lazy(() => import("../components/Contributors/TopPulls"));
 const MonthSummary = lazy(() => import("../components/MonthSummary"));
 
-const Dashboard = () => {
+interface Props {
+  isDarkMode: boolean | undefined;
+  toggleDarkMode: () => void;
+}
+
+const Dashboard: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
   const { isLoading, error, pulls } = useGithubContext();
   const { ref: refPulls, inView: inViewPulls } = useInView({
     /* Optional options */
@@ -32,7 +37,7 @@ const Dashboard = () => {
       <>
         {error.show && <Error />}
         <header className="max-w-[1300px] mx-auto">
-          <Header />
+          <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
         </header>
         <main>
           <Loading />
@@ -44,7 +49,7 @@ const Dashboard = () => {
     <>
       {error.show && <Error />}
       <header className="max-w-[1300px] mx-auto">
-        <Header />
+        <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       </header>
       <main className="max-w-screen-xl flex flex-col items-center p-6 mx-auto">
         {pulls.length > 0 && <AverageMergeTimePRSize />}

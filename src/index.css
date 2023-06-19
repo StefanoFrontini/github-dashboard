@@ -3,5 +3,11 @@
 @tailwind utilities;
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  background-color: #f1f2f5;
+  /* background-color: #f1f5f9; */
+}
+.darkBg {
+  background-color: #0f172a;
+}
+.whiteBg {
+  background-color: #f1f5f9;
 }

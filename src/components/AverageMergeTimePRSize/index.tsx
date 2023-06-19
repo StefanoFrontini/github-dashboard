@@ -92,9 +92,9 @@ const AverageMergeTimePRSize = () => {
   const noMergeData = averagePullsBySize.every((el) => el[1] === null);
 
   return (
-    <section className="w-full bg-white" ref={ref}>
-      <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
-        <div className="px-4 py-4 sm:px-6 font-light text-sm">
+    <section className="w-full " ref={ref}>
+      <div className="divide-y divide-gray-200 dark:divide-gray-700 overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow">
+        <div className="px-4 py-4 sm:px-6 font-light text-sm dark:text-gray-200">
           Average Merge Time by Pull Request Size
         </div>
         {!noMergeData && pulls && pullSize && bounds.width > 0 && (

@@ -55,13 +55,18 @@ const Bar: React.FC<Props> = ({ data, totalPullsBySize, width, height }) => {
           innerHeight={innerHeight}
           width={barWidth}
         />
-        <line y1={0} y2={innerHeight} stroke="#ededed"></line>
+        <line
+          y1={0}
+          y2={innerHeight}
+          className="stroke-gray-200 dark:stroke-gray-700"
+        ></line>
         <line
           x1={innerWidth}
           x2={innerWidth}
           y1={0}
           y2={innerHeight}
-          stroke="#ededed"
+          className="stroke-gray-200 dark:stroke-gray-700"
+          // stroke="#ededed"
         ></line>
         {data.map((d) => {
           return (
@@ -84,7 +89,7 @@ const Bar: React.FC<Props> = ({ data, totalPullsBySize, width, height }) => {
                 // y={yScale(yValue(d))}
                 width={barWidth}
                 // height={innerHeight - yScale(yValue(d))}
-                className="fill-sky-600"
+                className="fill-sky-600 dark:fill-sky-800"
                 onMouseOver={() => showTooltip(d)}
                 onMouseLeave={() => showTooltip({ size: "", value: 0 })}
               />

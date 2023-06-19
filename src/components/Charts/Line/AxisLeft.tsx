@@ -25,17 +25,18 @@ const AxisLeft: React.FC<Props> = ({ yScale, innerWidth, ticks }) => {
             <line
               x1={0}
               x2={innerWidth}
-              stroke="#ededed"
+              className="stroke-gray-200 dark:stroke-gray-700"
+              // stroke="#ededed"
               strokeDasharray={borders(index)}
             ></line>
             <text
               // style={{ fontSize: 0.67 + "rem" }}
-              className="text-[10px]"
+              className="text-[10px] fill-gray-500 dark:fill-gray-200"
               // fontSize="0.6rem"
               textAnchor="end"
               alignmentBaseline="middle"
               dx="-0.5em"
-              fill="#6B6C7D"
+              // fill="#6B6C7D"
             >
               {formatNumber(tickValue)}
             </text>

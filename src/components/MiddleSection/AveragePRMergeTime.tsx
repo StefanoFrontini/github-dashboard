@@ -51,11 +51,11 @@ const AveragePRMergeTime = () => {
       : null;
 
   return (
-    <div className="mb-0 sm:mb-6 flex-1 my-6 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
+    <div className="mb-0 sm:mb-6 flex-1 my-6 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow dark:divide-gray-700 dark:bg-slate-800 dark:text-gray-200">
       <div className="px-4 py-4 sm:px-6 text-sm font-light">
         Average Pull Request Merge Time
       </div>
-      <div className="px-4 py-14 text-5xl sm:text-6xl text-center">
+      <div className="px-4 py-14 text-5xl sm:text-6xl text-center dark:text-gray-200">
         {averageMergeTime
           ? hoursToDhms(averageMergeTime)
           : "No pulls merged for the last month"}

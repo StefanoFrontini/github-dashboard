@@ -27,9 +27,9 @@ const MonthSummary = () => {
   if (!pr && issues.length === 0) return null;
 
   return (
-    <section className="w-full h-full bg-white" ref={ref}>
-      <div className=" overflow-hidden rounded-lg bg-white shadow">
-        <div className="text-sm font-light px-4 py-4 sm:px-6">
+    <section className="w-full h-full bg-white dark:bg-slate-800" ref={ref}>
+      <div className=" overflow-hidden rounded-lg  shadow">
+        <div className="text-sm font-light px-4 py-4 sm:px-6 dark:text-gray-200">
           Month Summary
         </div>
         <BoxPRIssues pr={pr} renderPR={renderPR} renderIssues={renderIssues} />

@@ -131,23 +131,26 @@ const Line: React.FC<Props> = ({ data, title, width, height }) => {
           width={width}
         />
         <line
-          style={{
-            stroke: "#999",
-            strokeWidth: "0.5",
-            strokeDasharray: "5 3",
-          }}
           y2={innerHeight}
           y1={0}
           x1={xScale(hoveredPoint.date ?? 0)}
           x2={xScale(hoveredPoint.date ?? 0)}
+          className="stroke-gray-200 dark:stroke-gray-700"
+          strokeWidth="0.5"
+          strokeDasharray="5 3"
         ></line>
-        <line y1={0} y2={innerHeight} stroke="#ededed"></line>
+        <line
+          y1={0}
+          y2={innerHeight}
+          className="stroke-gray-200 dark:stroke-gray-700"
+        ></line>
         <line
           x1={innerWidth}
           x2={innerWidth}
           y1={0}
           y2={innerHeight}
-          stroke="#ededed"
+          className="stroke-gray-200 dark:stroke-gray-700"
+          // stroke="#ededed"
         ></line>
         {data.map((group) => {
           return (
