@@ -78,12 +78,13 @@ const Bar: React.FC<Props> = ({ data, totalPullsBySize, width, height }) => {
                   height: innerHeight - yScale(yValue(d)),
                 }}
                 transition={{
-                  // duration: 4,
+                  duration: 1,
+                  ease: [0, 0.71, 0.2, 1.01],
                   // delay: 0.5,
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 30,
-                  mass: 1,
+                  // type: "spring",
+                  // stiffness: 100,
+                  // damping: 30,
+                  // mass: 1,
                 }}
                 x={xScale(xValue(d))}
                 // y={yScale(yValue(d))}
