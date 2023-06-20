@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useGithubContext } from "../../hooks/useGithubContext";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 import GithubIcon from "../../components/GithubIcon";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Props {
   isDarkMode: boolean | undefined;
@@ -61,11 +62,29 @@ const Header: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
       </form>
       <div className="w-16 dark:text-gray-200">
         <div className="flex gap-4 w-full cursor-pointer">
-          {isDarkMode ? (
-            <MoonIcon onClick={toggleDarkMode} />
-          ) : (
-            <SunIcon onClick={toggleDarkMode} />
-          )}
+          <AnimatePresence mode="wait">
+            {isDarkMode ? (
+              <motion.div
+                key="1"
+                className="w-full"
+                initial={{ x: 30, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -30, opacity: 0 }}
+              >
+                <MoonIcon onClick={toggleDarkMode} />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="2"
+                className="w-full"
+                initial={{ x: 30, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -30, opacity: 0 }}
+              >
+                <SunIcon onClick={toggleDarkMode} />
+              </motion.div>
+            )}
+          </AnimatePresence>
           <div className="w-full">
             <a
               target="_blank"
