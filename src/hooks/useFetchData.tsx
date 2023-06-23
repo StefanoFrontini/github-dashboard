@@ -34,12 +34,16 @@ const rootUrl = "https://api.github.com";
 // ];
 
 const useFetchData = () => {
-  const [pulls, setPulls] = useState<listPullsReposResponse["data"]>([]);
-  const [issues, setIssues] = useState<listIssuesReposResponse["data"]>([]);
+  const [pulls, setPulls] = useState<listPullsReposResponse["data"] | null>(
+    null
+  );
+  const [issues, setIssues] = useState<listIssuesReposResponse["data"] | null>(
+    null
+  );
   const [pullsDetail, setPullsDetail] = useState<
-    pullsDetailReposResponse["data"][]
-  >([]);
-  const [isLoading, setIsLoading] = useState(true);
+    pullsDetailReposResponse["data"][] | null
+  >(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({ show: false, msg: "" });
 
   const toggleError = (show = false, msg = "") => {
