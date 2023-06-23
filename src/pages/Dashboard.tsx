@@ -44,7 +44,7 @@ const Dashboard: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
         </header>
         <main>
           <div
-            className="max-w-[1300px] mx-auto flex justify-center items-center bg-white dark:bg-slate-800"
+            className="max-w-screen-xl mx-auto flex justify-center items-center bg-white dark:bg-slate-900"
             // className={style}
             style={{ height: "calc(100vh - " + headerHeight + "px)" }}
           >

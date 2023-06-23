@@ -2,40 +2,43 @@ import { useEffect, useState, useCallback } from "react";
 import {
   listPullsReposResponse,
   listIssuesReposResponse,
+  pullsDetailReposResponse,
 } from "../context/context";
-import mockPulls from "../context/mockData/mockPulls";
-import mockIssues from "../context/mockData/mockIssues";
+// import mockPulls from "../context/mockData/mockPulls";
+// import mockIssues from "../context/mockData/mockIssues";
 import { axiosInstance } from "../utils/axiosInstance";
 import { parseISO } from "date-fns";
-import mockFiles26270 from "../context/mockData/mockFiles26270";
-import mockFiles26271 from "../context/mockData/mockFiles26271";
-import mockFiles26272 from "../context/mockData/mockFiles26272";
-import mockFiles26274 from "../context/mockData/mockFiles26274";
-import mockFiles26275 from "../context/mockData/mockFiles26275";
-import mockFiles26278 from "../context/mockData/mockFiles26278";
-import mockFiles26282 from "../context/mockData/mockFiles26282";
-import mockFiles26283 from "../context/mockData/mockFiles26283";
-import mockFiles26285 from "../context/mockData/mockFiles26285";
-import mockFiles26288 from "../context/mockData/mockFiles26288";
+// import mockFiles26270 from "../context/mockData/mockFiles26270";
+// import mockFiles26271 from "../context/mockData/mockFiles26271";
+// import mockFiles26272 from "../context/mockData/mockFiles26272";
+// import mockFiles26274 from "../context/mockData/mockFiles26274";
+// import mockFiles26275 from "../context/mockData/mockFiles26275";
+// import mockFiles26278 from "../context/mockData/mockFiles26278";
+// import mockFiles26282 from "../context/mockData/mockFiles26282";
+// import mockFiles26283 from "../context/mockData/mockFiles26283";
+// import mockFiles26285 from "../context/mockData/mockFiles26285";
+// import mockFiles26288 from "../context/mockData/mockFiles26288";
 
 const rootUrl = "https://api.github.com";
-const mockPullsDetail = [
-  mockFiles26288,
-  mockFiles26285,
-  mockFiles26283,
-  mockFiles26282,
-  mockFiles26278,
-  mockFiles26275,
-  mockFiles26274,
-  mockFiles26272,
-  mockFiles26271,
-  mockFiles26270,
-];
+// const mockPullsDetail = [
+//   mockFiles26288,
+//   mockFiles26285,
+//   mockFiles26283,
+//   mockFiles26282,
+//   mockFiles26278,
+//   mockFiles26275,
+//   mockFiles26274,
+//   mockFiles26272,
+//   mockFiles26271,
+//   mockFiles26270,
+// ];
 
 const useFetchData = () => {
-  const [pulls, setPulls] = useState<listPullsReposResponse["data"]>(mockPulls);
-  const [issues, setIssues] = useState(mockIssues);
-  const [pullsDetail, setPullsDetail] = useState(mockPullsDetail);
+  const [pulls, setPulls] = useState<listPullsReposResponse["data"]>([]);
+  const [issues, setIssues] = useState<listIssuesReposResponse["data"]>([]);
+  const [pullsDetail, setPullsDetail] = useState<
+    pullsDetailReposResponse["data"][]
+  >([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({ show: false, msg: "" });
 
