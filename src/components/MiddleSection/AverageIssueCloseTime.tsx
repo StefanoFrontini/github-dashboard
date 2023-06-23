@@ -14,6 +14,7 @@ interface FormattedIssues {
 
 const AverageIssueCloseTime = () => {
   const { issues } = useGithubContext();
+  if (!issues) return null;
   const formattedIssues: FormattedIssues[] = issues.map((el) => {
     const created_at = parseISO(el.created_at);
     const closed_at = el.closed_at ? parseISO(el.closed_at) : null;

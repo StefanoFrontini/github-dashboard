@@ -14,6 +14,7 @@ interface FormattedPulls {
 
 const AveragePRMergeTime = () => {
   const { pulls } = useGithubContext();
+  if (!pulls) return null;
   const formattedPulls: FormattedPulls[] = pulls.map((el) => {
     const created_at = parseISO(el.created_at);
     const closed_at = el.closed_at ? parseISO(el.closed_at) : null;

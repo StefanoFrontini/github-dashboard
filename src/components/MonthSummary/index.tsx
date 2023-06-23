@@ -11,6 +11,7 @@ const MonthSummary = () => {
   const { pulls, issues } = useGithubContext();
   const [pr, setPr] = useState(true);
   const [ref, bounds] = useMeasure();
+  if (!pulls || !issues) return null;
 
   const renderPR = () => {
     setPr(true);

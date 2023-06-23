@@ -25,6 +25,7 @@ interface PullsAggregation {
 
 const Pie = () => {
   const { pulls } = useGithubContext();
+  if (!pulls) return null;
   const aggregateContributors = pulls.reduce((acc: PullsAggregation, item) => {
     const { user } = item;
     if (!user) return acc;

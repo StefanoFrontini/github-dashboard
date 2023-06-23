@@ -39,8 +39,9 @@ export interface TotalPullsBySize {
 }
 
 const AverageMergeTimePRSize = () => {
-  const { pulls, pullsDetail } = useGithubContext();
   const [ref, bounds] = useMeasure();
+  const { pulls, pullsDetail } = useGithubContext();
+  if (!pulls || !pullsDetail || pulls?.length === 0) return null;
   const pullSize = pullsDetail.map((el) => getPullSize(el));
   const formattedPulls: FormattedPull[] = pulls.map((el, index) => {
     const created_at = parseISO(el.created_at);

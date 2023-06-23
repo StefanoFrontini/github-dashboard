@@ -62,11 +62,11 @@ const Dashboard: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
         <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       </header>
       <main className="max-w-screen-xl flex flex-col items-center p-6 mx-auto">
-        {pulls?.length > 0 && <AverageMergeTimePRSize />}
+        <AverageMergeTimePRSize />
         {pulls && <MiddleSection />}
         <div ref={refPulls} className="w-full">
           <Suspense fallback={<Loading />}>
-            {inViewPulls && pulls?.length > 0 && <TopPulls />}
+            {inViewPulls && pulls && pulls?.length > 0 && <TopPulls />}
           </Suspense>
         </div>
         <div ref={refSummary} className="w-full">

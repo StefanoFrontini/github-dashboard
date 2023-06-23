@@ -19,9 +19,9 @@ interface ErrorType {
 }
 
 export interface GithubContextType {
-  issues: listIssuesReposResponse["data"];
-  pulls: listPullsReposResponse["data"];
-  pullsDetail: pullsDetailReposResponse["data"][];
+  issues: listIssuesReposResponse["data"] | null;
+  pulls: listPullsReposResponse["data"] | null;
+  pullsDetail: pullsDetailReposResponse["data"][] | null;
   isLoading: boolean;
   error: ErrorType;
   checkRequests: (repo: string, owner: string) => Promise<void>;

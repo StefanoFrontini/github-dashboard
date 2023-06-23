@@ -10,6 +10,7 @@ interface Props {
 }
 const BoxPRIssues: React.FC<Props> = ({ renderPR, renderIssues, pr }) => {
   const { pulls, issues } = useGithubContext();
+  if (!pulls || !issues) return null;
   return (
     <div className="flex pl-6">
       <div
