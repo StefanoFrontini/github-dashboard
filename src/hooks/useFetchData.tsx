@@ -39,7 +39,7 @@ const useFetchData = () => {
   const [pullsDetail, setPullsDetail] = useState<
     pullsDetailReposResponse["data"][]
   >([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState({ show: false, msg: "" });
 
   const toggleError = (show = false, msg = "") => {
