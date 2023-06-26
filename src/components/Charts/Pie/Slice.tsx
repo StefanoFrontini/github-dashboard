@@ -76,14 +76,14 @@ const Slice: React.FC<Props> = ({
             cx={centroid[0]}
             cy={centroid[1]}
             r={2}
-            className="fill-black dark:fill-gray-400"
+            className="fill-black dark:fill-gray-300"
           />
           <motion.line
             x1={centroid[0]}
             y1={centroid[1]}
             x2={inflexionPoint[0]}
             y2={inflexionPoint[1]}
-            className="stroke-black dark:stroke-gray-400"
+            className="stroke-black dark:stroke-gray-300"
             // stroke={"black"}
           />
           <motion.line
@@ -91,7 +91,7 @@ const Slice: React.FC<Props> = ({
             y1={inflexionPoint[1]}
             x2={labelPosX}
             y2={inflexionPoint[1]}
-            className="stroke-black dark:stroke-gray-400"
+            className="stroke-black dark:stroke-gray-300"
             // stroke={"black"}
             // fill={"black"}
           />
@@ -101,7 +101,7 @@ const Slice: React.FC<Props> = ({
             textAnchor={textAnchor}
             dominantBaseline="middle"
             fontSize={8}
-            className="fill-black dark:fill-gray-400"
+            className="fill-black dark:fill-gray-300"
           >
             {label}
           </motion.text>

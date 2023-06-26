@@ -4,6 +4,7 @@ import MiddleSection from "../components/MiddleSection";
 // import MonthSummary from "../components/MonthSummary";
 import { useGithubContext } from "../hooks/useGithubContext";
 import Loading from "../components/Loading";
+import Skeleton from "../components/Skeleton";
 import Error from "../components/Error";
 import Header from "../components/Header";
 import { useInView } from "react-intersection-observer";
@@ -65,12 +66,12 @@ const Dashboard: React.FC<Props> = ({ isDarkMode, toggleDarkMode }) => {
         <AverageMergeTimePRSize />
         {pulls && <MiddleSection />}
         <div ref={refPulls} className="w-full">
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<Skeleton />}>
             {inViewPulls && pulls && pulls?.length > 0 && <TopPulls />}
           </Suspense>
         </div>
         <div ref={refSummary} className="w-full">
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<Skeleton />}>
             {inViewSummary && pulls && <MonthSummary />}
           </Suspense>
         </div>
